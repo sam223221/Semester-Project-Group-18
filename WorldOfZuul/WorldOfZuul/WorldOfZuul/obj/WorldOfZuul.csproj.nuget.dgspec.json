@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\samgl\\OneDrive\\Desktop\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
+    "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
   },
   "projects": {
-    "c:\\Users\\samgl\\OneDrive\\Desktop\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {
+    "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\samgl\\OneDrive\\Desktop\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+        "projectUniqueName": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
         "projectName": "WorldOfZuul",
-        "projectPath": "c:\\Users\\samgl\\OneDrive\\Desktop\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+        "projectPath": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
         "packagesPath": "C:\\Users\\samgl\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\samgl\\OneDrive\\Desktop\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
+        "outputPath": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

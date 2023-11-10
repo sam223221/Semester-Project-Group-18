@@ -27,3 +27,17 @@ c:\Users\samgl\OneDrive\Desktop\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\ne
 c:\Users\samgl\OneDrive\Desktop\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.pdb
 c:\Users\samgl\OneDrive\Desktop\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.genruntimeconfig.cache
 c:\Users\samgl\OneDrive\Desktop\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\ref\WorldOfZuul.dll
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.exe
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.deps.json
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.runtimeconfig.json
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.dll
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\bin\Debug\net6.0\WorldOfZuul.pdb
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.AssemblyInfoInputs.cache
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.AssemblyInfo.cs
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.csproj.CoreCompileInputs.cache
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.dll
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\refint\WorldOfZuul.dll
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.pdb
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.genruntimeconfig.cache
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\ref\WorldOfZuul.dll
