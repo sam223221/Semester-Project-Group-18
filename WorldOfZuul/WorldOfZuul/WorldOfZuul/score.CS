@@ -11,7 +11,7 @@ namespace WorldOfZuul
 
      public string getScore()
      {
-        return $"this is your social score : {socialScore} ";
+        return  $"this is your social score : {socialScore}\n";
      }   
     }
 }

@@ -1,81 +1,96 @@
 ﻿namespace WorldOfZuul
 {
-    public class Game
+    public class Game 
     {
         private Room? currentRoom;
         private Room? previousRoom;
+        private IChapter currentChapter;
+        private bool questCheck = true;
+        Parser parser = new();
+
+        
 
         public Game()
         {
-            CreateRooms();
+            StartChapter(new Chapter4Engineer());
+        
         }
-
-        private void CreateRooms()
+        private void StartChapter(IChapter chapter)
         {
-  
-            Room? somewhere = new("somewhere", "you are somwhere dont know where but somewhere");
-            Room? outside = new("Outside", "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
-            Room? theatre = new("Theatre", "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
-            Room? pub = new("Pub", "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.");
-            Room? lab = new("Lab", "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.");
-            Room? office = new("Office", "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
-
-            somewhere.SetExit("east" , pub);
-
-            outside.SetExits(null, theatre, lab, pub); // North, East, South, West
-
-            theatre.SetExit("west", outside);
-
-            pub.SetExits(null, outside , null , somewhere);
-
-            lab.SetExits(outside, office, null, null);
-
-            office.SetExit("west", lab);
-
-            currentRoom = outside;
+            currentChapter = chapter;
+            currentChapter.CreateRooms();
+            currentRoom = currentChapter.GetStartRoom();
         }
 
+
+
+
+
+
+
+        // ***vv here is where the game logic is vv***
         public void Play()
         {
-            Parser parser = new();
 
             PrintWelcome();
+
 
             bool continuePlaying = true;
             while (continuePlaying)
             {
+            
+
+            
                 Console.WriteLine(currentRoom?.ShortDescription);
                 Console.Write("> ");
 
+                // The start where we ask for input
                 string? input = Console.ReadLine();
 
+
+
+
+
+                // check if input has any input
                 if (string.IsNullOrEmpty(input))
                 {
                     Console.WriteLine("Please enter a command.");
                     continue;
                 }
-
+                
+                //now we know that there is a input! we want to check if its valid
                 Command? command = parser.GetCommand(input);
 
+                // check if input is valid
                 if (command == null)
                 {
-                    Console.WriteLine("I don't know that command.");
+                    Console.WriteLine("I don't know that command, plese try somthing else :).");
                     continue;
                 }
 
+
+
+
+
+                if (command.Name == "chapter" && command.SecondWord == "change" && questCheck)
+                {
+                    ChooseChapter();
+                }
                 switch(command.Name)
                 {
+                        // Look command is processed here
                     case "look":
                         Console.WriteLine(currentRoom?.LongDescription);
                         break;
-
+                        // back command is processed here
                     case "back":
                         if (previousRoom == null)
                             Console.WriteLine("You can't go back from here!");
                         else
                             currentRoom = previousRoom;
                         break;
-
+                    
+                        // diractions command is processed here
                     case "north":
                     case "south":
                     case "east":
@@ -83,22 +98,61 @@
                         Move(command.Name);
                         break;
 
+                        // Quit command is processed here
                     case "quit":
                         continuePlaying = false;
                         break;
 
+                        // Help command is processed here
                     case "help":
                         PrintHelp();
                         break;
-
+        
                     default:
-                        Console.WriteLine("I don't know what command.");
+                        Console.WriteLine("I don't know that command, plese try somthing else :)\n");
                         break;
                 }
+                
+
+
             }
 
             Console.WriteLine("Thank you for playing World of Zuul!");
         }
+
+
+
+
+
+
+        public void ChooseChapter()
+        {
+            Console.WriteLine("Choose a chapter:");
+            Console.WriteLine("1. Chapter 4 - Engineer");
+            Console.WriteLine("2. Chapter 5 - Adventure\n");
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    StartChapter(new Chapter4Engineer());
+                    break;
+                case "2":
+                    StartChapter(new Chapter5Adventure());
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice. Starting Chapter 4 by default.");
+                    StartChapter(new Chapter4Engineer());
+                    break;
+            }
+
+            Console.WriteLine($"You have now found yourself in a new Chapter :) this is chapter {choice}");
+
+        }
+
+
+
 
         private void Move(string direction)
         {

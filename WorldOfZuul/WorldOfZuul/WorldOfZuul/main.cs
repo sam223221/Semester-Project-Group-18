@@ -78,7 +78,8 @@ to maintain modularity, extensibility, and maintainability.
 
 namespace WorldOfZuul
 {
-    public class main
+    public class main 
+
     {
         public static void Main()
         {
