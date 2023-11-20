@@ -12,6 +12,32 @@ namespace WorldOfZuul
         public Chapter4Engineer()
         {
             CreateRooms();
+        }    
+            
+        private Dictionary<string, bool> quests = new Dictionary<string, bool>
+        {
+            { "FindKey", false },
+            { "UnlockDoor", false },
+            // Add other quests here
+        };
+            public void CompleteQuest(string questName)
+        {
+            if (quests.ContainsKey(questName))
+            {
+                quests[questName] = true;
+            }
+        }
+        public bool CanAdvanceToNextChapter()
+        {
+            // Example: Require all quests to be completed to advance
+            return quests.Values.All(completed => completed);
+        }
+
+        public bool IsCompleted()
+        {
+            // Additional logic to determine if the chapter is completed
+            // For example, it could be the same as CanAdvanceToNextChapter
+            return CanAdvanceToNextChapter();
         }
 
         public void CreateRooms()
@@ -33,9 +59,8 @@ namespace WorldOfZuul
             office.SetExit("west", lab);
         }
 
-        public Room GetStartRoom()
-        {
-            return outside;
-        }
+        public Room GetStartRoom() => outside;
+
+        public bool IsCompleated() => true;
     }
 }

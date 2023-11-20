@@ -5,15 +5,15 @@
         private Room? currentRoom;
         private Room? previousRoom;
         private IChapter currentChapter;
-        private bool questCheck = true;
-        Parser parser = new();
+        private List<IChapter> unlockedChapters;
+        private Parser parser = new();
 
         
-
         public Game()
         {
-            StartChapter(new Chapter4Engineer());
-        
+            unlockedChapters = new List<IChapter>();
+            UnlockChapter(new Chapter4Engineer()); // Assuming Chapter 4 is the starting chapter
+            StartChapter(unlockedChapters.First());
         }
         private void StartChapter(IChapter chapter)
         {
@@ -22,9 +22,10 @@
             currentRoom = currentChapter.GetStartRoom();
         }
 
-
-
-
+           private void UnlockChapter(IChapter chapter)
+        {
+            unlockedChapters.Add(chapter);
+        }
 
 
 
@@ -48,9 +49,6 @@
                 string? input = Console.ReadLine();
 
 
-
-
-
                 // check if input has any input
                 if (string.IsNullOrEmpty(input))
                 {
@@ -70,12 +68,6 @@
 
 
 
-
-
-                if (command.Name == "chapter" && command.SecondWord == "change" && questCheck)
-                {
-                    ChooseChapter();
-                }
                 switch(command.Name)
                 {
                         // Look command is processed here
@@ -112,45 +104,71 @@
                         Console.WriteLine("I don't know that command, plese try somthing else :)\n");
                         break;
                 }
-                
 
+                if (currentChapter.CanAdvanceToNextChapter())
+                {
+                UnlockNextChapter();
+                PromptForNextChapter();
+                }
+                
 
             }
 
             Console.WriteLine("Thank you for playing World of Zuul!");
         }
 
-
-
-
-
-
+        private void UnlockNextChapter()
+        {
+            // Logic to unlock the next chapter
+            // Example: Unlock Chapter 5 after Chapter 4
+            if (currentChapter is Chapter4Engineer)
+            {
+                UnlockChapter(new Chapter5Adventure());
+            }
+            // Add more conditions for other chapters
+        }
         public void ChooseChapter()
         {
             Console.WriteLine("Choose a chapter:");
-            Console.WriteLine("1. Chapter 4 - Engineer");
-            Console.WriteLine("2. Chapter 5 - Adventure\n");
-            string? choice = Console.ReadLine();
-
-            switch (choice)
+            for (int i = 0; i < unlockedChapters.Count; i++)
             {
-                case "1":
-                    StartChapter(new Chapter4Engineer());
-                    break;
-                case "2":
-                    StartChapter(new Chapter5Adventure());
-                    break;
-
-                default:
-                    Console.WriteLine("Invalid choice. Starting Chapter 4 by default.");
-                    StartChapter(new Chapter4Engineer());
-                    break;
+                Console.WriteLine($"{i + 1}. {unlockedChapters[i].GetType().Name}");
             }
 
-            Console.WriteLine($"You have now found yourself in a new Chapter :) this is chapter {choice}");
-
+            string? choice = Console.ReadLine();
+            int chapterIndex;
+            if (int.TryParse(choice, out chapterIndex) && chapterIndex > 0 && chapterIndex <= unlockedChapters.Count)
+            {
+                StartChapter(unlockedChapters[chapterIndex - 1]);
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice.");
+            }
         }
 
+        private void PromptForNextChapter()
+        {
+            Console.WriteLine("You have completed all quests in this chapter.");
+            Console.WriteLine("Would you like to advance to the next chapter? (yes/no)");
+            string? response = Console.ReadLine();
+            if (response?.ToLower() == "yes")
+            {
+                ChooseChapter();
+            }
+        }
+
+        private void ProcessCommand(Command command)
+        {
+            // ... Existing command processing logic ...
+
+            // Example of completing a quest
+            if (command.Name == "complete" && command.SecondWord != null)
+            {
+                currentChapter.CompleteQuest(command.SecondWord);
+                Console.WriteLine($"Quest '{command.SecondWord}' completed.");
+            }
+        }
 
 
 
