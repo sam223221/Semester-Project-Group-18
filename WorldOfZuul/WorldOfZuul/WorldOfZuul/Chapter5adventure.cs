@@ -15,8 +15,6 @@ namespace WorldOfZuul
             // Add other quests here
         };
 
-        // ... Existing methods ...
-
         public void CompleteQuest(string questName)
         {
             if (quests.ContainsKey(questName))
