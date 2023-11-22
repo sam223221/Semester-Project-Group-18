@@ -2,6 +2,7 @@
 {
     public class Room
     {
+        public List<Quest> Quests { get; private set; }// list of quest
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set;}
         public Dictionary<string, Room> Exits { get; private set; } = new();
@@ -10,6 +11,7 @@
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;
+            Quests = new List<Quest>();
         }
 
         public void SetExits(Room? north, Room? east, Room? south, Room? west)
@@ -24,6 +26,11 @@
         {
             if (neighbor != null)
                 Exits[direction] = neighbor;
+        }
+
+        public void AddQuest(Quest quest)
+        {
+            Quests.Add(quest);
         }
     }
 }

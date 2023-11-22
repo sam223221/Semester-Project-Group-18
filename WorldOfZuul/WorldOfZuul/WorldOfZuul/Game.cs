@@ -7,8 +7,9 @@
         private IChapter currentChapter;
         private List<IChapter> unlockedChapters;
         private Parser parser = new();
+        private bool continuePlaying = true;
 
-        
+
         public Game()
         {
             unlockedChapters = new List<IChapter>();
@@ -29,6 +30,10 @@
 
 
 
+
+
+
+
         // ***vv here is where the game logic is vv***
         public void Play()
         {
@@ -36,11 +41,10 @@
             PrintWelcome();
 
 
-            bool continuePlaying = true;
             while (continuePlaying)
             {
             
-
+                
             
                 Console.WriteLine(currentRoom?.ShortDescription);
                 Console.Write("> ");
@@ -48,6 +52,7 @@
                 // The start where we ask for input
                 string? input = Console.ReadLine();
 
+               
 
                 // check if input has any input
                 if (string.IsNullOrEmpty(input))
@@ -68,42 +73,7 @@
 
 
 
-                switch(command.Name)
-                {
-                        // Look command is processed here
-                    case "look":
-                        Console.WriteLine(currentRoom?.LongDescription);
-                        break;
-                        // back command is processed here
-                    case "back":
-                        if (previousRoom == null)
-                            Console.WriteLine("You can't go back from here!");
-                        else
-                            currentRoom = previousRoom;
-                        break;
-                    
-                        // diractions command is processed here
-                    case "north":
-                    case "south":
-                    case "east":
-                    case "west":
-                        Move(command.Name);
-                        break;
-
-                        // Quit command is processed here
-                    case "quit":
-                        continuePlaying = false;
-                        break;
-
-                        // Help command is processed here
-                    case "help":
-                        PrintHelp();
-                        break;
-        
-                    default:
-                        Console.WriteLine("I don't know that command, plese try somthing else :)\n");
-                        break;
-                }
+                ProcessCommand(command);
 
                 if (currentChapter.CanAdvanceToNextChapter())
                 {
@@ -117,6 +87,35 @@
             Console.WriteLine("Thank you for playing World of Zuul!");
         }
 
+
+
+
+
+
+
+
+
+
+        private void CompleteQuest(string questName)
+        {
+            Quest quest = currentRoom.Quests.Find(q => q.Name.Equals(questName, StringComparison.OrdinalIgnoreCase));
+            if (quest != null && !quest.IsCompleted)
+            {
+                quest.IsCompleted = true;
+                Console.WriteLine($"Quest '{quest.Name}' completed.");
+            }
+            else
+            {
+                Console.WriteLine("No such quest found or quest already completed.");
+            }
+        }
+
+
+
+
+
+
+
         private void UnlockNextChapter()
         {
             // Logic to unlock the next chapter
@@ -127,6 +126,10 @@
             }
             // Add more conditions for other chapters
         }
+
+
+
+
         public void ChooseChapter()
         {
             Console.WriteLine("Choose a chapter:");
@@ -147,6 +150,11 @@
             }
         }
 
+
+
+
+
+
         private void PromptForNextChapter()
         {
             Console.WriteLine("You have completed all quests in this chapter.");
@@ -158,9 +166,59 @@
             }
         }
 
+
+
+
+
         private void ProcessCommand(Command command)
         {
-            // ... Existing command processing logic ...
+            switch (command.Name)
+            {
+
+                // Look command is processed here
+                case "look":
+                    Console.WriteLine(currentRoom?.LongDescription);
+                    break;
+                // back command is processed here
+                case "back":
+                    if (previousRoom == null)
+                        Console.WriteLine("You can't go back from here!");
+                    else
+                        currentRoom = previousRoom;
+                    break;
+
+                // diractions command is processed here
+                case "north":
+                case "south":
+                case "east":
+                case "west":
+                    Move(command.Name);
+                    break;
+
+                case "quests":
+                    ShowRoomQuests();
+                    break;
+
+
+                // Quit command is processed here
+                case "quit":
+                    continuePlaying = false;
+                    break;
+
+                // Help command is processed here
+                case "help":
+                    PrintHelp();
+                    break;
+
+                default:
+                    Console.WriteLine("I don't know that command, plese try somthing else :)\n");
+                    break;
+            }
+
+            if (command.Name == "complete" && command.SecondWord != null)
+            {
+                CompleteQuest(command.SecondWord);
+            }
 
             // Example of completing a quest
             if (command.Name == "complete" && command.SecondWord != null)
@@ -169,6 +227,29 @@
                 Console.WriteLine($"Quest '{command.SecondWord}' completed.");
             }
         }
+
+
+
+
+
+        private void ShowRoomQuests()
+        {
+            if (currentRoom?.Quests.Count > 0)
+            {
+                Console.WriteLine("Quests in this room:");
+                foreach (var quest in currentRoom.Quests)
+                {
+                    string status = quest.IsCompleted ? "Completed" : "Pending";
+                    Console.WriteLine($"- {quest.Name} ({status}): {quest.Description}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("There are no quests in this room.");
+            }
+        }
+
+
 
 
 
@@ -184,6 +265,11 @@
                 Console.WriteLine($"You can't go {direction}!");
             }
         }
+
+
+
+
+
 
 
         private static void PrintWelcome()
