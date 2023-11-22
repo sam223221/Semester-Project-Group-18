@@ -68,42 +68,7 @@
 
 
 
-                switch(command.Name)
-                {
-                        // Look command is processed here
-                    case "look":
-                        Console.WriteLine(currentRoom?.LongDescription);
-                        break;
-                        // back command is processed here
-                    case "back":
-                        if (previousRoom == null)
-                            Console.WriteLine("You can't go back from here!");
-                        else
-                            currentRoom = previousRoom;
-                        break;
-                    
-                        // diractions command is processed here
-                    case "north":
-                    case "south":
-                    case "east":
-                    case "west":
-                        Move(command.Name);
-                        break;
-
-                        // Quit command is processed here
-                    case "quit":
-                        continuePlaying = false;
-                        break;
-
-                        // Help command is processed here
-                    case "help":
-                        PrintHelp();
-                        break;
-        
-                    default:
-                        Console.WriteLine("I don't know that command, plese try somthing else :)\n");
-                        break;
-                }
+                ProcessCommand(command);
 
                 if (currentChapter.CanAdvanceToNextChapter())
                 {
@@ -160,7 +125,44 @@
 
         private void ProcessCommand(Command command)
         {
-            // ... Existing command processing logic ...
+
+                switch(command.Name)
+                {
+                        // Look command is processed here
+                    case "look":
+                        Console.WriteLine(currentRoom?.LongDescription);
+                        break;
+                        // back command is processed here
+                    case "back":
+                        if (previousRoom == null)
+                            Console.WriteLine("You can't go back from here!");
+                        else
+                            currentRoom = previousRoom;
+                        break;
+                    
+                        // diractions command is processed here
+                    case "north":
+                    case "south":
+                    case "east":
+                    case "west":
+                        Move(command.Name);
+                        break;
+
+                        // Quit command is processed here
+                    case "quit":
+                        continuePlaying = false;
+                        break;
+
+                        // Help command is processed here
+                    case "help":
+                        PrintHelp();
+                        break;
+        
+                    default:
+                        Console.WriteLine("I don't know that command, plese try somthing else :)\n");
+                        break;
+                }
+            
 
             // Example of completing a quest
             if (command.Name == "complete" && command.SecondWord != null)
