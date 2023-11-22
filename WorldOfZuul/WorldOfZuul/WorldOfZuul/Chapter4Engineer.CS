@@ -15,7 +15,6 @@ namespace WorldOfZuul
         {
             CreateRooms();
             initializeQuest();
-
         }    
             
         private Dictionary<string, bool> quests = new Dictionary<string, bool>
@@ -74,10 +73,12 @@ namespace WorldOfZuul
             office.SetExit("west", lab);
         }
 
+
+
         public void initializeQuest()
         {
-            lab.AddQuest(new Quest("Find Data", "Locate the missing data in the lab."));
-            office.AddQuest(new Quest("find a fish","its there somwhere"));
+            lab.AddQuest(new Quest("Data", "Locate the missing data in the lab."));
+            office.AddQuest(new Quest("Fish","its there somwhere"));
         }
 
         public Room? GetStartRoom() => outside;

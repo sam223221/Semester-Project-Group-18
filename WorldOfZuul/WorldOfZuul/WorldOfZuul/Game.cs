@@ -34,6 +34,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // ***vv here is where the game logic is vv***
         public void Play()
         {
@@ -94,6 +111,35 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         private void CompleteQuest(string? questName)
         {
             // Check if currentRoom is not null and it has quests
@@ -126,10 +172,6 @@
                 Console.WriteLine("There are no quests in this room or the room is not set.");
             }
         }
-
-
-
-
 
 
 
@@ -191,6 +233,14 @@
 
         private void ProcessCommand(Command command)
         {
+
+            // Example of completing a quest
+            if (command.Name == "complete" && command.SecondWord != null)
+            {
+                currentChapter.CompleteQuest(command.SecondWord);
+            }
+
+            
             switch (command.Name)
             {
 
@@ -240,18 +290,6 @@
                     Console.WriteLine("I don't know that command, plese try somthing else :)\n");
                     break;
             }
-
-            if (command.Name == "complete" && command.SecondWord != null)
-            {
-                CompleteQuest(command.SecondWord);
-            }
-
-            // Example of completing a quest
-            if (command.Name == "complete" && command.SecondWord != null)
-            {
-                currentChapter.CompleteQuest(command.SecondWord);
-                Console.WriteLine($"Quest '{command.SecondWord}' completed.");
-            }
         }
 
 
@@ -286,7 +324,6 @@
                 previousRoom = currentRoom;
                 currentRoom = currentRoom?.Exits[direction];
                 ShowRoomQuests();
-
             }
             else
             {
