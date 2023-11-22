@@ -8,6 +8,7 @@
         private List<IChapter> unlockedChapters;
         private Parser parser = new();
         private bool continuePlaying = true;
+        private List<Quest> allQuests = new List<Quest>();
 
 
         public Game()
@@ -62,6 +63,11 @@
             {
             
                 
+                if (CanAdvanceToNextChapter())
+                {
+                UnlockNextChapter();
+                PromptForNextChapter();
+                }
             
                 Console.WriteLine(currentRoom?.ShortDescription);
                 Console.Write("> ");
@@ -92,11 +98,6 @@
 
                 ProcessCommand(command);
 
-                if (currentChapter.CanAdvanceToNextChapter())
-                {
-                UnlockNextChapter();
-                PromptForNextChapter();
-                }
                 
 
             }
@@ -133,11 +134,20 @@
 
 
 
-
-
-
-
-
+    private bool CanAdvanceToNextChapter()
+    {
+        foreach (var room in currentChapter.Rooms)
+        {
+            foreach (var quest in room.Quests)
+            {
+                if (!quest.IsCompleted)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 
         private void CompleteQuest(string? questName)
@@ -233,12 +243,6 @@
 
         private void ProcessCommand(Command command)
         {
-
-            // Example of completing a quest
-            if (command.Name == "complete" && command.SecondWord != null)
-            {
-                currentChapter.CompleteQuest(command.SecondWord);
-            }
 
             
             switch (command.Name)

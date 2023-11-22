@@ -2,7 +2,14 @@ namespace WorldOfZuul
 {
     public class Chapter5Adventure : IChapter
     {
-        private Room startRoom;
+                private Room startRoom;
+                public List<Quest> Quests {get; set;}
+                public List<Room> Rooms { get; private set; }
+
+
+        public void initializeQuest(){
+            
+        }
 
         public Chapter5Adventure()
         {
