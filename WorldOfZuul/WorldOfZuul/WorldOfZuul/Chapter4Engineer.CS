@@ -14,7 +14,8 @@ namespace WorldOfZuul
         public Chapter4Engineer()
         {
             CreateRooms();
-            lab.AddQuest(new Quest("Find Data", "Locate the missing data in the lab."));
+            initializeQuest();
+
         }    
             
         private Dictionary<string, bool> quests = new Dictionary<string, bool>
@@ -73,9 +74,13 @@ namespace WorldOfZuul
             office.SetExit("west", lab);
         }
 
+        public void initializeQuest()
+        {
+            lab.AddQuest(new Quest("Find Data", "Locate the missing data in the lab."));
+            office.AddQuest(new Quest("find a fish","its there somwhere"));
+        }
 
-
-        public Room GetStartRoom() => outside;
+        public Room? GetStartRoom() => outside;
 
         public bool IsCompleated() => true;
     }

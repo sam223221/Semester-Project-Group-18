@@ -4,7 +4,7 @@
     {
         private Room? currentRoom;
         private Room? previousRoom;
-        private IChapter currentChapter;
+        private IChapter? currentChapter; // Declare as nullable if it can be null
         private List<IChapter> unlockedChapters;
         private Parser parser = new();
         private bool continuePlaying = true;
@@ -14,12 +14,12 @@
         {
             unlockedChapters = new List<IChapter>();
             UnlockChapter(new Chapter4Engineer()); // Assuming Chapter 4 is the starting chapter
-            StartChapter(unlockedChapters.First());
+            currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
+            StartChapter(currentChapter);
         }
         private void StartChapter(IChapter chapter)
         {
             currentChapter = chapter;
-            currentChapter.CreateRooms();
             currentRoom = currentChapter.GetStartRoom();
         }
 
@@ -94,21 +94,40 @@
 
 
 
-
-
-        private void CompleteQuest(string questName)
+        private void CompleteQuest(string? questName)
         {
-            Quest quest = currentRoom.Quests.Find(q => q.Name.Equals(questName, StringComparison.OrdinalIgnoreCase));
-            if (quest != null && !quest.IsCompleted)
+            // Check if currentRoom is not null and it has quests
+            if (currentRoom?.Quests != null)
             {
-                quest.IsCompleted = true;
-                Console.WriteLine($"Quest '{quest.Name}' completed.");
+                // Find the quest with the specified name
+                Quest? quest = currentRoom.Quests.Find(q => q.Name.Equals(questName, StringComparison.OrdinalIgnoreCase));
+
+                // Check if the quest is found
+                if (quest != null)
+                {
+                    // Check if the quest is not completed
+                    if (!quest.IsCompleted)
+                    {
+                        quest.IsCompleted = true;
+                        Console.WriteLine($"Quest '{quest.Name}' completed.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Quest already completed.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No such quest found.");
+                }
             }
             else
             {
-                Console.WriteLine("No such quest found or quest already completed.");
+                Console.WriteLine("There are no quests in this room or the room is not set.");
             }
         }
+
+
 
 
 
@@ -195,6 +214,13 @@
                     Move(command.Name);
                     break;
 
+                case "complete":
+                    if(command.SecondWord != null)
+                    {
+                        CompleteQuest(command.SecondWord);
+                    }
+                    break;
+
                 case "quests":
                     ShowRoomQuests();
                     break;
@@ -259,6 +285,8 @@
             {
                 previousRoom = currentRoom;
                 currentRoom = currentRoom?.Exits[direction];
+                ShowRoomQuests();
+
             }
             else
             {
