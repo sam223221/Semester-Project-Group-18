@@ -51,10 +51,13 @@
 
             while (continuePlaying)
             {
+                
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.Write("> ");
                 
+                Console.Clear();
+                Console.WriteLine(currentRoom?.ShortDescription);
 
                 // The start where we ask for input
                 string? input = Console.ReadLine();
@@ -318,11 +321,9 @@
         {
             if (currentRoom?.Exits.ContainsKey(direction) == true)
             {
-                Console.Clear();
                 previousRoom = currentRoom;
                 currentRoom = currentRoom?.Exits[direction];
-                Console.WriteLine(currentRoom?.ShortDescription);
-                Console.WriteLine(currentRoom?.TextArt);
+                Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
             }
             else
             {
