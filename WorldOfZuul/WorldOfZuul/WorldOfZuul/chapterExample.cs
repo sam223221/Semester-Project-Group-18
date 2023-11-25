@@ -8,8 +8,8 @@ namespace WorldOfZuul
     {
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests {get; set;}
-        private Room startRoom;
-        private Room anotherRoom;
+        private Room? startRoom;
+        private Room? anotherRoom;
 
         public ChapterExample()
         {
