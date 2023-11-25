@@ -1,62 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace WorldOfZuul
 {
-    public class Chapter5Adventure : IChapter
+    public class ChapterExample : IChapter
     {
-                private Room startRoom;
-                public List<Quest> Quests {get; set;}
-                public List<Room> Rooms { get; private set; }
+        public List<Room> Rooms { get; private set; }
+        public List<Quest> Quests {get; set;}
+        private Room startRoom;
+        private Room anotherRoom;
 
-
-        public void initializeQuest(){
-            
+        public ChapterExample()
+        {
+            Rooms = new List<Room>();
+            Quests = new List<Quest>();
+            CreateRoomsAndQuests();
         }
 
-        public Chapter5Adventure()
-        {
-            CreateRooms();
-        }
-            private Dictionary<string, bool> quests = new Dictionary<string, bool>
-        {
-            { "FindKey", false },
-            { "UnlockDoor", false },
-            // Add other quests here
-        };
+        public Room GetStartRoom() => startRoom;
 
-        public void CompleteQuest(string questName)
+        public void CreateRoomsAndQuests()
         {
-            if (quests.ContainsKey(questName))
-            {
-                quests[questName] = true;
-            }
-        }
+            // Create Rooms
+            startRoom = new Room("Start Room", "This is the start room of the chapter.");
+            anotherRoom = new Room("Another Room", "This is another room in the chapter.");
 
-        public bool CanAdvanceToNextChapter()
-        {
-            // Example: Require all quests to be completed to advance
-            return quests.Values.All(completed => completed);
-        }
+            // Set exits for rooms
+            startRoom.SetExit("north", anotherRoom);
+            anotherRoom.SetExit("south", startRoom);
 
-        public bool IsCompleted()
-        {
-            // Additional logic to determine if the chapter is completed
-            // For example, it could be the same as CanAdvanceToNextChapter
-            return CanAdvanceToNextChapter();
-        }
+            // Add rooms to the chapter's room list
+            Rooms.Add(startRoom);
+            Rooms.Add(anotherRoom);
 
-        public void CreateRooms()
-        {
-            // Initialize and set up rooms and exits for Chapter 5
-            // Example:
-            startRoom = new Room("Start Room", "Description of the start room in Chapter 5.");
-            startRoom.SetExits(null,null,null,null);
-            // ... other room setups ...
+            // Create Quests
+            Quest findDataQuest = new Quest("Find Data", "Locate the missing data.");
+            Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
+
+            // Create Tasks and associate them with quests
+            Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
+            Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
+
+            // Add tasks to rooms
+            startRoom.Tasks.Add(findDataTask);
+            anotherRoom.Tasks.Add(solvePuzzleTask);
+
+            // Add quests to the global quest list (if you have one)
+            // allQuests.Add(findDataQuest);
+            // allQuests.Add(solvePuzzleQuest);
         }
 
-        public Room GetStartRoom()
+        // Define the actions for the tasks
+        private bool FindDataTaskAction()
         {
-            return startRoom;
+            Console.WriteLine("You found the hidden data!");
+            // Additional logic for completing the task
+            return true;
         }
 
-        public bool IsCompleated() => true;
+        private bool SolvePuzzleTaskAction()
+        {
+            Console.WriteLine("You solved the puzzle!");
+            // Additional logic for completing the task
+            return true;
+        }
     }
 }

@@ -26,25 +26,15 @@
 
            private void UnlockChapter(IChapter chapter)
         {
+            allQuests.Clear();
+        
             unlockedChapters.Add(chapter);
+            
+            foreach (var quest in chapter.Quests)
+            {
+                allQuests.Add(quest);
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -61,16 +51,10 @@
 
             while (continuePlaying)
             {
-            
-                
-                if (CanAdvanceToNextChapter())
-                {
-                UnlockNextChapter();
-                PromptForNextChapter();
-                }
-            
-                Console.WriteLine(currentRoom?.ShortDescription);
+                Console.WriteLine();
+                Console.WriteLine();
                 Console.Write("> ");
+                
 
                 // The start where we ask for input
                 string? input = Console.ReadLine();
@@ -110,137 +94,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private bool CanAdvanceToNextChapter()
-    {
-        foreach (var room in currentChapter.Rooms)
-        {
-            foreach (var quest in room.Quests)
-            {
-                if (!quest.IsCompleted)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-
-        private void CompleteQuest(string? questName)
-        {
-            // Check if currentRoom is not null and it has quests
-            if (currentRoom?.Quests != null)
-            {
-                // Find the quest with the specified name
-                Quest? quest = currentRoom.Quests.Find(q => q.Name.Equals(questName, StringComparison.OrdinalIgnoreCase));
-
-                // Check if the quest is found
-                if (quest != null)
-                {
-                    // Check if the quest is not completed
-                    if (!quest.IsCompleted)
-                    {
-                        quest.IsCompleted = true;
-                        Console.WriteLine($"Quest '{quest.Name}' completed.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Quest already completed.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No such quest found.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("There are no quests in this room or the room is not set.");
-            }
-        }
-
-
-
-
-
-        private void UnlockNextChapter()
-        {
-            // Logic to unlock the next chapter
-            // Example: Unlock Chapter 5 after Chapter 4
-            if (currentChapter is Chapter4Engineer)
-            {
-                UnlockChapter(new Chapter5Adventure());
-            }
-            // Add more conditions for other chapters
-        }
-
-
-
-
-        public void ChooseChapter()
-        {
-            Console.WriteLine("Choose a chapter:");
-            for (int i = 0; i < unlockedChapters.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {unlockedChapters[i].GetType().Name}");
-            }
-
-            string? choice = Console.ReadLine();
-            int chapterIndex;
-            if (int.TryParse(choice, out chapterIndex) && chapterIndex > 0 && chapterIndex <= unlockedChapters.Count)
-            {
-                StartChapter(unlockedChapters[chapterIndex - 1]);
-            }
-            else
-            {
-                Console.WriteLine("Invalid choice.");
-            }
-        }
-
-
-
-
-
-
-        private void PromptForNextChapter()
-        {
-            Console.WriteLine("You have completed all quests in this chapter.");
-            Console.WriteLine("Would you like to advance to the next chapter? (yes/no)");
-            string? response = Console.ReadLine();
-            if (response?.ToLower() == "yes")
-            {
-                ChooseChapter();
-            }
-        }
-
-
-
-
-
         private void ProcessCommand(Command command)
         {
 
@@ -268,27 +121,57 @@
                     Move(command.Name);
                     break;
 
-                case "complete":
-                    if(command.SecondWord != null)
+                case "do":
+                    if (command.SecondWord != null)
                     {
-                        CompleteQuest(command.SecondWord);
+                        ExecuteTask(command.SecondWord);
+
+                    }else
+                    {
+                    Console.WriteLine("you forgot to ask what you want to do or that is a invalid comand plese try again");
+                        
                     }
                     break;
 
-                case "quests":
-                    ShowRoomQuests();
+                case "see":
+                    if (command.SecondWord == "task" || command.SecondWord == "tasks")
+                    {
+                        ShowRoomTasks();
+
+                    }else if(command.SecondWord == "quest" || command.SecondWord == "quests")
+                    {
+                        ShowQuests();
+                    }else
+                    {
+                    Console.WriteLine("you forgot to ask what you want to see or that is a invalid comand plese try again");
+                        
+                    }
                     break;
 
-
-                // Quit command is processed here
-                case "quit":
-                    continuePlaying = false;
-                    break;
-
-                // Help command is processed here
+                    // Help command is processed here
                 case "help":
                     PrintHelp();
                     break;
+
+                    // Quit command is processed here
+                case "quit":
+                    continuePlaying = false;
+                    break;
+                case "next":
+                if (command.SecondWord == "chapter")
+                {
+                    if (CanAdvanceToNextChapter())
+                    {
+                    UnlockNextChapter();
+                    PromptForNextChapter();
+                    }else
+                    {
+                        Console.WriteLine("you are not done with all your quests! pleas do them first :)");
+                    }
+
+                }
+                break;
+
 
                 default:
                     Console.WriteLine("I don't know that command, plese try somthing else :)\n");
@@ -298,22 +181,132 @@
 
 
 
-
-
-        private void ShowRoomQuests()
+        private void UnlockNextChapter()
         {
-            if (currentRoom?.Quests.Count > 0)
+            // Example: Unlock Chapter 5 after Chapter 4
+            if (currentChapter is Chapter4Engineer)
             {
-                Console.WriteLine("Quests in this room:");
-                foreach (var quest in currentRoom.Quests)
+                UnlockChapter(new ChapterExample());
+            }
+            // Add more conditions for other chapters
+        }
+
+        private bool CanAdvanceToNextChapter()
+        {
+            // Iterate through all quests
+            foreach (var quest in allQuests)
+            {
+                // Check if all tasks related to this quest are completed
+                if (!AreAllTasksCompletedForQuest(quest))
                 {
-                    string status = quest.IsCompleted ? "Completed" : "Pending";
-                    Console.WriteLine($"- {quest.Name} ({status}): {quest.Description}");
+                    return false;
                 }
+            }
+            return true;
+        }
+
+        private bool AreAllTasksCompletedForQuest(Quest quest)
+        {
+            // Iterate through all rooms to find tasks related to the quest
+            foreach (var Quest in allQuests)
+            {
+                if(!Quest.IsCompleted)
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+
+
+        public void ChooseChapter()
+        {
+            Console.WriteLine("Choose a chapter:");
+            for (int i = 0; i < unlockedChapters.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {unlockedChapters[i].GetType().Name}");
+            }
+
+            string? choice = Console.ReadLine();
+            int chapterIndex;
+            if (int.TryParse(choice, out chapterIndex) && chapterIndex > 0 && chapterIndex <= unlockedChapters.Count)
+            {
+                StartChapter(unlockedChapters[chapterIndex - 1]);
             }
             else
             {
-                Console.WriteLine("There are no quests in this room.");
+                Console.WriteLine("Invalid choice.");
+            }
+        }
+
+        private void PromptForNextChapter()
+        {
+            Console.WriteLine("You have completed all quests in this chapter.");
+            Console.WriteLine("Would you like to advance to the next chapter? (yes/no)");
+            string? response = Console.ReadLine();
+            if (response?.ToLower() == "yes")
+            {
+                ChooseChapter();
+            }
+        }
+
+
+
+
+
+        private void ExecuteTask(string taskName)
+        {
+            foreach (var task in currentRoom.Tasks)
+            {
+                if (task.Name.Equals(taskName, StringComparison.OrdinalIgnoreCase) && !task.IsCompleted)
+                {
+                    task.Execute();
+                    if (task.RelatedQuest.AreAllTasksCompleted())
+                    {
+                        task.RelatedQuest.IsCompleted = true;
+                        Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.");
+                    }
+                    return;
+                }
+            }
+            Console.WriteLine("Task not found or already completed.");
+        }
+
+
+        
+        private void ShowRoomTasks()
+        {
+            if (currentRoom != null && currentRoom.Tasks.Count > 0)
+            {
+                Console.WriteLine("Tasks in this room:");
+                foreach (var task in currentRoom.Tasks)
+                {
+                    string status = task.IsCompleted ? "Completed" : "Available";
+                    Console.WriteLine($"- {task.Name} ({status}): {task.Description}");
+                }
+            }else
+            {
+                Console.WriteLine("There are no tasks in this room.");
+            }
+        }
+
+
+
+        private void ShowQuests()
+        {
+            foreach (var quest in allQuests)
+            {
+                Task currentTask = quest.GetCurrentTask();
+                if (currentTask != null)
+                {
+                    Console.WriteLine($"{quest.Name}: Current task is in {currentTask.Room.ShortDescription} [{quest.Tasks.Count(t => t.IsCompleted)}/{quest.Tasks.Count}]");
+                }
+                else
+                {
+                    Console.WriteLine($"{quest.Name}: All tasks completed.");
+                }
             }
         }
 
@@ -325,9 +318,11 @@
         {
             if (currentRoom?.Exits.ContainsKey(direction) == true)
             {
+                Console.Clear();
                 previousRoom = currentRoom;
                 currentRoom = currentRoom?.Exits[direction];
-                ShowRoomQuests();
+                Console.WriteLine(currentRoom?.ShortDescription);
+                Console.WriteLine(currentRoom?.TextArt);
             }
             else
             {

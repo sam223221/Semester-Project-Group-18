@@ -2,16 +2,18 @@
 {
     public class Room
     {
-        public List<Quest> Quests { get; private set; }
+
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set;}
         public Dictionary<string, Room> Exits { get; private set; } = new();
+        public List<Task> Tasks { get; private set; }
+        public string TextArt { get; set; }
 
         public Room(string shortDesc, string longDesc)
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;
-            Quests = new List<Quest>();
+            Tasks = new List<Task>();
         }
 
         public void SetExits(Room? north, Room? east, Room? south, Room? west)
@@ -28,9 +30,9 @@
                 Exits[direction] = neighbor;
         }
 
-        public void AddQuest(Quest quest)
+        public void AddTask(Task task)
         {
-            Quests.Add(quest);
+            Tasks.Add(task);
         }
     }
 }

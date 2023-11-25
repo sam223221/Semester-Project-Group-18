@@ -6,15 +6,40 @@ namespace WorldOfZuul
         public string Name { get; }
         public string Description { get; }
         public bool IsCompleted { get; set; }
-        public IChapter Chapter { get; }
+        public List<Task> Tasks { get; private set; }
 
-        public Quest(string name, string description, IChapter chapter)
+        public Quest(string name, string description)
         {
             Name = name;
             Description = description;
-            Chapter = chapter;
             IsCompleted = false;
+            Tasks = new List<Task>();
         }
+        
+        // add a task to the quest
+        public void AddTask(Task task)
+        {
+            Tasks.Add(task);
+        }
+
+        // get the current task
+        public Task GetCurrentTask()
+        {
+            return Tasks.FirstOrDefault(t => !t.IsCompleted);
+        }
+
+        // Method to check if all tasks for this quest are completed
+        public bool AreAllTasksCompleted()
+        {
+            return Tasks.All(task => task.IsCompleted);
+        }
+
+        public string GetProgress()
+        {
+            int completedTasks = Tasks.Count(task => task.IsCompleted);
+            return $"{Name} has {completedTasks} / {Tasks.Count} tasks done";
+        }
+
     }
 
     
