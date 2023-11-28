@@ -22,14 +22,18 @@ namespace WorldOfZuul
 
         }    
 
-        public Room? GetStartRoom() => outside;
-
+        public Room GetStartRoom() => outside;
 
 
         public void CreateRoomsAndQuests()
         {
+
+            //creat Items
+            Item officeKey = new Item("officeKey","these keys are for opning a back dor in the office");
+
+
             // Initialize rooms
-            somewhere   = new Room("somewhere"  , "you're somewhere, don't know where but somewhere");
+            somewhere   = new Room("somewhere"  , "you're somewhere, don't know where but somewhere",officeKey);
             outside     = new Room("Outside"    , "You're standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
             theatre     = new Room("Theatre"    , "You're finding yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
             office      = new Room("Office"     , "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
@@ -44,15 +48,15 @@ namespace WorldOfZuul
             pub.SetExits(null, outside, null, somewhere);
             lab.SetExits(outside, office, null, null);
             office.SetExit("west", lab);
-        
+
 
             // Creat quests
             Quest labQuest  = new Quest("Data", "Locate the missing data in the lab.");
             Quest OfficeQuest = new Quest("FindKey", " you need to find the key for my office");
 
             //initialize tasks
-            Task labTask = new Task("question", "awnser a tricky question", labQuest , lab, QuestionTask);
-            Task officeTask = new Task("Key" , "need to find the key for the office lock", OfficeQuest, office , FindMyKey);
+            Task labTask = new Task("question", "awnser a tricky question", labQuest , lab, QuestionTask, officeKey);
+            Task officeTask = new Task("Key" , "need to find the key for the office lock", OfficeQuest, office , FindMyKey, null , officeKey);
             
 
             // Add quests to the chapter's quest list
@@ -86,7 +90,7 @@ namespace WorldOfZuul
 
 
 
-        private bool QuestionTask()
+        private int QuestionTask()
         {
             Console.WriteLine("Here's a tricky question for you:");
             Console.WriteLine("What is the capital of France?");
@@ -100,23 +104,23 @@ namespace WorldOfZuul
             {
                 case "1":
                     Console.WriteLine("Correct! Paris is the capital of France.");
-                    return true;
+                    return 10;
                 
                 case "2":
                 case "3":
                     Console.WriteLine("That's not correct.");
-                    return false;
+                    return -5;
 
                 default:
                     Console.WriteLine("Invalid choice.");
-                    return false;
+                    return 0;
             }
         }
 
-        public bool FindMyKey()
+        public int FindMyKey()
         {
             Console.WriteLine("you found my key thanks");
-            return true;
+            return 5;
         }
     }
 }

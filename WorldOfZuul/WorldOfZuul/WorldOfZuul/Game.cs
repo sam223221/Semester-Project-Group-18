@@ -9,6 +9,8 @@
         private Parser parser = new();
         private bool continuePlaying = true;
         private List<Quest> allQuests = new List<Quest>();
+        public int SocialScore { get; private set; }
+        private List<Item> inventory;
 
 
         public Game()
@@ -17,6 +19,8 @@
             UnlockChapter(new Chapter4Engineer()); // Assuming Chapter 4 is the starting chapter
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
+            inventory = new List<Item>();
+
         }
         private void StartChapter(IChapter chapter)
         {
@@ -144,6 +148,12 @@
                     }else if(command.SecondWord == "quest" || command.SecondWord == "quests")
                     {
                         ShowQuests();
+                    }else if(command.SecondWord == "socialscore")
+                    {
+                        ShowSocialScore();
+                    }else if(command.SecondWord == "inventory")
+                    {
+                        ShowInventory();
                     }else
                     {
                     Console.WriteLine("you forgot to ask what you want to see or that is a invalid comand plese try again");
@@ -171,6 +181,8 @@
                     {
                         Console.WriteLine("you are not done with all your quests! pleas do them first :)");
                     }
+                
+                    Console.WriteLine("you forgot to ask what you want to see or that is a invalid comand plese try again");
 
                 }
                 break;
@@ -206,6 +218,28 @@
                 }
             }
             return true;
+        }
+
+        public void AddItemToInventory(Item item)
+        {
+            inventory.Add(item);
+            Console.WriteLine($"Added {item.Name} to your inventory.");
+        }
+
+        private void ShowInventory()
+        {
+            if (inventory.Count == 0)
+            {
+                Console.WriteLine("Your inventory is empty.");
+            }
+            else
+            {
+                Console.WriteLine("Items in your inventory:");
+                foreach (var item in inventory)
+                {
+                    Console.WriteLine($"- {item.Name}: {item.Description}");
+                }
+            }
         }
 
         private bool AreAllTasksCompletedForQuest(Quest quest)
@@ -265,12 +299,20 @@
             {
                 if (task.Name.Equals(taskName, StringComparison.OrdinalIgnoreCase) && !task.IsCompleted)
                 {
-                    task.Execute();
+                   if (task.CanExecute(inventory))
+                   {
+                    
+                    int scoreChange = task.Execute(this);
+                    SocialScore += scoreChange;
+                    Console.WriteLine($"Task '{task.Name}' executed. Social score changed by {scoreChange}. Current social score: {SocialScore}");
+
                     if (task.RelatedQuest.AreAllTasksCompleted())
                     {
                         task.RelatedQuest.IsCompleted = true;
                         Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.");
                     }
+                   }
+                    Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.");
                     return;
                 }
             }
@@ -279,6 +321,12 @@
 
 
         
+        
+                private void ShowSocialScore()
+        {
+            Console.WriteLine($"Your current social score is: {SocialScore}");
+        }
+
         private void ShowRoomTasks()
         {
             if (currentRoom != null && currentRoom.Tasks.Count > 0)
@@ -321,9 +369,17 @@
         {
             if (currentRoom?.Exits.ContainsKey(direction) == true)
             {
-                previousRoom = currentRoom;
-                currentRoom = currentRoom?.Exits[direction];
-                Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
+                Room nextRoom = currentRoom.Exits[direction];
+                if (nextRoom.CanEnter(inventory))
+                {
+                    previousRoom = currentRoom;
+                    currentRoom = nextRoom;
+                    Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
+                }
+                else
+                {
+                    Console.WriteLine($"The room is locked. You need {nextRoom.RequiredItem?.Name} to enter.");
+                }
             }
             else
             {

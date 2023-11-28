@@ -58,18 +58,18 @@ namespace WorldOfZuul
         }
 
         // 
-        private bool FindDataTaskAction()
+        private int FindDataTaskAction()
         {
             Console.WriteLine("You found the hidden data!");
             // Additional logic for completing the task
-            return true;
+            return 5;
         }
 
-        private bool SolvePuzzleTaskAction()
+        private int SolvePuzzleTaskAction()
         {
             Console.WriteLine("You solved the puzzle!");
             // Additional logic for completing the task
-            return true;
+            return 10;
         }
     }
 }

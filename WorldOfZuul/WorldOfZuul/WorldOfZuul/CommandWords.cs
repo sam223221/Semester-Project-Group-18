@@ -11,7 +11,7 @@ namespace WorldOfZuul
         public List<string> ValidCommands { get; } = new List<string> 
         { "north", "east", "south", "west", "look", "back", "quit", "help",
          "quests","quest", "task", "tasks", "complete", "see", "do", "next"
-         ,"chapter"};
+         ,"chapter", "socialscore", "inventory"};
 
         public bool IsValidCommand(string command)
         {
