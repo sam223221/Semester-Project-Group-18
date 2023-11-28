@@ -56,7 +56,7 @@
                 Console.WriteLine();
                 Console.Write("> ");
                 
-                Console.Clear();
+                
                 Console.WriteLine(currentRoom?.ShortDescription);
 
                 // The start where we ask for input

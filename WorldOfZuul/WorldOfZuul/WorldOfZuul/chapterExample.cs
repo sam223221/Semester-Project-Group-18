@@ -42,16 +42,22 @@ namespace WorldOfZuul
             Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
 
-            // Add tasks to rooms
-            startRoom.Tasks.Add(findDataTask);
-            anotherRoom.Tasks.Add(solvePuzzleTask);
 
-            // Add quests to the global quest list (if you have one)
-            // allQuests.Add(findDataQuest);
-            // allQuests.Add(solvePuzzleQuest);
+            // Add quest to Chpter list
+            Quests.Add(findDataQuest);
+            Quests.Add(solvePuzzleQuest);
+
+            // Add tasks to rooms
+            startRoom.AddTask(findDataTask);
+            anotherRoom.AddTask(solvePuzzleTask);
+
+            // Add task to quest
+            findDataQuest.AddTask(findDataTask);
+            solvePuzzleQuest.AddTask(solvePuzzleTask);
+
         }
 
-        // Define the actions for the tasks
+        // 
         private bool FindDataTaskAction()
         {
             Console.WriteLine("You found the hidden data!");

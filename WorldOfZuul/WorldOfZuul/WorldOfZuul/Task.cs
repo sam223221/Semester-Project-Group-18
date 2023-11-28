@@ -12,6 +12,15 @@ namespace WorldOfZuul
         public Quest RelatedQuest { get; set; } // Add this property
 
 
+
+/// <summary>
+/// here is where you make the task
+/// </summary>
+/// <param name="name">give the task a Name</param>
+/// <param name="description">Describe what the task is about</param>
+/// <param name="relatedQuest">Add what quest this task is related to</param>
+/// <param name="room">add the room where the task is going to be in</param>
+/// <param name="action"> here you give the related method to execute</param>
         public Task(string name, string description, Quest relatedQuest , Room room , TaskAction action)
         {
             Name = name;
