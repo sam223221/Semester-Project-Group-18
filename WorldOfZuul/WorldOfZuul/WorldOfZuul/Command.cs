@@ -13,8 +13,8 @@ namespace WorldOfZuul
 
         public Command(string name, string? secondWord = null)
         {
-            Name = name;
-            SecondWord = secondWord;
+            Name = name.ToLower();
+            SecondWord = secondWord?.ToLower();
         }
     }
 }

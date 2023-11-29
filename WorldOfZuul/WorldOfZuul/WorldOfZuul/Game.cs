@@ -26,6 +26,7 @@
         {
             currentChapter = chapter;
             currentRoom = currentChapter.GetStartRoom();
+            previousRoom = null;
         }
 
            private void UnlockChapter(IChapter chapter)
@@ -51,19 +52,13 @@
         {
 
             PrintWelcome();
-
+            Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
 
             while (continuePlaying)
             {
-                
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.Write("> ");
-                
-                
-                Console.WriteLine(currentRoom?.ShortDescription);
 
                 // The start where we ask for input
+                Console.Write("> ");
                 string? input = Console.ReadLine();
 
                
@@ -118,6 +113,9 @@
                         Console.WriteLine("You can't go back from here!");
                     else
                         currentRoom = previousRoom;
+                        Console.Clear();
+                        Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+                        previousRoom = null;
                     break;
 
                 // diractions command is processed here
@@ -372,8 +370,10 @@
                 Room nextRoom = currentRoom.Exits[direction];
                 if (nextRoom.CanEnter(inventory))
                 {
+                    Console.Clear();
                     previousRoom = currentRoom;
                     currentRoom = nextRoom;
+                    //AnimateTravel(10, 200); // 10 cycles, 200 milliseconds per cycle
                     Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
                 }
                 else
@@ -387,7 +387,20 @@
             }
         }
 
+        private void AnimateTravel(int cycles, int delay)
+        {
+            string[] sequence = { "/", "-", "\\", "|" }; // Simple spinning line animation
 
+            for (int i = 0; i < cycles; i++)
+            {
+                foreach (var s in sequence)
+                {
+                    Console.Write(s);
+                    Thread.Sleep(delay);
+                    Console.Write("\b"); // Backspace to overwrite the character
+                }
+            }
+        }
 
 
 
