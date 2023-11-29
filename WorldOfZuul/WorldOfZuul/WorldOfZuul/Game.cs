@@ -11,6 +11,7 @@
         private List<Quest> allQuests = new List<Quest>();
         public int SocialScore { get; private set; }
         private List<Item> inventory;
+        private Random random = new();
 
 
         public Game()
@@ -373,7 +374,7 @@
                     Console.Clear();
                     previousRoom = currentRoom;
                     currentRoom = nextRoom;
-                    //AnimateTravel(10, 200); // 10 cycles, 200 milliseconds per cycle
+                    AnimateTravel(5000); 
                     Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
                 }
                 else
@@ -387,19 +388,34 @@
             }
         }
 
-        private void AnimateTravel(int cycles, int delay)
+        private void AnimateTravel(int totalDurationMilliseconds)
         {
-            string[] sequence = { "/", "-", "\\", "|" }; // Simple spinning line animation
+            string[] sequence = { "/", "-", "\\", "|" ,"|"}; // Simple spinning line animation
+            int cycles = totalDurationMilliseconds/1000;
+            string[] facts =  
+            {
+             "Sheep make a bleating sound. A baby lamb can identify its mother by her bleat.",
+             "The goat is among the cleanest of animals, and is a much more selective feeder than cows, sheep, pigs, chickens and even dogs.\n Goats do eat many different species of plants, but do not want to eat food that has been contaminated or that has been on the floor or the ground.",
+             "Cows have a memory of about three years.",
+             "Cows are social animals who form bonds with each other. In a herd of cows, many will form cliques together.",
+             "Female sheep are called ewes, male sheep are called rams, and baby sheep are called lambs.",
+             "Ducklings are born ready to leave the nest within hours of hatching their eyes are open and they are able to find some of their own food.",
+             "Sheep have two toes on each foot.",
+             "Some breeds of chickens can lay colored eggs. The Ameraucana and Araucana can lay eggs of green or blue."
+            };
 
+            Console.WriteLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}");
             for (int i = 0; i < cycles; i++)
             {
                 foreach (var s in sequence)
                 {
                     Console.Write(s);
-                    Thread.Sleep(delay);
+                    Thread.Sleep(200); // Adjust sleep time to maintain total duration
                     Console.Write("\b"); // Backspace to overwrite the character
                 }
             }
+            Console.Clear();
+
         }
 
 
