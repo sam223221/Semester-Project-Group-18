@@ -27,6 +27,7 @@
         {
             currentChapter = chapter;
             currentRoom = currentChapter.GetStartRoom();
+            currentChapter.ShowIntroduction();
             previousRoom = null;
         }
 

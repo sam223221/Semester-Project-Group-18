@@ -8,6 +8,7 @@ namespace WorldOfZuul
         List<Quest> Quests {get; set;}
         Room GetStartRoom();
         void CreateRoomsAndQuests();
+        void ShowIntroduction();
     }
 
 

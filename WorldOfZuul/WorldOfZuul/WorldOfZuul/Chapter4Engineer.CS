@@ -18,9 +18,15 @@ namespace WorldOfZuul
             Rooms = new List<Room>();
             Quests = new List<Quest>();
             CreateRoomsAndQuests();
+            ShowIntroduction();
             
 
         }    
+
+        public void ShowIntroduction()
+        {
+
+        }
 
         public Room GetStartRoom() => outside;
 
