@@ -4,20 +4,20 @@
     {
         private Room? currentRoom;
         private Room? previousRoom;
-        private IChapter? currentChapter; // Declare as nullable if it can be null
-        private List<IChapter> unlockedChapters;
         private Parser parser = new();
+        private IChapter? currentChapter; // Declare as nullable if it can be null
         private bool continuePlaying = true;
-        private List<Quest> allQuests = new List<Quest>();
+        private List<Quest> currentChapterQuests = new List<Quest>();
         public int SocialScore { get; private set; }
+        private List<IChapter> unlockedChapters;
         private List<Item> inventory;
         private Random random = new();
-
+        private Chapter4Engineer chapter4 = new();
 
         public Game()
         {
             unlockedChapters = new List<IChapter>();
-            UnlockChapter(new Chapter4Engineer()); // Assuming Chapter 4 is the starting chapter
+            UnlockChapter(chapter4); // Assuming Chapter 4 is the starting chapter
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
@@ -25,23 +25,20 @@
         }
         private void StartChapter(IChapter chapter)
         {
-            allQuests.Clear();
             currentChapter = chapter;
             currentRoom = currentChapter.GetStartRoom();
             currentChapter.ShowIntroduction();
             previousRoom = null;
-        }
+            currentChapterQuests.Clear();
 
-           private void UnlockChapter(IChapter chapter)
-        {
-        
-            unlockedChapters.Add(chapter);
-            
             foreach (var quest in chapter.Quests)
             {
-                allQuests.Add(quest);
+                
+                currentChapterQuests.Add(quest);
             }
         }
+
+           private void UnlockChapter(IChapter chapter) => unlockedChapters.Add(chapter);
 
 
 
@@ -55,7 +52,6 @@
 
             PrintWelcome();
             Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
-
             while (continuePlaying)
             {
 
@@ -83,7 +79,7 @@
                 }
 
 
-
+                Console.Clear();
                 ProcessCommand(command);
 
                 
@@ -101,10 +97,11 @@
         private void ProcessCommand(Command command)
         {
 
-            
+            Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+
             switch (command.Name)
             {
-
+                
                 // Look command is processed here
                 case "look":
                     Console.WriteLine(currentRoom?.LongDescription);
@@ -114,9 +111,8 @@
                     if (previousRoom == null)
                         Console.WriteLine("You can't go back from here!");
                     else
+                        AnimateTravel(5000);
                         currentRoom = previousRoom;
-                        Console.Clear();
-                        Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
                         previousRoom = null;
                     break;
 
@@ -177,7 +173,7 @@
                     {
                     UnlockNextChapter();
                     PromptForNextChapter();
-                    
+
                     }else
                     {
                         Console.WriteLine("you are not done with all your quests! pleas do them first :)");
@@ -207,7 +203,7 @@
         private bool CanAdvanceToNextChapter()
         {
             // Iterate through all quests
-            foreach (var quest in allQuests)
+            foreach (var quest in currentChapterQuests)
             {
                 // Check if all tasks related to this quest are completed
                 if (!AreAllTasksCompletedForQuest(quest))
@@ -266,7 +262,7 @@
         private bool AreAllTasksCompletedForQuest(Quest quest)
         {
             // Iterate through all rooms to find tasks related to the quest
-            foreach (var Quest in allQuests)
+            foreach (var Quest in currentChapterQuests)
             {
                 if(!Quest.IsCompleted)
                 {
@@ -349,7 +345,7 @@
 
         private void ShowQuests()
         {
-            foreach (var quest in allQuests)
+            foreach (var quest in currentChapterQuests)
             {
                 Task currentTask = quest.GetCurrentTask();
                 if (currentTask != null)
@@ -374,11 +370,10 @@
                 Room nextRoom = currentRoom.Exits[direction];
                 if (nextRoom.CanEnter(inventory))
                 {
-                    Console.Clear();
                     previousRoom = currentRoom;
                     currentRoom = nextRoom;
-                    //AnimateTravel(5000); 
-                    Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
+                    AnimateTravel(5000); 
+                    
                 }
                 else
                 {
@@ -393,6 +388,7 @@
 
         private void AnimateTravel(int totalDurationMilliseconds)
         {
+            Console.Clear();
             string[] sequence = { "/", "-", "\\", "|" ,"|"}; // Simple spinning line animation
             int cycles = totalDurationMilliseconds/1000;
             string[] facts =  
@@ -418,6 +414,8 @@
                 }
             }
             Console.Clear();
+            Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+
 
         }
 
