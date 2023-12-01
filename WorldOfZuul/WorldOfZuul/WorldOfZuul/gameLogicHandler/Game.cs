@@ -25,6 +25,7 @@
         }
         private void StartChapter(IChapter chapter)
         {
+            allQuests.Clear();
             currentChapter = chapter;
             currentRoom = currentChapter.GetStartRoom();
             currentChapter.ShowIntroduction();
@@ -33,7 +34,6 @@
 
            private void UnlockChapter(IChapter chapter)
         {
-            allQuests.Clear();
         
             unlockedChapters.Add(chapter);
             
@@ -177,17 +177,15 @@
                     {
                     UnlockNextChapter();
                     PromptForNextChapter();
+                    
                     }else
                     {
                         Console.WriteLine("you are not done with all your quests! pleas do them first :)");
                     }
                 
-                    Console.WriteLine("you forgot to ask what you want to see or that is a invalid comand plese try again");
 
                 }
                 break;
-
-
                 default:
                     Console.WriteLine("I don't know that command, plese try somthing else :)\n");
                     break;
@@ -218,6 +216,29 @@
                 }
             }
             return true;
+            
+        }
+        public void ChooseChapter()
+        {
+            string[] chapterList = new string[unlockedChapters.Count];
+
+            for (int i = 0; i < unlockedChapters.Count; i++)
+            {
+                chapterList[i] = $"{i + 1}. {unlockedChapters[i].GetType().Name}";
+            }
+
+            string choice = "Choose a chapter:";
+            int chapterIndex = InteractiveMenu.MultichoiceQuestion(choice, chapterList);
+
+            // Ensure the selected index is within the range
+            if (chapterIndex >= 0 && chapterIndex <= unlockedChapters.Count)
+            {
+                StartChapter(unlockedChapters[chapterIndex]);
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice.");
+            }
         }
 
         public void AddItemToInventory(Item item)
@@ -258,25 +279,6 @@
 
 
 
-        public void ChooseChapter()
-        {
-            Console.WriteLine("Choose a chapter:");
-            for (int i = 0; i < unlockedChapters.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {unlockedChapters[i].GetType().Name}");
-            }
-
-            string? choice = Console.ReadLine();
-            int chapterIndex;
-            if (int.TryParse(choice, out chapterIndex) && chapterIndex > 0 && chapterIndex <= unlockedChapters.Count)
-            {
-                StartChapter(unlockedChapters[chapterIndex - 1]);
-            }
-            else
-            {
-                Console.WriteLine("Invalid choice.");
-            }
-        }
 
         private void PromptForNextChapter()
         {
@@ -375,7 +377,7 @@
                     Console.Clear();
                     previousRoom = currentRoom;
                     currentRoom = nextRoom;
-                    AnimateTravel(5000); 
+                    //AnimateTravel(5000); 
                     Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
                 }
                 else

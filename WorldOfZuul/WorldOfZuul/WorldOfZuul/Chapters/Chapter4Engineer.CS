@@ -98,22 +98,21 @@ namespace WorldOfZuul
 
         private int QuestionTask()
         {
-            Console.WriteLine("Here's a tricky question for you:");
-            Console.WriteLine("What is the capital of France?");
-            Console.WriteLine("1. Paris");
-            Console.WriteLine("2. London");
-            Console.WriteLine("3. Berlin");
 
-            string? answer = Console.ReadLine();
+            
+            string header = "Here's a tricky question for you:\nWhat is the capital of France?";
+            string[] option = {"1. Paris","2. London","3. Berlin"};
+            
+            int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option); 
 
-            switch (answer)
+            switch (selectedIndex)
             {
-                case "1":
+                case 0:
                     Console.WriteLine("Correct! Paris is the capital of France.");
                     return 10;
                 
-                case "2":
-                case "3":
+                case 1:
+                case 2:
                     Console.WriteLine("That's not correct.");
                     return -5;
 
