@@ -226,6 +226,7 @@ command list for see:
             if (currentChapter is Chapter4Engineer)
             {
                 UnlockChapter(new ChapterExample());
+                UnlockChapter(new Chapter2Teacher());
             }
             // Add more conditions for other chapters
         }
