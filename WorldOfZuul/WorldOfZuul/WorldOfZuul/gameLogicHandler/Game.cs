@@ -334,6 +334,7 @@ command list for see:
                    {
                     
                     int scoreChange = task.Execute(this);
+                    SocialScore += scoreChange;
                     Console.WriteLine($"Task '{task.Name}' executed.\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n");
 
                     if (task.RelatedQuest.AreAllTasksCompleted())

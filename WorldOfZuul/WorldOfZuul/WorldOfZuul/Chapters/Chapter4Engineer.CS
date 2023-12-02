@@ -10,6 +10,7 @@ namespace WorldOfZuul
         private Room? theatre;
         private Room? office;
         private Room? lab;
+        private int engineerScore = 0;
 
 
 
@@ -70,8 +71,8 @@ namespace WorldOfZuul
             Quests.Add(labQuest);
 
             // add task to the quest list
-            labQuest.AddTask(labTask);
             labQuest.AddTask(officeTask);
+            labQuest.AddTask(labTask);
 
             // add task to the room
             lab.AddTask(labTask);
@@ -90,7 +91,7 @@ namespace WorldOfZuul
         }
         public string PlayerScore()
         {
-            return @"";
+            return $@"your engineer score is : {engineerScore}";
         }
 
 
@@ -113,6 +114,7 @@ namespace WorldOfZuul
             {
                 case 0:
                     Console.WriteLine("Correct! Paris is the capital of France.\n");
+
                     return 10;
                 
                 case 1:
