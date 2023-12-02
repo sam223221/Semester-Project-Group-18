@@ -1,4 +1,6 @@
-﻿namespace WorldOfZuul
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace WorldOfZuul
 {
     public class Game 
     {
@@ -29,8 +31,8 @@
             currentRoom = currentChapter.GetStartRoom();
             currentChapter.ShowIntroduction();
             previousRoom = null;
-            currentChapterQuests.Clear();
 
+            currentChapterQuests.Clear();
             foreach (var quest in chapter.Quests)
             {
                 
@@ -46,7 +48,7 @@
 
 
 
-        // ***vv here is where the game logic is vv***
+        // *** here is where the game logic is ***
         public void Play()
         {
 
@@ -68,10 +70,10 @@
                     continue;
                 }
                 
-                //now we know that there is a input! we want to check if its valid
+                //check if its a valid command
                 Command? command = parser.GetCommand(input);
 
-                // check if input is valid
+                // check if input retuned null
                 if (command == null)
                 {
                     Console.WriteLine("I don't know that command, plese try somthing else :).");
@@ -111,9 +113,13 @@
                     if (previousRoom == null)
                         Console.WriteLine("You can't go back from here!");
                     else
-                        AnimateTravel(5000);
+                    {
                         currentRoom = previousRoom;
                         previousRoom = null;
+                        AnimateTravel(5000);
+
+                    }
+
                     break;
 
                 // diractions command is processed here
@@ -137,23 +143,47 @@
                     break;
 
                 case "see":
-                    if (command.SecondWord == "task" || command.SecondWord == "tasks")
+                    switch (command.SecondWord)
                     {
-                        ShowRoomTasks();
+                        case "task":
+                        case "tasks":
+                            ShowRoomTasks();
+                            break;
 
-                    }else if(command.SecondWord == "quest" || command.SecondWord == "quests")
-                    {
-                        ShowQuests();
-                    }else if(command.SecondWord == "socialscore")
-                    {
-                        ShowSocialScore();
-                    }else if(command.SecondWord == "inventory")
-                    {
-                        ShowInventory();
-                    }else
-                    {
-                    Console.WriteLine("you forgot to ask what you want to see or that is a invalid comand plese try again");
-                        
+                        case "quest":
+                        case "quests":
+                            ShowQuests();
+                            break;
+
+                        case "socialscore":
+                            ShowSocialScore();
+                            break;
+
+                        case "inventory":
+                            ShowInventory();
+                            break;
+
+                        case "map":
+                            currentChapter.showMap(currentRoom);
+                            break;
+
+                        case null:
+                            
+                            Console.WriteLine(@"
+                            
+command list for see:
+
+~ task
+~ quest
+~ socialscore
+~ inventory
+~ map
+                            ");
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid command or missing second word. Please try again.");
+                            break;
                     }
                     break;
 
@@ -230,6 +260,9 @@
             if (chapterIndex >= 0 && chapterIndex <= unlockedChapters.Count)
             {
                 StartChapter(unlockedChapters[chapterIndex]);
+                Console.Clear();
+                Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+
             }
             else
             {
@@ -301,16 +334,22 @@
                    {
                     
                     int scoreChange = task.Execute(this);
-                    SocialScore += scoreChange;
-                    Console.WriteLine($"Task '{task.Name}' executed. Social score changed by {scoreChange}. Current social score: {SocialScore}");
+                    Console.WriteLine($"Task '{task.Name}' executed.\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n");
 
                     if (task.RelatedQuest.AreAllTasksCompleted())
                     {
                         task.RelatedQuest.IsCompleted = true;
-                        Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.");
+                        Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.\n");
                     }
-                   }
+                   
+                   }else
+                   {
+
                     Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.");
+                   }
+                    Thread.Sleep(10000);
+                    Console.Clear();
+                    Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
                     return;
                 }
             }
@@ -323,6 +362,7 @@
                 private void ShowSocialScore()
         {
             Console.WriteLine($"Your current social score is: {SocialScore}");
+            Console.WriteLine(currentChapter.PlayerScore());
         }
 
         private void ShowRoomTasks()
@@ -394,7 +434,7 @@
             string[] facts =  
             {
              "Sheep make a bleating sound. A baby lamb can identify its mother by her bleat.",
-             "The goat is among the cleanest of animals, and is a much more selective feeder than cows, sheep, pigs, chickens and even dogs.\n Goats do eat many different species of plants, but do not want to eat food that has been contaminated or that has been on the floor or the ground.",
+             "The goat is among the cleanest of animals, and is a much more selective feeder than cows, sheep, pigs, chickens and even dogs.\nGoats do eat many different species of plants, but do not want to eat food that has been contaminated or that has been on the floor or the ground.",
              "Cows have a memory of about three years.",
              "Cows are social animals who form bonds with each other. In a herd of cows, many will form cliques together.",
              "Female sheep are called ewes, male sheep are called rams, and baby sheep are called lambs.",

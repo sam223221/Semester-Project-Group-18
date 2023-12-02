@@ -62,7 +62,10 @@ namespace WorldOfZuul
             solvePuzzleQuest.AddTask(solvePuzzleTask);
 
         }
-
+        public string PlayerScore()
+        {
+            return "";
+        }
         // 
         private int FindDataTaskAction()
         {
@@ -76,6 +79,9 @@ namespace WorldOfZuul
             Console.WriteLine("You solved the puzzle!");
             // Additional logic for completing the task
             return 10;
+        }
+        public void showMap(Room currentRoom){
+
         }
     }
 }

@@ -7,7 +7,7 @@ namespace WorldOfZuul
         static TextArtManager()
         {
             // Initialize text arts for each room
-            textArts["Outside"] = @"
+            textArts["villageCenter"] = @"
                       ████████████                                     
                   ████░░░░░░░░░░░░████                              
                 ██  ░░    ░░    ░░    ██            It's time for you... Let's begin your adventure!                   
@@ -37,7 +37,10 @@ namespace WorldOfZuul
                     ██▓▓▒▒▓▓▓▓▒▒▒▒██                    
                   ████▓▓▒▒████▒▒▒▒████                  
                   ██▒▒▒▒██    ██▒▒▒▒██                  
-                  ██████        ██████ ";
+                  ██████        ██████ 
+                  
+                  
+                  ";
 
             textArts["Lab"] = @"
                                                                     Pick a number of your character's background: 
