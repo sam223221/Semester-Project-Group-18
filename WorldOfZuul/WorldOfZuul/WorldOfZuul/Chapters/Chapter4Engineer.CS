@@ -4,12 +4,18 @@ namespace WorldOfZuul
     {
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests {get; set;}
-        private Room? waterTreatmentFacility;
+        private Room? HistoricalArchive;
+        private Room? construtionSite;
+        private Room? AbandonFactory;
         private Room? villageCenter;
-        private Room? powerStation;
-        private Room? theatre;
-        private Room? office;
+        private Room? ModernHome;
+        private Room? TownHall;
+        private Room? SunStone;
+        private Room? DesignHQ;
+        private Room? Library;
+        private Room? River;
         private Room? lab;
+
         private int engineerScore = 0;
 
 
@@ -43,25 +49,29 @@ namespace WorldOfZuul
         {
 
             //creat Items
-            Item officeKey = new Item("officeKey","these keys are for opning a back dor in the office");
+            Item officeKey = new Item("","");
 
 
             // Initialize rooms
-            waterTreatmentFacility  = new Room("somewhere"      , "you're somewhere, don't know where but somewhere",officeKey);
-            villageCenter           = new Room("villageCenter"  , "You're standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
-            theatre                 = new Room("Theatre"        , "You're finding yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
-            office                  = new Room("Office"         , "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
-            powerStation            = new Room("Powerstation"   , "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.");
-            lab                     = new Room("Lab"            , "You're in a computing lab. Desks with computers line the walls, and there's an office to the east. The hum of machines fills the room.");
-
+            HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies and inspirations for the Electricity Quest.");
+            construtionSite         = new Room("ConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of Sam's designs coming to life in the Housing Quest");
+            AbandonFactory          = new Room("AbandonFactory"     , "A dilapidated structure with rusted machinery and broken windows, overtaken by nature. \nIt holds clues to the village's industrial past and is key to solving the Water Treatment Quest.");
+            villageCenter           = new Room("villageCenter"      , "The bustling heart of the village, with cobblestone streets, quaint shops, and a lively marketplace.\nIt's a central meeting point for villagers, buzzing with gossip and activity, and serves as a starting point for both the Water Treatment and Electricity Quests.");
+            ModernHome              = new Room("ModernHome"         , "A newly built eco-friendly house, showcasing innovative design and sustainable living. \nIt serves as a model home, demonstrating the success of your effort in the Housing Quest.");
+            TownHall                = new Room("TownCenter"         , "A grand, old building with a clock tower, symbolizing the village's heritage and governance. Inside, it's adorned with historical artifacts and portraits of past leaders.\nThis is where you discusses the Electricity Quest with village officials.");
+            DesignHQ                = new Room("DesignHQ"           , "A creative studio with architectural models, blueprints, and a large drafting table. It's a hub of innovation where you'll design sustainable homes for the Housing Quest.");
+            SunStone                = new Room("SunStone"           , "An ancient, mystical site located in a clearing outside the village. \nIt features a large, engraved stone rumored to harness solar energy, inspiring Sam's solutions in the Electricity Quest.");
+            Library                 = new Room("Library"            , "A quiet, cozy building filled with rows of books, old manuscripts, and a large, detailed map of the village and surrounding areas. \nIt's a treasure trove of information for researching both the Water Treatment and Electricity Quests.");
+            River                   = new Room("River"              , "A serene spot by the river, with willow trees, benches, and a small dock. \nThe river's condition, however, shows signs of pollution, setting the stage for the Water Treatment Quest.");
+            lab                     = new Room("Lab"                , "A modern contrast to the village's rustic charm, the lab is equipped with various scientific instruments, a workbench, and a chalkboard filled with equations and diagrams.\nIt's your haven for experimenting and problem-solving.");
 
             // Set exits
-            waterTreatmentFacility.SetExit("east", powerStation);
-            villageCenter.SetExits(null, theatre, lab, powerStation);
-            theatre.SetExit("west", villageCenter);
-            powerStation.SetExits(null, villageCenter, null, waterTreatmentFacility);
-            lab.SetExits(villageCenter, office, null, null);
-            office.SetExit("west", lab);
+            AbandonFactory.SetExit("west", lab);
+            villageCenter.SetExits(null, Library, lab, River);
+            TownHall.SetExit("east", River);
+            Library.SetExit("west", villageCenter);
+            River.SetExits(null, villageCenter, null, TownHall);
+            lab.SetExits(villageCenter, AbandonFactory, null, null);
 
 
             // Creat quests
@@ -71,7 +81,7 @@ namespace WorldOfZuul
             //initialize tasks
             //Task(shortDec, longDec, What quest the task relates to , what room the task has to go in, this is to exicute, if the task need a key to run);
             Task labTask    = new Task("question"   , "awnser a tricky question"                , labQuest  , lab       , QuestionTask  , officeKey );
-            Task officeTask = new Task("Key"        , "this is the key for the question task"   , labQuest  , office    , FindMyKey     , null      , officeKey);
+            Task officeTask = new Task("Key"        , "this is the key for the question task"   , labQuest  , AbandonFactory    , FindMyKey     , null      , officeKey);
             
 
             // Add quests to the chapter's quest list
@@ -83,16 +93,16 @@ namespace WorldOfZuul
 
             // add task to the room
             lab.AddTask(labTask);
-            office.AddTask(officeTask);
+            AbandonFactory.AddTask(officeTask);
                 
 
         
             // adding thigs to rooms
-            Rooms.Add(waterTreatmentFacility);
+            Rooms.Add(TownHall);
             Rooms.Add(villageCenter);
-            Rooms.Add(theatre);
-            Rooms.Add(office);
-            Rooms.Add(powerStation);
+            Rooms.Add(Library);
+            Rooms.Add(AbandonFactory);
+            Rooms.Add(River);
             Rooms.Add(lab);
 
         }
