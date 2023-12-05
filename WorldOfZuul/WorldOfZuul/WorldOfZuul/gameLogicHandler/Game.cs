@@ -51,7 +51,6 @@ namespace WorldOfZuul
         public void Play()
         {
             Console.Clear();
-            PrintWelcome();
             Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
             while (continuePlaying)
             {
@@ -447,12 +446,12 @@ command list for see:
              "Some breeds of chickens can lay colored eggs. The Ameraucana and Araucana can lay eggs of green or blue."
             };
 
-            Console.WriteLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}");
+            Console.WriteLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}\n");
             for (int i = 0; i < cycles; i++)
             {
                 foreach (var s in sequence)
                 {
-                    Console.WriteLine(s);
+                    Console.Write(s);
                     Thread.Sleep(200); // Adjust sleep time to maintain total duration
                     Console.Write("\b"); // Backspace to overwrite the character
                 }
@@ -482,6 +481,7 @@ command list for see:
             Console.WriteLine();
             Console.WriteLine("To navigate type 'north', 'south', 'east', 'west'");
             Console.WriteLine();
+            Console.WriteLine("~ Do     :   executes the task you want to do, demo 'do (task name)'");
             Console.WriteLine("~ Look   :   Gives you a description of your surrounding");
             Console.WriteLine("~ Back   :   Makes you go back to the room you just came from");
             Console.WriteLine("~ See    :   Type 'see' to see what comands are related to it");

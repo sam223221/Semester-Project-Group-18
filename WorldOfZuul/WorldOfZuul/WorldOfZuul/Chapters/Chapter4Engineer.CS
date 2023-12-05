@@ -30,7 +30,7 @@ namespace WorldOfZuul
 
         public void ShowIntroduction()
         {
-            string[] introSlides = new string[] {"EgnineerIntro","EgineerIntroWater","EgineerIntroElectricity","EgineerIntroElectricity"};
+            string[] introSlides = new string[] {"EgnineerIntro","EgineerIntroWater","EgineerIntroHousing","EgineerIntroElectricity"};
 
             foreach (var slide in introSlides)
             {

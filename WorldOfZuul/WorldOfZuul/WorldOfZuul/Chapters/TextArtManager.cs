@@ -122,7 +122,7 @@ sustainabilty score.                                               farming score
 ██████████████████      ██████████████████    
     ";
 
-    textArts["EgineerIntroElectricity"] = @"
+    textArts["EgineerIntroHousing"] = @"
     
                 ██████████████            
               ██░░░░░░░░░░░░░░██          
