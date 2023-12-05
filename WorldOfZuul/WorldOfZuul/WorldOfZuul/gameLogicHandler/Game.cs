@@ -14,12 +14,11 @@ namespace WorldOfZuul
         private List<IChapter> unlockedChapters;
         private List<Item> inventory;
         private Random random = new();
-        private Chapter4Engineer chapter4 = new();
 
         public Game()
         {
             unlockedChapters = new List<IChapter>();
-            UnlockChapter(chapter4); // Assuming Chapter 4 is the starting chapter
+            UnlockChapter(new Chapter4Engineer()); // Assuming Chapter 4 is the starting chapter
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
@@ -28,10 +27,10 @@ namespace WorldOfZuul
         private void StartChapter(IChapter chapter)
         {
             currentChapter = chapter;
-            currentRoom = currentChapter.GetStartRoom();
+            currentChapter.CreateRoomsAndQuests();
             currentChapter.ShowIntroduction();
+            currentRoom = currentChapter.GetStartRoom();
             previousRoom = null;
-
             currentChapterQuests.Clear();
             foreach (var quest in chapter.Quests)
             {
@@ -51,7 +50,7 @@ namespace WorldOfZuul
         // *** here is where the game logic is ***
         public void Play()
         {
-
+            Console.Clear();
             PrintWelcome();
             Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
             while (continuePlaying)
@@ -226,6 +225,9 @@ command list for see:
             if (currentChapter is Chapter4Engineer)
             {
                 UnlockChapter(new ChapterExample());
+            }
+            if (currentChapter is ChapterExample)
+            {
                 UnlockChapter(new Chapter2Teacher());
             }
             // Add more conditions for other chapters
