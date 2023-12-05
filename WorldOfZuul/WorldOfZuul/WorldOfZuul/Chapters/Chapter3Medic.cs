@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Xml.Linq;
 
 namespace WorldOfZuul
 {
@@ -75,21 +77,29 @@ namespace WorldOfZuul
             Quest ForestQuest = new Quest("Battle", "Defeat the sickness, You've received information from the mayor of the village " +
                                                                           "that the source of the disease was in the forest. You should nip this in the bud...");
 
+            Quest HospitalQuest = new Quest("Quiz", "You need to finish this quiz to prepare for healing citizens!");
+
+
             //Initialize tasks
 
-            Task DefeatingSickness = new Task("Sickness", "You need to free the villagers", ForestQuest, forest, BattleWithSickness);
+            Task DefeatingSickness = new Task("Sickness", "You need to free villagers from the sickness", ForestQuest, forest, BattleWithSickness);
+
+            Task MedicalQuiz = new Task("MedicalQuiz", "Go on and finish this quiz!", HospitalQuest, hospital, QuizInHospital);
 
             //Add quests to the chapters quests lists
 
             Quests.Add(ForestQuest);
+            Quests.Add(HospitalQuest);
 
             // Add task to the quest list
 
             ForestQuest.AddTask(DefeatingSickness);
+            HospitalQuest.AddTask(MedicalQuiz);
 
             //Add task to the room
 
             forest.AddTask(DefeatingSickness);
+            hospital.AddTask(MedicalQuiz);
 
 
             // Adding thigs to rooms
@@ -104,14 +114,178 @@ namespace WorldOfZuul
             return $@"Your Medic score is : {medicScore}";
         }
 
-
-
         /****************** TASK SECTION *********************/
 
         private int BattleWithSickness()
         {
+            // Medic stats
+            int medicHealth = 100;
+            int medicAttackPower = 15;
+            int medicHealingPower = 20;
+
+            // Sickness stats
+            int sicknessHealth = 50;
+            int sicknessAttackPower = 10;
+
+            Console.WriteLine("The battle begins!\n");
+
+            while (medicHealth > 0 && sicknessHealth > 0)
+            {
+                Console.WriteLine(TextArtManager.GetTextArt("MedicVirus"));
+                
+                Console.WriteLine($"Medic Health: {medicHealth} | Sickness Health: {sicknessHealth}\n");
+
+                Console.WriteLine("Choose an action:");
+                Console.WriteLine("1. Attack the Sickness");
+                Console.WriteLine("2. Heal");
+
+                string userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        // Medic attacks the sickness
+                        int damageDealt = new Random().Next(medicAttackPower / 2, medicAttackPower + 1);
+                        sicknessHealth -= damageDealt;
+                        Console.WriteLine($"You attacked the sickness and dealt {damageDealt} damage.");
+
+                        // Sickness attacks back
+                        int damageReceived = new Random().Next(sicknessAttackPower / 2, sicknessAttackPower + 1);
+                        medicHealth -= damageReceived;
+                        Console.WriteLine($"The sickness retaliated and dealt {damageReceived} damage.");
+
+                        Thread.Sleep(3500);
+                        Console.Clear();
+                        break;
+
+                    case "2":
+                        // Medic chooses to heal
+                        int healingAmount = new Random().Next(medicHealingPower / 2, medicHealingPower + 1);
+                        medicHealth += healingAmount;
+                        Console.WriteLine($"You healed yourself and gained {healingAmount} health.");
+
+                        // Sickness attacks
+                        damageReceived = new Random().Next(sicknessAttackPower / 2, sicknessAttackPower + 1);
+                        medicHealth -= damageReceived;
+                        Console.WriteLine($"The sickness attacked and dealt {damageReceived} damage.");
+
+                        Thread.Sleep(3500);
+                        Console.Clear();
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid choice. Please choose a valid action.");
+
+                        Thread.Sleep(3500);
+                        Console.Clear();
+                        continue;
+                }
+
+                Console.WriteLine(); // Empty line for better readability
+                System.Threading.Thread.Sleep(1000); // Add a delay to simulate the passage of time
+            }
+
+            if (medicHealth <= 0)
+            {
+                Console.WriteLine("The sickness has overwhelmed you. You fought valiantly, but it wasn't enough.");
+            }
+            else
+            {
+                Console.WriteLine("Congratulations! You have successfully defeated the sickness. The world is now a healthier place!");
+            }
+
+
+
 
             return 5;
+        }
+
+        private int QuizInHospital()
+        {
+            Console.WriteLine("Welcome to the Medic Quiz!");
+            Console.WriteLine("You need to prepare your medic knowledge if you want to help the citiznes\n");
+
+            int score = 0;
+
+            // Question 1
+            Console.WriteLine("Question 1: What is the powerhouse of the cell?");
+            Console.WriteLine("a) Nucleus");
+            Console.WriteLine("b) Mitochondria");
+            Console.WriteLine("c) Endoplasmic reticulum");
+            Console.WriteLine("d) Golgi apparatus");
+
+            string answer1 = Console.ReadLine();
+            if (answer1.ToLower() == "b")
+            {
+                Console.WriteLine("Correct!\n");
+                score++;
+            }
+            else
+            {
+                Console.WriteLine("Incorrect. The correct answer is b) Mitochondria.\n");
+            }
+
+            // Question 2
+            Console.WriteLine("Question 2: Which organ produces insulin?");
+            Console.WriteLine("a) Liver");
+            Console.WriteLine("b) Pancreas");
+            Console.WriteLine("c) Kidney");
+            Console.WriteLine("d) Heart");
+
+            string answer2 = Console.ReadLine();
+            if (answer2.ToLower() == "b")
+            {
+                Console.WriteLine("Correct!\n");
+                score++;
+            }
+            else
+            {
+                Console.WriteLine("Incorrect. The correct answer is b) Pancreas.\n");
+            }
+
+            // Question 3
+            Console.WriteLine("Question 3: What is the largest organ in the human body?");
+            Console.WriteLine("a) Liver");
+            Console.WriteLine("b) Skin");
+            Console.WriteLine("c) Heart");
+            Console.WriteLine("d) Lungs");
+
+            string answer3 = Console.ReadLine();
+            if (answer3.ToLower() == "b")
+            {
+                Console.WriteLine("Correct!\n");
+                score++;
+            }
+            else
+            {
+                Console.WriteLine("Incorrect. The correct answer is b) Skin.\n");
+            }
+
+            // Display final score
+            Console.WriteLine($"Your final score: {score} out of 3");
+
+            // Provide feedback based on the score
+            if (score == 3)
+            {
+                Console.WriteLine("Congratulations! You're a medical genius!");
+
+                medicScore += 15;
+                return 15;
+            }
+            else if (score >= 1)
+            {
+                Console.WriteLine("Well done! You have a good understanding of medical concepts.");
+
+                medicScore += 5;
+                return 5;
+            }
+            else
+            {
+                Console.WriteLine("You might want to brush up on your medical knowledge. Keep learning!");
+
+                medicScore += 0;
+                return 0;
+            }
         }
         
         /****************** MAP SECTION *********************/
@@ -200,7 +374,7 @@ namespace WorldOfZuul
                 TitleAnimation("The Medic");
                 Console.ForegroundColor = ConsoleColor.Green;
 
-                Console.WriteLine("\nCHAPTERTextArtHERE\n");
+                Console.WriteLine("\nTEXT ART MANAGER\n");
 
                 PrintText("\nBefore you start playing turn on fullscreen\n"+
                  "\nHello Brave Adventurer! In Chapter III, you're the important Medic character. You're not just playing a game... " +
