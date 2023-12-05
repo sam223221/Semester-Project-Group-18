@@ -452,7 +452,7 @@ command list for see:
             {
                 foreach (var s in sequence)
                 {
-                    Console.Write(s);
+                    Console.WriteLine(s);
                     Thread.Sleep(200); // Adjust sleep time to maintain total duration
                     Console.Write("\b"); // Backspace to overwrite the character
                 }
@@ -477,14 +477,16 @@ command list for see:
 
         private static void PrintHelp()
         {
-            Console.WriteLine("You are lost. You are alone. You wander");
-            Console.WriteLine("around the university.");
+            Console.WriteLine("I see that you need help");
+            Console.WriteLine("here are the comands that you can use");
             Console.WriteLine();
-            Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
-            Console.WriteLine("Type 'look' for more details.");
-            Console.WriteLine("Type 'back' to go to the previous room.");
-            Console.WriteLine("Type 'help' to print this message again.");
-            Console.WriteLine("Type 'quit' to exit the game.");
+            Console.WriteLine("To navigate type 'north', 'south', 'east', 'west'");
+            Console.WriteLine();
+            Console.WriteLine("~ Look   :   Gives you a description of your surrounding");
+            Console.WriteLine("~ Back   :   Makes you go back to the room you just came from");
+            Console.WriteLine("~ See    :   Type 'see' to see what comands are related to it");
+            Console.WriteLine("~ Help   :   To see this message XD");
+            Console.WriteLine("~ Quit   :   This will end the game :(");
         }
     }
 }

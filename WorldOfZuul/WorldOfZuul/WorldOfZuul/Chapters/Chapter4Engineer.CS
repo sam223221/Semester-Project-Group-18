@@ -19,6 +19,7 @@ namespace WorldOfZuul
 
             Rooms = new List<Room>();
             Quests = new List<Quest>();
+            Console.ForegroundColor = ConsoleColor.Green;
 
         }    
 
@@ -26,12 +27,14 @@ namespace WorldOfZuul
         {
             string[] introSlides = new string[] {"EgnineerIntro","EgineerIntroWater","EgineerIntroElectricity","EgineerIntroElectricity"};
 
-        foreach (var slide in introSlides)
-        {
-            Console.Clear(); // Clear the console for each slide
-            Console.WriteLine(TextArtManager.GetTextArt(slide)); // Display the slide
-            Console.ReadKey(); // Wait for any key press
-        }
+            foreach (var slide in introSlides)
+            {
+                Console.Clear(); // Clear the console for each slide
+                Console.WriteLine(TextArtManager.GetTextArt(slide)); // Display the slide
+                Console.ReadKey(); // Wait for any key press
+            }
+
+
         }
 
         public Room GetStartRoom() => villageCenter;
