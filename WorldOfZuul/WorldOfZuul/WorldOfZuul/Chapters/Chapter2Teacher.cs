@@ -21,8 +21,6 @@ namespace WorldOfZuul
         private Room? workshop;
         private Room? lab;
         private Room? library;
-        private Room? park;
-
 
         public Chapter2Teacher()
         {
@@ -32,7 +30,7 @@ namespace WorldOfZuul
         }
 
         public string PlayerScore(){
-            return "";
+            return "Your score is {} ";
         }
 
         public Room GetStartRoom() => outside;
@@ -69,11 +67,9 @@ namespace WorldOfZuul
             lab         = new("Laboratory"      , "You step into the laboratory, a realm of scientific exploration and discovery. The air is crisp, carrying the faint scent of chemicals and the sterile environment of controlled experimentation. Fluorescent lights overhead illuminate rows of lab benches, each adorned with glassware, instruments, and the promise of groundbreaking research.");
 
             library     = new("Library"         ,"You enter the library, a sanctuary of knowledge and quiet contemplation. The air is hushed, and the scent of aged paper mingles with the subtle aroma of leather-bound books. The vast room is lined with towering shelves, each holding the accumulated wisdom of countless authors and scholars.");
-
-            park        = new("University-Park" , "You venture into the university park, a serene oasis nestled within the academic hustle and bustle. The air is filled with the soothing rustle of leaves and the distant melody of birdsong. Tall trees stand sentinel, their branches creating a natural canopy that provides shade for those seeking refuge from the sun.");
             
             
-            outside.SetExits(park, pub, hallway1, theatre); // North, East, South, West
+            outside.SetExits(null, pub, hallway1, theatre); // North, East, South, West
 
             theatre.SetExits(null, null,office,outside);
 
@@ -103,13 +99,13 @@ namespace WorldOfZuul
 
             Item showel = new Item("showel" , " hellow wana dig a hole");
             // Create Quests
-            Quest findDataQuest = new Quest("Find Data", "Locate the missing data.");
+            Quest Helpkids = new Quest("Help the kids around the school");
             Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
             
             // Create Tasks and associate them with quests
             //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
-            Task hallwaytask = new Task("hallwaytask","kid is crying",findDataQuest,hallway1,kidCrying,null,showel);
+            Task hallwaytask = new Task("hallwaytask","kid is crying",Helpkids,hallway1,kidCrying,null,showel);
 
             // Add quest to Chpter list
             //Quests.Add(findDataQuest);
@@ -156,18 +152,18 @@ namespace WorldOfZuul
         }
        public void showMap(Room currentRoom)
         {
-            string class1 = "      ";
-            string lab = "   ";
-            string hallway1 = "        ";
-            string hallway2 = "        ";
-            string hallway3 = "        ";
-            string pub = "   ";
-            string outside = "       ";
-            string canteen = "       ";
-            string theatre = "       ";
-            string workshop = "        ";
-            string office = "      ";
-            string library="        ";
+            string class1       = "     ";
+            string lab          = "     ";
+            string hallway1     = "     ";
+            string hallway2     = "     ";
+            string hallway3     = "     ";
+            string pub          = "     ";
+            string outside      = "     ";
+            string canteen      = "     ";
+            string theatre      = "     ";
+            string workshop     = "     ";
+            string office       = "     ";
+            string library      = "     ";
 
             // Mark the current room
             switch (currentRoom.ShortDescription)
@@ -214,25 +210,25 @@ namespace WorldOfZuul
           ┌───────────┐   ┌───────────┐  ┌────────────┐
           │           │   │           │  │            │
           │  Theatre  │───│  Outside  ├──┤    Pub     │
-          │ {theatre} │   │{outside}  │  │   {pub}    │
+          │ {theatre}     │   │{outside}      │  │   {pub}    │
           └───┬───────┘   └───┬───────┘  └───┬────────┘
               │               │              │
           ┌───┴───────┐   ┌───┴────────┐  ┌──┴─────────┐
           │           │   │            │  │            │    
           │  Office   │───┤  Hallway1  ├──┤   Class    │  
-          │  {office} │   │ {hallway1} │  │  {class1}  │
+          │  {office}    │   │ {hallway1}      │  │  {class1}     │
           └───┬───────┘   └───┬────────┘  └──┬─────────┘
               │               │              │
           ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
           │           │   │           │  │            │        
           │  Canteen  ├───┤  Hallway2 ├──┤  Library   │
-          │  {canteen}│   │ {hallway2}│  │ {library}  │
+          │  {canteen}    │   │ {hallway2}     │  │ {library}      │
           └───┬───────┘   └───┬───────┘  └───┬────────┘
               │               │              │
           ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
           │           │   │           │  │            │
           │  Workshop │───│ Hallway3  ├──┤    Lab     │
-          │{workshop} │   │{hallway3} │  │   {lab}    │
+          │{workshop}      │   │{hallway3}      │  │   {lab}    │
           └───────────┘   └───────────┘  └────────────┘
 
 

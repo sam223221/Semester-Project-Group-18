@@ -84,6 +84,10 @@ namespace WorldOfZuul
             Task investigateRiver = new Task("RiverInvestigation","there is some polution in this river",waterTreatmentQuest,River,InvestigateRiver,null,WaterSample);
             
             
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 884c20e51230e474b9fe74b0c1696d8f2680b3f1
             // Add quests to the chapter's quest list
             Quests.Add(waterTreatmentQuest);
             Quests.Add(housingQutest);
