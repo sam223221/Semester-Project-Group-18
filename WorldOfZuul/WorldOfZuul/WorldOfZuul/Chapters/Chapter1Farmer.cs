@@ -19,7 +19,8 @@ namespace WorldOfZuul
         {
             Rooms = new List<Room>();
             Quests = new List<Quest>();
-
+            CreateRoomsAndQuests();
+            ShowIntroduction();
         }
 
 
@@ -58,22 +59,22 @@ namespace WorldOfZuul
 
             /* Initialize tasks public Task(string name, string description, Quest relatedQuest , Room room , TaskAction action, Item? requiredItem = null, Item? rewardItem = null)*/
 
-            Task houseCourseSDGTask = new Task("SDGCourse", "Might be useful for \ncompleting the quiz...", houseQuest, house, SDGCourseTask);
-            // sdg quiz:      Task houseQuizSDGTask = new Task("SDGQuiz", "Complete a Quiz about \nSustainable Development Goals.", houseQuest, house, SDGQuizTask);
+            // houseCourseSDGTask = new Task("SDGCourse", "Might be useful for \ncompleting the quiz...", houseQuest, house, SDGCourseTask);
+            Task houseQuizSDGTask = new Task("SDGQuiz", "Complete a Quiz about \nSustainable Development Goals.", houseQuest, house, SDGQuizTask);
 
             // Add quests to the chapter's quest list
             Quests.Add(houseQuest);
 
             // Add task to the quest list
 
-            houseQuest.AddTask(houseCourseSDGTask);
-            //sdg quiz:     houseQuest.AddTask(houseQuizSDGTask);
+            //houseQuest.AddTask(houseCourseSDGTask);
+            houseQuest.AddTask(houseQuizSDGTask);
 
 
             // Add task to the room
 
-            //sdg quiz:      house.AddTask(houseQuizSDGTask);
-            house.AddTask(houseCourseSDGTask);
+            house.AddTask(houseQuizSDGTask);
+            //   house.AddTask(houseCourseSDGTask);
 
             // Adding things to rooms
 
@@ -88,9 +89,9 @@ namespace WorldOfZuul
 
         // Optional: farmerScore
         public string PlayerScore()
-         {
-             return $@"Your farmer score is : {farmerScore}";
-         }
+        {
+            return $@"Your farmer score is : {farmerScore}";
+        }
 
         /******************task section*********************/
 
@@ -99,6 +100,19 @@ namespace WorldOfZuul
             return 5;
         }
 
+
+        private int SDGQuizTask()
+        {
+            SDGQuiz sdgquiz = new();
+
+            if (sdgquiz.correctAnswersCount == 5)
+            {
+                return 5;
+            }
+
+            return 0;
+
+        }
 
 
 
@@ -325,12 +339,113 @@ namespace WorldOfZuul
         }
 
 
+        /******************sdg quiz*************************/
+
+
+        public class SDGQuiz
+        {
+
+            public interface IQuizQuestionSDG
+            {
+                string Question { get; }
+                string CorrectAnswer { get; }
+                bool CheckAnswer(string userAnswer);
+            }
+
+            public class SDGQuizQuestion : IQuizQuestionSDG
+            {
+                public string Question { get; }
+                public string CorrectAnswer { get; }
+
+                public SDGQuizQuestion(string question, string correctAnswer)
+                {
+                    Question = question;
+                    CorrectAnswer = correctAnswer;
+                }
+
+                public bool CheckAnswer(string userAnswer)
+                {
+                    return userAnswer.Equals(CorrectAnswer, StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
+
+            private List<IQuizQuestionSDG> quizQuestions;
+            public int correctAnswersCount;
+
+            public SDGQuiz()
+            {
+                quizQuestions = new List<IQuizQuestionSDG>
+        {
+new SDGQuizQuestion("SDG 1 (No *over*y:)", "no poverty"),
+new SDGQuizQuestion("SDG 2 (Z**o *un**r):", "zero hunger"),
+new SDGQuizQuestion("SDG 3 (G**d **alth and W**l-b***g):", "good health and well-being"),
+new SDGQuizQuestion("SDG 4 (Qua**t* *d*ca*i*n):", "quality education"),
+new SDGQuizQuestion("SDG 5 (G*n**r **uali*y):", "gender equality"),
+new SDGQuizQuestion("SDG 6 (Cl**n *a**r and S*n**a*ion):", "clean water and sanitation"),
+new SDGQuizQuestion("SDG 7 (A*f*rda*l* and Cl**n *n**gy):", "affordable and clean energy"),
+new SDGQuizQuestion("SDG 8 (D*c*nt **rk and *co*omi* *ro*th):", "decent work and economic growth"),
+new SDGQuizQuestion("SDG 9 (**dus**y, *nn*v*tion, and **frastruc**r*):", "industry, innovation, and infrastructure"),
+new SDGQuizQuestion("SDG 10 (R**uc*d Ine***lit*):", "reduced inequality"),
+new SDGQuizQuestion("SDG 11 (Su***inabl* *i*ies and ***muniti*s):", "sustainable cities and communities"),
+new SDGQuizQuestion("SDG 12 (**sp*nsibl* **ns*mp*ion and ***duc*ion):", "responsible consumption and production"),
+new SDGQuizQuestion("SDG 13 (**ima*e **tion):", "climate action"),
+new SDGQuizQuestion("SDG 14 (*if* **low *a*er):", "life below water"),
+new SDGQuizQuestion("SDG 15 (*if* on *and):", "life on land"),
+new SDGQuizQuestion("SDG 16 (**ace, J*stic*, and **rong ***tituti**s):", "peace, justice, and strong institutions"),
+new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for the goals"),
+        };
+                correctAnswersCount = 0;
+            }
+
+            public void PrintQuizTxt()
+            {
+                Console.WriteLine("Let me test your knowledge of Sustainable Development Goals!");
+                Console.WriteLine("Do you know what each of them stands for?");
+                Console.WriteLine();
+            }
+            public void StartSDGQuiz()
+            {
+                PrintQuizTxt();
+
+                Random random = new Random();
+                quizQuestions.Sort((x, y) => random.Next(-1, 2));
+
+                foreach (var question in quizQuestions)
+                {
+                    Console.WriteLine(question.Question);
+                    Console.WriteLine();
+                    Console.Write("Your answer: ");
+                    string? userAnswer = Console.ReadLine();
+
+                    if (question.CheckAnswer(userAnswer))
+                    {
+                        Console.Clear();
+                        PrintQuizTxt();
+                        Console.WriteLine("Correct!\n");
+
+                        correctAnswersCount++;
+
+                        if (correctAnswersCount == 5)
+                        {
+                            Console.Clear();
+                            PrintQuizTxt();
+                            Console.WriteLine("Congratulations! You've answered 5 questions correctly.");
+                            Console.WriteLine("This quiz is completed!");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        PrintQuizTxt();
+                        Console.WriteLine($"Incorrect. The correct answer was: {question.CorrectAnswer}\n");
+                    }
+                }
+            }
+        }
 
 
 
-
-
-
-    
     }
 }
