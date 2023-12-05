@@ -1,4 +1,5 @@
-﻿namespace WorldOfZuul
+﻿
+namespace WorldOfZuul
 {
     public class Room
     {
@@ -44,6 +45,11 @@
                 return true; // No item required, can enter
 
             return inventory.Any(item => item.Name == RequiredItem.Name);
+        }
+
+        public static implicit operator Room(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

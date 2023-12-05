@@ -83,7 +83,7 @@ namespace WorldOfZuul
             Task labTask    = new Task("question"   , "awnser a tricky question"                , labQuest  , lab       , QuestionTask  , officeKey );
             Task officeTask = new Task("Key"        , "this is the key for the question task"   , labQuest  , AbandonFactory    , FindMyKey     , null      , officeKey);
             
-
+            
             // Add quests to the chapter's quest list
             Quests.Add(labQuest);
 

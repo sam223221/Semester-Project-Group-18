@@ -46,23 +46,23 @@ namespace WorldOfZuul
         {
             // Create Rooms
     
-            class1      = new("Class"           , "You enter the classroom, a space of learning and academic engagement. The air is charged with the anticipation of knowledge, and the scent of chalk dust lingers in the room. Rows of desks face the front, each accompanied by a chair and a neatly organized set of course materials.");
+            class1      = new("Class1"           ,"You enter the classroom, a space of learning and academic engagement. The air is charged with the anticipation of knowledge, and the scent of chalk dust lingers in the room. Rows of desks face the front, each accompanied by a chair and a neatly organized set of course materials.");
 
-            outside     = new("Outside"         , "You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
+            outside     = new("Outside"         ,"You are standing outside the main entrance of the university. To the east is a large building, to the south is a computing lab, and to the west is the campus pub.");
 
-            theatre     = new("Theatre"         , "You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
+            theatre     = new("Theatre"         ,"You find yourself inside a large lecture theatre. Rows of seats ascend up to the back, and there's a podium at the front. It's quite dark and quiet.");
 
-            pub         = new("Pub"             , "You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.");
+            pub         = new("Pub"             ,"You've entered the campus pub. It's a cozy place, with a few students chatting over drinks. There's a bar near you and some pool tables at the far end.");
 
-            hallway1    = new("Hallway"         , "You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
+            hallway1    = new("Hallway1"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
 
-            office      = new("Office"          , "You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
+            office      = new("Office"          ,"You've entered what seems to be an administration office. There's a large desk with a computer on it, and some bookshelves lining one wall.");
 
             canteen     = new("Canteen"         ,"You step into the bustling canteen, and the aroma of sizzling meats and hearty soups immediately envelops you.The room is alive with the chatter of fellow adventurers, their laughter mingling with the clinking of mugs and plates.");
 
-            hallway2    = new("Hallway"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
+            hallway2    = new("Hallway2"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
 
-            hallway3    = new("Hallway"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
+            hallway3    = new("Hallway3"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
 
             workshop    = new("Workshop"        ,"You enter the engineering workshop, a realm of creativity and innovation. The air is filled with the scent of metal, the faint whir of machinery, and the occasional sizzling sound of welding. The workshop is a symphony of activity, with engineers and students huddled over workbenches, sketching designs, and fine-tuning intricate machinery.");
 
@@ -78,8 +78,6 @@ namespace WorldOfZuul
             theatre.SetExits(null, null,office,outside);
 
             pub.SetExits(null, outside,class1,null);
-
-            lab.SetExits(library, hallway3, null, null);
 
             office.SetExits(theatre,null,office,null);
 
@@ -103,14 +101,15 @@ namespace WorldOfZuul
             // Add rooms to the chapter's room list
             Rooms.AddRange(new List<Room>() {outside,class1,lab,library,canteen,hallway3,hallway2,hallway1,workshop,office,pub,theatre});
 
-
+            Item showel = new Item("showel" , " hellow wana dig a hole");
             // Create Quests
             Quest findDataQuest = new Quest("Find Data", "Locate the missing data.");
             Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
-
+            
             // Create Tasks and associate them with quests
             //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
+            Task hallwaytask = new Task("hallwaytask","kid is crying",findDataQuest,hallway1,kidCrying,null,showel);
 
 
             // Add quest to Chpter list
@@ -127,6 +126,21 @@ namespace WorldOfZuul
 
         }
 
+        private int kidCrying()
+        {
+            Console.WriteLine("do you want to help the kid?");
+            Console.WriteLine("y/n?");
+            string awnser = Console.ReadLine().ToLower();
+            if (awnser == "y")
+            {
+                return 5;
+            }
+            else
+            {
+                return -5;
+            }
+        }
+
         // 
         private int FindDataTaskAction()
         {
@@ -141,9 +155,91 @@ namespace WorldOfZuul
             // Additional logic for completing the task
             return 10;
         }
+       public void showMap(Room currentRoom)
+        {
+            string class1 = "      ";
+            string lab = "   ";
+            string hallway1 = "        ";
+            string hallway2 = "        ";
+            string hallway3 = "        ";
+            string pub = "   ";
+            string outside = "       ";
+            string canteen = "       ";
+            string theatre = "       ";
+            string workshop = "        ";
+            string office = "      ";
+            string library="        ";
 
-        public void showMap(Room currentRoom){
+            // Mark the current room
+            switch (currentRoom.ShortDescription)
+            {
+                case "Class1":
+                    class1 = "*You*";
+                    break;
+                case "Theatre":
+                    theatre = "*You*";
+                    break;
+                case "Outside":
+                    outside = "*You*";
+                    break;
+                case "Lab":
+                    lab = "*You*";
+                    break;
+                case "Workshop":
+                    workshop = "*You*";
+                    break;
+                case "Pub":
+                    pub = "*You*";
+                    break;
+                case "Hallway1":
+                    hallway1 = "*You*";
+                    break;
+                case "Hallway2":
+                    hallway2 = "*You*";
+                    break;
+                case "Hallway3":
+                    hallway3 = "*You*";
+                    break;
+                case "Office":
+                    office = "*You*";
+                    break;
+                case "Canteen":
+                    canteen = "*You*";
+                    break;
+                case "Library":
+                    library = "*You*";
+                    break;
+            }
 
+            string map = $@"
+          ┌───────────┐   ┌───────────┐  ┌────────────┐
+          │           │   │           │  │            │
+          │  Theatre  │───│  Outside  ├──┤    Pub     │
+          │ {theatre} │   │{outside}  │  │   {pub}    │
+          └───┬───────┘   └───┬───────┘  └───┬────────┘
+              │               │              │
+          ┌───┴───────┐   ┌───┴────────┐  ┌──┴─────────┐
+          │           │   │            │  │            │    
+          │  Office   │───┤  Hallway1  ├──┤   Class    │  
+          │  {office} │   │ {hallway1} │  │  {class1}  │
+          └───┬───────┘   └───┬────────┘  └──┬─────────┘
+              │               │              │
+          ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
+          │           │   │           │  │            │        
+          │  Canteen  ├───┤  Hallway2 ├──┤  Library   │
+          │  {canteen}│   │ {hallway2}│  │ {library}  │
+          └───┬───────┘   └───┬───────┘  └───┬────────┘
+              │               │              │
+          ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
+          │           │   │           │  │            │
+          │  Workshop │───│ Hallway3  ├──┤    Lab     │
+          │{workshop} │   │{hallway3} │  │   {lab}    │
+          └───────────┘   └───────────┘  └────────────┘
+
+
+                        ";
+
+            Console.WriteLine(map);
         }
     }
 }
