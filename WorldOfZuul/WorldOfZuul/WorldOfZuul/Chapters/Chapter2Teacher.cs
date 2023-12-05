@@ -99,7 +99,7 @@ namespace WorldOfZuul
 
             Item showel = new Item("showel" , " hellow wana dig a hole");
             // Create Quests
-            Quest Helpkids = new Quest("Help the kids around the school");
+            Quest Helpkids = new Quest("Help the kids around the school","");
             Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
             
             // Create Tasks and associate them with quests
