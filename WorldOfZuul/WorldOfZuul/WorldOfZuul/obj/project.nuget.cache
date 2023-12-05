@@ -1,15 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "VaowuPZW77LfQZNfTFrGOWsBBfSJNOKfzqYXxO9B5dA9oSPb8dlcGwNmhuckk5/CejzD/lN2NeCpE2S9utpE7Q==",
+  "dgSpecHash": "dkg50S7VP372veBxSyfcRsL+G76rnQ7gP1hz573hPLFp9JDOqAeKdVflX0DXi5CwW7oeMuE9nj3aO/S9GGYJRQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
-  "expectedPackageFiles": [],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "projectFilePath": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.22\\microsoft.netcore.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.22\\microsoft.windowsdesktop.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.22\\microsoft.aspnetcore.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.22\\microsoft.netcore.app.host.win-x64.6.0.22.nupkg.sha512"
+  ],
+  "logs": []
 }

@@ -349,6 +349,10 @@ command list for see:
                    {
 
                     Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.");
+                    if (task.RequiredItem.Description != null)
+                    {
+                        Console.WriteLine($"{task.RequiredItem.Description}");
+                    }
                    }
                     Thread.Sleep(10000);
                     Console.Clear();
