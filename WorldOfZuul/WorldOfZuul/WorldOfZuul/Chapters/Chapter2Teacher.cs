@@ -103,7 +103,7 @@ namespace WorldOfZuul
             // Add rooms to the chapter's room list
             Rooms.AddRange(new List<Room>() {outside,class1,lab,library,canteen,hallway3,hallway2,hallway1,workshop,office,pub,theatre});
 
-
+            Item showel = new Item("showel" , " hellow wana dig a hole");
             // Create Quests
             Quest findDataQuest = new Quest("Find Data", "Locate the missing data.");
             Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
@@ -111,7 +111,7 @@ namespace WorldOfZuul
             // Create Tasks and associate them with quests
             //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
-
+            Task hallwaytask = new Task("hallwaytask","kid is crying",findDataQuest,hallway1,kidCrying,null,showel);
 
             // Add quest to Chpter list
             //Quests.Add(findDataQuest);
@@ -125,6 +125,18 @@ namespace WorldOfZuul
             //findDataQuest.AddTask(findDataTask);
             //solvePuzzleQuest.AddTask(solvePuzzleTask);
 
+        }
+
+        private int kidCrying(){
+
+            Console.WriteLine("do you want to help the kid?");
+        Console.WriteLine("y/n?");
+        string awnser = Console.ReadLine().ToLower();
+        if (awnser == "y"){
+            return 5;
+        }else{
+            return -5;
+        }
         }
 
         // 
