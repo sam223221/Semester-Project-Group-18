@@ -9,6 +9,8 @@ namespace WorldOfZuul
         Room GetStartRoom();
         void CreateRoomsAndQuests();
         void ShowIntroduction();
+        void showMap(Room currentRoom);
+        string PlayerScore();
     }
 
 

@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
+=======
+    "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+        "projectName": "WorldOfZuul",
+        "projectPath": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+        "packagesPath": "C:\\Users\\samgl\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
+>>>>>>> d9eb64d5ed0279e67ad4d1d1044c0944713724ff
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",

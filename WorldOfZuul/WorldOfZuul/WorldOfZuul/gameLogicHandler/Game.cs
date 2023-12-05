@@ -1,18 +1,19 @@
-﻿namespace WorldOfZuul
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace WorldOfZuul
 {
     public class Game 
     {
         private Room? currentRoom;
         private Room? previousRoom;
-        private IChapter? currentChapter; // Declare as nullable if it can be null
-        private List<IChapter> unlockedChapters;
         private Parser parser = new();
+        private IChapter? currentChapter; // Declare as nullable if it can be null
         private bool continuePlaying = true;
-        private List<Quest> allQuests = new List<Quest>();
+        private List<Quest> currentChapterQuests = new List<Quest>();
         public int SocialScore { get; private set; }
+        private List<IChapter> unlockedChapters;
         private List<Item> inventory;
         private Random random = new();
-
 
         public Game()
         {
@@ -26,36 +27,31 @@
         private void StartChapter(IChapter chapter)
         {
             currentChapter = chapter;
-            currentRoom = currentChapter.GetStartRoom();
+            currentChapter.CreateRoomsAndQuests();
             currentChapter.ShowIntroduction();
+            currentRoom = currentChapter.GetStartRoom();
             previousRoom = null;
-        }
-
-           private void UnlockChapter(IChapter chapter)
-        {
-            allQuests.Clear();
-        
-            unlockedChapters.Add(chapter);
-            
+            currentChapterQuests.Clear();
             foreach (var quest in chapter.Quests)
             {
-                allQuests.Add(quest);
+                
+                currentChapterQuests.Add(quest);
             }
         }
 
+           private void UnlockChapter(IChapter chapter) => unlockedChapters.Add(chapter);
 
 
 
 
 
 
-        // ***vv here is where the game logic is vv***
+
+        // *** here is where the game logic is ***
         public void Play()
         {
-
-            PrintWelcome();
+            Console.Clear();
             Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
-
             while (continuePlaying)
             {
 
@@ -72,10 +68,10 @@
                     continue;
                 }
                 
-                //now we know that there is a input! we want to check if its valid
+                //check if its a valid command
                 Command? command = parser.GetCommand(input);
 
-                // check if input is valid
+                // check if input retuned null
                 if (command == null)
                 {
                     Console.WriteLine("I don't know that command, plese try somthing else :).");
@@ -83,7 +79,7 @@
                 }
 
 
-
+                Console.Clear();
                 ProcessCommand(command);
 
                 
@@ -101,10 +97,11 @@
         private void ProcessCommand(Command command)
         {
 
-            
+            Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+
             switch (command.Name)
             {
-
+                
                 // Look command is processed here
                 case "look":
                     Console.WriteLine(currentRoom?.LongDescription);
@@ -114,10 +111,13 @@
                     if (previousRoom == null)
                         Console.WriteLine("You can't go back from here!");
                     else
+                    {
                         currentRoom = previousRoom;
-                        Console.Clear();
-                        Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
                         previousRoom = null;
+                        AnimateTravel(5000);
+
+                    }
+
                     break;
 
                 // diractions command is processed here
@@ -141,23 +141,47 @@
                     break;
 
                 case "see":
-                    if (command.SecondWord == "task" || command.SecondWord == "tasks")
+                    switch (command.SecondWord)
                     {
-                        ShowRoomTasks();
+                        case "task":
+                        case "tasks":
+                            ShowRoomTasks();
+                            break;
 
-                    }else if(command.SecondWord == "quest" || command.SecondWord == "quests")
-                    {
-                        ShowQuests();
-                    }else if(command.SecondWord == "socialscore")
-                    {
-                        ShowSocialScore();
-                    }else if(command.SecondWord == "inventory")
-                    {
-                        ShowInventory();
-                    }else
-                    {
-                    Console.WriteLine("you forgot to ask what you want to see or that is a invalid comand plese try again");
-                        
+                        case "quest":
+                        case "quests":
+                            ShowQuests();
+                            break;
+
+                        case "socialscore":
+                            ShowSocialScore();
+                            break;
+
+                        case "inventory":
+                            ShowInventory();
+                            break;
+
+                        case "map":
+                            currentChapter.showMap(currentRoom);
+                            break;
+
+                        case null:
+                            
+                            Console.WriteLine(@"
+                            
+command list for see:
+
+~ task
+~ quest
+~ socialscore
+~ inventory
+~ map
+                            ");
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid command or missing second word. Please try again.");
+                            break;
                     }
                     break;
 
@@ -177,17 +201,15 @@
                     {
                     UnlockNextChapter();
                     PromptForNextChapter();
+
                     }else
                     {
                         Console.WriteLine("you are not done with all your quests! pleas do them first :)");
                     }
                 
-                    Console.WriteLine("you forgot to ask what you want to see or that is a invalid comand plese try again");
 
                 }
                 break;
-
-
                 default:
                     Console.WriteLine("I don't know that command, plese try somthing else :)\n");
                     break;
@@ -202,6 +224,9 @@
             if (currentChapter is Chapter4Engineer)
             {
                 UnlockChapter(new ChapterExample());
+            }
+            if (currentChapter is ChapterExample)
+            {
                 UnlockChapter(new Chapter2Teacher());
             }
             // Add more conditions for other chapters
@@ -210,7 +235,7 @@
         private bool CanAdvanceToNextChapter()
         {
             // Iterate through all quests
-            foreach (var quest in allQuests)
+            foreach (var quest in currentChapterQuests)
             {
                 // Check if all tasks related to this quest are completed
                 if (!AreAllTasksCompletedForQuest(quest))
@@ -219,6 +244,32 @@
                 }
             }
             return true;
+            
+        }
+        public void ChooseChapter()
+        {
+            string[] chapterList = new string[unlockedChapters.Count];
+
+            for (int i = 0; i < unlockedChapters.Count; i++)
+            {
+                chapterList[i] = $"{i + 1}. {unlockedChapters[i].GetType().Name}";
+            }
+
+            string choice = "Choose a chapter:";
+            int chapterIndex = InteractiveMenu.MultichoiceQuestion(choice, chapterList);
+
+            // Ensure the selected index is within the range
+            if (chapterIndex >= 0 && chapterIndex <= unlockedChapters.Count)
+            {
+                StartChapter(unlockedChapters[chapterIndex]);
+                Console.Clear();
+                Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice.");
+            }
         }
 
         public void AddItemToInventory(Item item)
@@ -246,7 +297,7 @@
         private bool AreAllTasksCompletedForQuest(Quest quest)
         {
             // Iterate through all rooms to find tasks related to the quest
-            foreach (var Quest in allQuests)
+            foreach (var Quest in currentChapterQuests)
             {
                 if(!Quest.IsCompleted)
                 {
@@ -259,25 +310,6 @@
 
 
 
-        public void ChooseChapter()
-        {
-            Console.WriteLine("Choose a chapter:");
-            for (int i = 0; i < unlockedChapters.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {unlockedChapters[i].GetType().Name}");
-            }
-
-            string? choice = Console.ReadLine();
-            int chapterIndex;
-            if (int.TryParse(choice, out chapterIndex) && chapterIndex > 0 && chapterIndex <= unlockedChapters.Count)
-            {
-                StartChapter(unlockedChapters[chapterIndex - 1]);
-            }
-            else
-            {
-                Console.WriteLine("Invalid choice.");
-            }
-        }
 
         private void PromptForNextChapter()
         {
@@ -305,15 +337,22 @@
                     
                     int scoreChange = task.Execute(this);
                     SocialScore += scoreChange;
-                    Console.WriteLine($"Task '{task.Name}' executed. Social score changed by {scoreChange}. Current social score: {SocialScore}");
+                    Console.WriteLine($"Task '{task.Name}' executed.\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n");
 
                     if (task.RelatedQuest.AreAllTasksCompleted())
                     {
                         task.RelatedQuest.IsCompleted = true;
-                        Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.");
+                        Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.\n");
                     }
-                   }
+                   
+                   }else
+                   {
+
                     Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.");
+                   }
+                    Thread.Sleep(10000);
+                    Console.Clear();
+                    Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
                     return;
                 }
             }
@@ -326,6 +365,7 @@
                 private void ShowSocialScore()
         {
             Console.WriteLine($"Your current social score is: {SocialScore}");
+            Console.WriteLine(currentChapter.PlayerScore());
         }
 
         private void ShowRoomTasks()
@@ -348,7 +388,7 @@
 
         private void ShowQuests()
         {
-            foreach (var quest in allQuests)
+            foreach (var quest in currentChapterQuests)
             {
                 Task currentTask = quest.GetCurrentTask();
                 if (currentTask != null)
@@ -373,11 +413,10 @@
                 Room nextRoom = currentRoom.Exits[direction];
                 if (nextRoom.CanEnter(inventory))
                 {
-                    Console.Clear();
                     previousRoom = currentRoom;
                     currentRoom = nextRoom;
                     AnimateTravel(5000); 
-                    Console.WriteLine(TextArtManager.GetTextArt(currentRoom.ShortDescription));
+                    
                 }
                 else
                 {
@@ -392,12 +431,13 @@
 
         private void AnimateTravel(int totalDurationMilliseconds)
         {
+            Console.Clear();
             string[] sequence = { "/", "-", "\\", "|" ,"|"}; // Simple spinning line animation
             int cycles = totalDurationMilliseconds/1000;
             string[] facts =  
             {
              "Sheep make a bleating sound. A baby lamb can identify its mother by her bleat.",
-             "The goat is among the cleanest of animals, and is a much more selective feeder than cows, sheep, pigs, chickens and even dogs.\n Goats do eat many different species of plants, but do not want to eat food that has been contaminated or that has been on the floor or the ground.",
+             "The goat is among the cleanest of animals, and is a much more selective feeder than cows, sheep, pigs, chickens and even dogs.\nGoats do eat many different species of plants, but do not want to eat food that has been contaminated or that has been on the floor or the ground.",
              "Cows have a memory of about three years.",
              "Cows are social animals who form bonds with each other. In a herd of cows, many will form cliques together.",
              "Female sheep are called ewes, male sheep are called rams, and baby sheep are called lambs.",
@@ -406,7 +446,7 @@
              "Some breeds of chickens can lay colored eggs. The Ameraucana and Araucana can lay eggs of green or blue."
             };
 
-            Console.WriteLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}");
+            Console.WriteLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}\n");
             for (int i = 0; i < cycles; i++)
             {
                 foreach (var s in sequence)
@@ -417,6 +457,8 @@
                 }
             }
             Console.Clear();
+            Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+
 
         }
 
@@ -434,14 +476,17 @@
 
         private static void PrintHelp()
         {
-            Console.WriteLine("You are lost. You are alone. You wander");
-            Console.WriteLine("around the university.");
+            Console.WriteLine("I see that you need help");
+            Console.WriteLine("here are the comands that you can use");
             Console.WriteLine();
-            Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
-            Console.WriteLine("Type 'look' for more details.");
-            Console.WriteLine("Type 'back' to go to the previous room.");
-            Console.WriteLine("Type 'help' to print this message again.");
-            Console.WriteLine("Type 'quit' to exit the game.");
+            Console.WriteLine("To navigate type 'north', 'south', 'east', 'west'");
+            Console.WriteLine();
+            Console.WriteLine("~ Do     :   executes the task you want to do, demo 'do (task name)'");
+            Console.WriteLine("~ Look   :   Gives you a description of your surrounding");
+            Console.WriteLine("~ Back   :   Makes you go back to the room you just came from");
+            Console.WriteLine("~ See    :   Type 'see' to see what comands are related to it");
+            Console.WriteLine("~ Help   :   To see this message XD");
+            Console.WriteLine("~ Quit   :   This will end the game :(");
         }
     }
 }
