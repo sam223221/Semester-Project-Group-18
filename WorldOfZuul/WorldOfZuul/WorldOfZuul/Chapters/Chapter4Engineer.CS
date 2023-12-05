@@ -49,7 +49,10 @@ namespace WorldOfZuul
         {
 
             //creat Items
-            Item WaterSample = new Item("Watersample","this is a water sample from the river that is poluted");
+            Item WaterSample = new Item("Watersample","You need to go to the river and take a sample of the water");
+            Item WaterAnalyzis = new Item("Analyzis paper for RiverWater", "you need to analyze the river water");
+            Item FactoryInfo = new Item("Abandon Factory", "Go into the library and read about the factory");
+            Item ResearchPaper = new Item("Research paper of the water polution","you need to do the research before you can start implementing");
 
 
             // Initialize rooms
@@ -76,18 +79,17 @@ namespace WorldOfZuul
 
             // Creat quests
             // every quest has to have a sort and a long describtun
-            Quest waterTreatmentQuest  = new Quest("Data", "Locate the missing data in the lab.");
-            Quest housingQutest = new Quest("Housing Quest", "in this quest you need to research and chose what material\n and show how to build new modern homes");
-            Quest electricityQuest = new Quest("Electricity Quest","you need to research and find good solution to new and renewible energy, that is sustanible");
+            Quest waterTreatmentQuest   = new Quest("Data", "Locate the missing data in the lab.");
+            Quest housingQutest         = new Quest("Housing Quest", "in this quest you need to research and chose what material\n and show how to build new modern homes");
+            Quest electricityQuest      = new Quest("Electricity Quest","you need to research and find good solution to new and renewible energy, that is sustanible");
             
             //initialize tasks
-            Task investigateRiver = new Task("RiverInvestigation","there is some polution in this river",waterTreatmentQuest,River,InvestigateRiver,null,WaterSample);
+            Task investigateRiver   = new Task("RiverInvestigation","there is some polution in this river",waterTreatmentQuest,River,InvestigateRiver,null,WaterSample);
+            Task interview          = new Task("Interview"," talk to people around to see what what happend", waterTreatmentQuest,villageCenter,VillageCenterInterview,null);
+            Task abandonFactory     = new Task("AbandonFactiory"," aboandon factory",waterTreatmentQuest,AbandonFactory,AbandonFactoryVisit,FactoryInfo);
             
             
-<<<<<<< HEAD
-=======
             
->>>>>>> 884c20e51230e474b9fe74b0c1696d8f2680b3f1
             // Add quests to the chapter's quest list
             Quests.Add(waterTreatmentQuest);
             Quests.Add(housingQutest);
@@ -123,6 +125,16 @@ namespace WorldOfZuul
 
 
         /****************** down form here are only tasks*********************/
+
+
+        private int AbandonFactoryVisit()
+        {
+            return 5;
+        }
+        private int VillageCenterInterview()
+        {
+            return 4;
+        }
 
         private int InvestigateRiver()
         {
