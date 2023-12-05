@@ -13,3 +13,11 @@ C:\Users\maxdk\source\repos\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\refint\Wo
 C:\Users\maxdk\source\repos\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.pdb
 C:\Users\maxdk\source\repos\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.genruntimeconfig.cache
 C:\Users\maxdk\source\repos\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\ref\WorldOfZuul.dll
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.AssemblyInfoInputs.cache
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.AssemblyInfo.cs
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.csproj.CoreCompileInputs.cache
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.sourcelink.json
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.dll
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\refint\WorldOfZuul.dll
+C:\Users\ksuch\OneDrive\Pulpit\Sem. Project NEW\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Release\net6.0\WorldOfZuul.pdb
