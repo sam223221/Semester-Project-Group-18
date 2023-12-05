@@ -49,7 +49,7 @@ namespace WorldOfZuul
         {
 
             //creat Items
-            Item officeKey = new Item("","");
+            Item WaterSample = new Item("Watersample","this is a water sample from the river that is poluted");
 
 
             // Initialize rooms
@@ -76,32 +76,41 @@ namespace WorldOfZuul
 
             // Creat quests
             // every quest has to have a sort and a long describtun
-            Quest labQuest  = new Quest("Data", "Locate the missing data in the lab.");
-
+            Quest waterTreatmentQuest  = new Quest("Data", "Locate the missing data in the lab.");
+            Quest housingQutest = new Quest("Housing Quest", "in this quest you need to research and chose what material\n and show how to build new modern homes");
+            Quest electricityQuest = new Quest("Electricity Quest","you need to research and find good solution to new and renewible energy, that is sustanible");
+            
             //initialize tasks
-            //Task(shortDec, longDec, What quest the task relates to , what room the task has to go in, this is to exicute, if the task need a key to run);
-            Task labTask    = new Task("question"   , "awnser a tricky question"                , labQuest  , lab       , QuestionTask  , officeKey );
-            Task officeTask = new Task("Key"        , "this is the key for the question task"   , labQuest  , AbandonFactory    , FindMyKey     , null      , officeKey);
+            Task investigateRiver = new Task("RiverInvestigation","there is some polution in this river",waterTreatmentQuest,River,InvestigateRiver,null,WaterSample);
             
             
+<<<<<<< HEAD
+            
+=======
+>>>>>>> f6a7252aed875932454bd7cbe8028f3834c7320d
             // Add quests to the chapter's quest list
-            Quests.Add(labQuest);
-
+            Quests.Add(waterTreatmentQuest);
+            Quests.Add(housingQutest);
+            Quests.Add(electricityQuest);
+            
             // add task to the quest list
-            labQuest.AddTask(officeTask);
-            labQuest.AddTask(labTask);
+            waterTreatmentQuest.AddTask(investigateRiver);
+
 
             // add task to the room
-            lab.AddTask(labTask);
-            AbandonFactory.AddTask(officeTask);
-                
-
+            River.AddTask(investigateRiver);
+            villageCenter.AddTask(investigateRiver);
         
             // adding thigs to rooms
-            Rooms.Add(TownHall);
-            Rooms.Add(villageCenter);
-            Rooms.Add(Library);
+            Rooms.Add(HistoricalArchive);
+            Rooms.Add(construtionSite);
             Rooms.Add(AbandonFactory);
+            Rooms.Add(villageCenter);
+            Rooms.Add(ModernHome);
+            Rooms.Add(TownHall);
+            Rooms.Add(DesignHQ);
+            Rooms.Add(SunStone);
+            Rooms.Add(Library);
             Rooms.Add(River);
             Rooms.Add(lab);
 
@@ -115,16 +124,20 @@ namespace WorldOfZuul
 
         /****************** down form here are only tasks*********************/
 
-
+        private int InvestigateRiver()
+        {
+            return 5;
+        }
 
 
         private int QuestionTask()
         {
 
-            
+                
             string header = "Here's a tricky question for you:\nWhat is the capital of France?";
             string[] option = {"1. Paris","2. London","3. Berlin"};
             
+            while(true){
             int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option); 
 
             switch (selectedIndex)
@@ -132,8 +145,7 @@ namespace WorldOfZuul
                 case 0:
                     Console.WriteLine("Correct! Paris is the capital of France.\n");
 
-                    return 10;
-                
+                    return 10;                 
                 case 1:
                 case 2:
                     Console.WriteLine("That's not correct.\n");
@@ -142,6 +154,8 @@ namespace WorldOfZuul
                 default:
                     Console.WriteLine("Invalid choice.");
                     return 0;
+            }
+            
             }
         }
 

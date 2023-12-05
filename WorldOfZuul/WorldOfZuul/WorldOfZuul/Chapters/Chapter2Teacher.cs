@@ -110,7 +110,10 @@ namespace WorldOfZuul
             //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
             Task hallwaytask = new Task("hallwaytask","kid is crying",findDataQuest,hallway1,kidCrying,null,showel);
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6a7252aed875932454bd7cbe8028f3834c7320d
 
             // Add quest to Chpter list
             //Quests.Add(findDataQuest);
@@ -126,6 +129,7 @@ namespace WorldOfZuul
 
         }
 
+<<<<<<< HEAD
         private int kidCrying()
         {
             Console.WriteLine("do you want to help the kid?");
@@ -139,6 +143,18 @@ namespace WorldOfZuul
             {
                 return -5;
             }
+=======
+        private int kidCrying(){
+
+            Console.WriteLine("do you want to help the kid?");
+        Console.WriteLine("y/n?");
+        string awnser = Console.ReadLine().ToLower();
+        if (awnser == "y"){
+            return 5;
+        }else{
+            return -5;
+        }
+>>>>>>> f6a7252aed875932454bd7cbe8028f3834c7320d
         }
 
         // 

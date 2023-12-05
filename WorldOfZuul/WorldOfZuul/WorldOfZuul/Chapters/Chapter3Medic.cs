@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace WorldOfZuul
 {
     public class Chapter3Medic : IChapter // Ensure it implements IChapter
     {
-        
-        public List<Room> Rooms { get; private set; } /*POKOJE*/
-        
+        public List<Room> Rooms { get; private set; }
         public List<Quest> Quests { get; set; }
         private Room? hospital;
         private Room? VillageCenter;
@@ -20,21 +19,19 @@ namespace WorldOfZuul
         //private Room? lab;
         private int medicScore = 0;
 
-
+        MedicIntroduction medicIntroduction = new MedicIntroduction();
 
         public Chapter3Medic()
         {
             Rooms = new List<Room>();
             Quests = new List<Quest>();
-;
         }
 
         public void ShowIntroduction()
         {
-            
+            medicIntroduction.Intro();
 
-
-
+            Console.ReadKey();
         }
 
         public Room GetStartRoom() => VillageCenter;
@@ -60,39 +57,39 @@ namespace WorldOfZuul
 
 
             // Set exits
+
             VillageCenter.SetExits(church, forest, market, hospital);
             
-            church.SetExit("south", VillageCenter);
+            church.SetExit("morth", VillageCenter);
             
-            hospital.SetExit("west", VillageCenter);
+            hospital.SetExit("east", VillageCenter);
             
-            market.SetExit("north", VillageCenter);
+            market.SetExit("south", VillageCenter);
             
-            forest.SetExit("east", VillageCenter);
-            
+            forest.SetExit("west", VillageCenter);
 
+            /***************** QUEST SECTION ****************/
 
-            // Create quests
-            // every quest has to have a sort and a long describtun
-            //Quest labQuest = new Quest("Data", "Locate the missing data in the lab.");
+            //Create quest (short and long description)
 
-            // Initialize tasks
-            //Task(shortDec, longDec, What quest the task relates to , what room the task has to go in, this is to exicute, if the task need a key to run);
-            //Task labTask = new Task("question", "awnser a tricky question", labQuest, lab, QuestionTask, officeKey);
-            //Task officeTask = new Task("Key", "this is the key for the question task", labQuest, office, FindMyKey, null, officeKey);
+            Quest ForestQuest = new Quest("Battle", "Defeat the sickness, You've received information from the mayor of the village " +
+                                                                          "that the source of the disease was in the forest. You should nip this in the bud...");
 
+            //Initialize tasks
 
-            // Add quests to the chapter's quest list
-            //Quests.Add(labQuest);
+            Task DefeatingSickness = new Task("Sickness", "You need to free the villagers", ForestQuest, forest, BattleWithSickness);
+
+            //Add quests to the chapters quests lists
+
+            Quests.Add(ForestQuest);
 
             // Add task to the quest list
-            //labQuest.AddTask(officeTask);
-            //labQuest.AddTask(labTask);
 
-            // Add task to the room
-            //lab.AddTask(labTask);
-            //office.AddTask(officeTask);
+            ForestQuest.AddTask(DefeatingSickness);
 
+            //Add task to the room
+
+            forest.AddTask(DefeatingSickness);
 
 
             // Adding thigs to rooms
@@ -109,43 +106,15 @@ namespace WorldOfZuul
 
 
 
-        /****************** Down from here are only tasks *********************/
+        /****************** TASK SECTION *********************/
 
-
-
-
-        private int QuestionTask()
+        private int BattleWithSickness()
         {
 
-
-            string header = "Here's a tricky question for you:\nWhat is the capital of France?";
-            string[] option = { "1. Paris", "2. London", "3. Berlin" };
-
-            int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option);
-
-            switch (selectedIndex)
-            {
-                case 0:
-                    Console.WriteLine("Correct! Paris is the capital of France.\n");
-
-                    return 10;
-
-                case 1:
-                case 2:
-                    Console.WriteLine("That's not correct.\n");
-                    return -5;
-
-                default:
-                    Console.WriteLine("Invalid choice.");
-                    return 0;
-            }
-        }
-
-        public int FindMyKey()
-        {
-            Console.WriteLine("you found my key thanks\n");
             return 5;
         }
+        
+        /****************** MAP SECTION *********************/
 
         public void showMap(Room currentRoom)
         {
@@ -206,6 +175,117 @@ namespace WorldOfZuul
 
             Console.WriteLine(map);
         }
+
+        /****************** INTRODUCTION *********************/
+
+        public class MedicIntroduction
+        {
+            public bool IntroBool = true;
+
+            public string? MedicName = "";
+
+            public void Intro()
+            {
+                while(IntroBool)
+                {
+                    Intro1();
+
+
+                    IntroBool = false;
+                }
+            }
+
+            void Intro1()
+            {
+                TitleAnimation("The Medic");
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                Console.WriteLine("\nCHAPTERTextArtHERE\n");
+
+                PrintText("\nBefore you start playing turn on fullscreen\n"+
+                 "\nHello Brave Adventurer! In Chapter III, you're the important Medic character. You're not just playing a game... " +
+                 "\nYou're a healer, life saver and you are bringing hope to your friends and whole village." +
+                 "\nGood luck, Medic! I hope you will save lots of lives and win many battles!" +
+                 "\nFirstly you need to choose your hero name.\n");
+
+                string hero_name = GetHeroName();
+
+                Console.WriteLine("\nHello " + hero_name + "! This name is perfect. Now let's begin journey!");
+
+                Console.WriteLine("\nPress any key to continue...");
+
+                PressKey();
+
+
+
+            }
+
+            void Intro2()
+            {
+
+
+            }
+
+            void Intro3()
+            {
+
+
+            }
+        }
+
+
+
+        /******************* FUNCTIONALITY METHODS SECTION *****************/
+
+        private static void PrintText(string text, int speed = 40)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                System.Threading.Thread.Sleep(speed);
+            }
+            Console.WriteLine();
+        }
+
+        private static string GetHeroName()
+        {
+            String hero_name;
+
+            do
+            {
+                Console.Write
+                ("\nName of your hero must consist minimum 3 and a maximum 9 characters...");
+                Console.Write
+                ("\nNow to begin your journey, type in your hero name: ");
+
+                hero_name = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(hero_name) || hero_name.Length < 3 || hero_name.Length > 9)
+                {
+                    Console.Write("\nType name correctly, please... \nRemember the requirements are 3-9 characters...\n");
+                }
+            } while (string.IsNullOrEmpty(hero_name) || hero_name.Length < 3 || hero_name.Length > 9);
+
+            return hero_name;
+        }
+        private static void PressKey()
+        {
+            ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+            Console.Clear();
+        }
+        static void TitleAnimation(string titleText)
+        {
+            Console.Title = "";
+
+            foreach (char character in titleText)
+            {
+                Console.Title += character;
+                Thread.Sleep(100);
+            }
+        }
+
+
+
     }
 }
 
