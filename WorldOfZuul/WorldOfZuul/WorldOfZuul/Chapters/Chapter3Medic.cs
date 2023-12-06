@@ -47,6 +47,8 @@ namespace WorldOfZuul
 
             Item Herbs = new Item("Fragrant Herbs", "This herbs will come in handy to brew potions...");
 
+            Item BasicInformations = new Item("Informations", "Now you know what is going in the village");
+
 
             // Initialize rooms
             VillageCenter = new Room("Village Center", "\nYou stand in the heart of a charming village. Cobblestone paths lead in different directions. To the east is a bustling market, to the south is a quaint church, and to the west is a peaceful forest.");
@@ -82,6 +84,8 @@ namespace WorldOfZuul
 
             //Create quest (short and long description)
 
+            Quest VillageTalk = new Quest("Let's talk about the Village", "You came to this, but really you don't know anything about it yes? Go and talk with the locals...");
+            
             Quest ExploreTheForest = new Quest("Explore Forest", "Defeat the sickness, You've received information from the mayor of the village " +
                                                                       "that the source of the disease was in the forest. You should nip this in the bud...");
 
@@ -92,7 +96,9 @@ namespace WorldOfZuul
 
             //Initialize tasks
 
-            Task DefeatingSickness = new Task("Sickness", "You need to free villagers from the sickness. Source of the virus comes from the forest", ExploreTheForest, forest, BattleWithSickness, null, BookOfHerbGathering);
+            Task GatheringBasicInformations = new Task("Informations", "You're here, but it seems you're not quite in the loop. Best go chat with the folks around here", VillageTalk, VillageCenter, VillageCenterInterview, null, BasicInformations);
+
+            Task DefeatingSickness = new Task("Sickness", "You need to free villagers from the sickness. Source of the virus comes from the forest", ExploreTheForest, forest, BattleWithSickness, BasicInformations, BookOfHerbGathering);
 
             Task GatherHerbs = new Task("Herbs", "In forest you can find useful herbs, they will come in handy to brew potions!", ExploreTheForest, forest, HerbsGathering, BookOfHerbGathering, Herbs);
 
@@ -101,6 +107,11 @@ namespace WorldOfZuul
             //Add quests to the chapters quests lists
 
             Quests.Add(ExploreTheForest);
+            
+            Quests.Add(DeepCaveRescue);
+
+            Quests.Add(VillageTalk);
+
             Quests.Add(ChurchQuest);
 
             // Add task to the quest list
@@ -110,10 +121,14 @@ namespace WorldOfZuul
 
             ChurchQuest.AddTask(MedicalQuiz);
 
+            VillageTalk.AddTask(GatheringBasicInformations);
+
             //Add task to the room
 
             forest.AddTask(DefeatingSickness);
             forest.AddTask(GatherHerbs);
+
+            VillageCenter.AddTask(GatheringBasicInformations);
 
             church.AddTask(MedicalQuiz);
 
@@ -132,7 +147,101 @@ namespace WorldOfZuul
             return $@"Your Medic score is : {medicScore}";
         }
 
-        /****************** TASK SECTION *********************/
+        /****************** TALKING WITH LOCALS TASK **********************/
+        private int VillageCenterInterview()
+        {
+            string hero_name = GetHeroName();
+            bool gatheredAllInfo = false;
+            HashSet<string> infoCollected = new HashSet<string>();
+
+            string header = "You came to the village, go gather some informations? Who you want to talk with?";
+            string[] option = {
+                               "1. Mayor of the Village"
+                              ,"2. Old Man laying on the pavement"
+                              ,"3. Someone who is looking like Farmer"
+                              };
+
+            while (!gatheredAllInfo)
+            {
+                int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option);
+
+                switch (selectedIndex)
+                {
+                    case 0:
+                        if (!infoCollected.Contains("Mayor"))
+                        {
+                            Console.WriteLine("\nMayor: \nWelcome, kind medic! Our village is truly grateful for your selfless service. The health of our citizens is in your capable hands");
+                            Console.WriteLine("I'm Mayor Campbell, if you will need anything go talk to me! Our biggest problem so far is the virus, which is spreading at a dizzying pace. " +
+                                              "It's source is in the middle of the forest, please destroy it, we are powerless...");
+                            infoCollected.Add("Mayor");
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("You've already talked with Mayor... Go talk with others!");
+                        }
+                        break;
+                    case 1:
+                        if (!infoCollected.Contains("OldMan"))
+                        {
+                            Console.WriteLine("\nOld Man: \nHey there, Medic... It's tough around here. No money, empty stomachs, and no one to patch us up when we're sick. " +
+                                              "Feels like nobody notices us anymore. Glad you're here, though.");
+
+                            Console.WriteLine($"\nMedic {hero_name}: \nNo worries in couple weeks everything should be fine!");
+
+                            Console.WriteLine("\nOld Man: \nThank you very, very much");
+
+
+                            infoCollected.Add("OldMan");
+                        }
+                        else
+                        {
+                            Console.WriteLine("You've already talked with Old Man... Go talk with others!");
+                        }
+                        break;
+                    case 2:
+                        if (!infoCollected.Contains("Farmer"))
+                        {
+                            Console.WriteLine("\nFarmer: \nHey! It was tough with empty fields and growling stomachs, but this Hero Farmer came and fixed things up. " +
+                                "Now, thanks to him, we've got more food on the table. We're grateful for their help. " +
+                                "I hope that now you, like the previous hero, will save us from a difficult situation with health care.");
+
+                            Console.WriteLine($"\nMedic {hero_name}: \nI won't let you down, I'm here to help!");
+
+                            Console.WriteLine("\nFarmer: \nOn behalf of the entire village, we are grateful...");
+
+                            infoCollected.Add("Farmer");
+                        }
+                        else
+                        {
+                            Console.WriteLine("You've already talked with Farmer... Go talk with others!");
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("You can't to that! This choice is not valid.");
+                        break;
+                }
+                
+                Console.ReadKey();
+
+                if (infoCollected.Count >= 3)
+                {
+                    gatheredAllInfo = true;
+                }
+
+            }
+
+            Console.WriteLine("\nYou talked to everyone, with your current knowledge you can go and perform the tasks entrusted to you!");
+            
+            return 5;
+
+        }
+
+        /****************** BREWING POTIONS TASK *********************/
+
+
+
+        /****************** BATTLE WITH SICKNESS TASK *********************/
         private int BattleWithSickness()
         {
             // Medic stats
@@ -214,6 +323,7 @@ namespace WorldOfZuul
             }
         }
 
+        /****************** QUIZ IN CHURCH TASK *********************/
         private int QuizInChurch()
         {
             Console.WriteLine("Welcome to the Medic Quiz!");
@@ -301,6 +411,8 @@ namespace WorldOfZuul
                 return 0;
             }
         }
+
+        /***************** HERBS GATHERING TASK ***********************/
 
         private int HerbsGathering()
         {
@@ -454,8 +566,9 @@ namespace WorldOfZuul
             Console.WriteLine(map);
         }
 
-        /****************** INTRODUCTION *********************/
+        /****************** INTRODUCTION SECTION *********************/
 
+        //Encapsulated introduction
         public class MedicIntroduction
         {
             public bool IntroBool = true;
@@ -476,7 +589,6 @@ namespace WorldOfZuul
             void Intro1()
             {
                 TitleAnimation("The Medic");
-                Console.ForegroundColor = ConsoleColor.Green;
 
                 Console.WriteLine(TextArtManager.GetTextArt("MedicIntroChapter"));
 
@@ -511,8 +623,6 @@ namespace WorldOfZuul
             }
         }
 
-
-
         /******************* FUNCTIONALITY METHODS SECTION *****************/
 
         private static void PrintText(string text, int speed = 40)
@@ -525,7 +635,7 @@ namespace WorldOfZuul
             Console.WriteLine();
         }
 
-        private static string GetHeroName()
+        public static string GetHeroName()
         {
             String hero_name;
 
@@ -560,8 +670,6 @@ namespace WorldOfZuul
                 Thread.Sleep(100);
             }
         }
-
-
 
     }
 }
