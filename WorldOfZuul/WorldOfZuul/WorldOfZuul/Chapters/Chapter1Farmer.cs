@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace WorldOfZuul
 {
@@ -23,9 +24,9 @@ namespace WorldOfZuul
 
         public void ShowIntroduction()
         {
-         //Introduction
-         //   intro.PlayIntro();
-         // Console.ReadKey();
+            //Introduction
+            //intro.PlayIntro();
+            //Console.ReadKey();
         }
 
         public Room GetStartRoom() => village;
@@ -40,8 +41,13 @@ namespace WorldOfZuul
             Item sustFarmBasics = new Item("SustainableFarmingCourse", "Head to Water Mill to get it.");
             Item sustFarmCertificate = new Item("SustainableFarmingCertificate");
 
-            Item villageDialogueItem = new Item("to talk to the Villager");
-            Item investor = new Item("look around a little more");
+            Item villageDialogueItem = new Item("a talk with the Villager");
+            Item investor = new Item("a talk with the Investor");
+            Item solarpanelItem = new Item("solar panels");
+
+            Item lostanimalsInfo = new Item("information about lost animals");
+            Item lostanimalsAnimals = new Item("lost animals");
+            Item lostanimalsSnack = new Item("meat");
 
             // Initialize rooms
             village = new Room("Village", "you are at the center of your beautiful village!");
@@ -69,12 +75,14 @@ namespace WorldOfZuul
 
             Quest watermillQuest = new Quest("Sustainable Farming Wisdom", "Gather and test your knowledge about sustainable farming!");
 
+            Quest lakeQuest = new Quest("Lost Animals", "Rescue animals that got lost around the lake area!");
 
-            /* Initialize tasks public Task(string name, string description, Quest relatedQuest , Room room , TaskAction action, Item? requiredItem = null, Item? rewardItem = null)*/
+            // Initialize tasks public Task(string name, string description, Quest relatedQuest , Room room , TaskAction action, Item? requiredItem = null, Item? rewardItem = null)
 
             Task villagerDialogue = new Task("VillagerTalk", "Seems like someone is courious about your work...", villageQuest, village, VillageDialogue, sustFarmBasics, villageDialogueItem);
             Task mrInvestorDialogue = new Task("MrMicheal", "Friend of a friend?", villageQuest, village, MichealDialogue, villageDialogueItem, investor);
-            Task solarPanels = new Task("RenewableEnergy", "You need some chats...", villageQuest, village, SolarPanels, investor, null);
+            Task solarPanels = new Task("RenewableEnergy", "You need some chats...", villageQuest, village, SolarPanels, investor, solarpanelItem);
+            Task openHouse = new Task("OpenHouseDay", "Open the doors of your farm!", villageQuest, farm, OpenHouseDay, solarpanelItem, null);
 
             Task houseCourseSDGTask = new Task("SDGCourse", "Might be useful for completing the quiz...", houseQuest, house, SDGCourse, null, sdgBasics);
             Task houseQuizSDGTask = new Task("SDGQuiz", "Complete a Quiz about Sustainable Development Goals.", houseQuest, house, SDGQuizPlay, sdgBasics, sdgCertificate);
@@ -82,24 +90,36 @@ namespace WorldOfZuul
             Task watermillCourseSustFarTask = new Task("SustainableFarmCourse", "Look up sustainable farming techniques!", watermillQuest, watermill, SustFarmCourse, null, sustFarmBasics);
             Task watermillQuizSustFarTask = new Task("SustainableFarmQuiz", "Complete a Quiz about Sustainable Farming.", watermillQuest, watermill, SustFarmQuizPlay, sustFarmBasics, sustFarmCertificate);
 
+            Task lostanimalsInformation = new Task("LostAnimals", "Gather information about lost animals next to the lake area.", lakeQuest, lake, LakeInformation, null, lostanimalsInfo);
+            Task lostanimalsMeat = new Task("Meat", "Get a snack to pet the dogs...", lakeQuest, farm, MeatCollect, lostanimalsInfo, lostanimalsSnack);
+            Task lostanimalsFind = new Task("LookAround", "Look for the lost animals!", lakeQuest, lake, LookForAnimals, lostanimalsSnack, lostanimalsAnimals);
+            Task lostanimalsShelters = new Task("AnimalShelter", "Build A shelter for the lost animaLS", lakeQuest, lake, LookForAnimals, lostanimalsAnimals, null);
+
+            //*************************************************************************************
 
             // Add quests to the chapter's quest list
 
             Quests.Add(villageQuest);
             Quests.Add(houseQuest);
             Quests.Add(watermillQuest);
+            Quests.Add(lakeQuest);
 
             // Add task to the quest list
 
             villageQuest.AddTask(villagerDialogue);
             villageQuest.AddTask(mrInvestorDialogue);
             villageQuest.AddTask(solarPanels);
+            villageQuest.AddTask(openHouse);
 
             houseQuest.AddTask(houseCourseSDGTask);
             houseQuest.AddTask(houseQuizSDGTask);
 
             watermillQuest.AddTask(watermillCourseSustFarTask);
             watermillQuest.AddTask(watermillQuizSustFarTask);
+
+            lakeQuest.AddTask(lostanimalsInformation);
+            lakeQuest.AddTask(lostanimalsFind);
+            lakeQuest.AddTask(lostanimalsShelters);
 
             // Add task to the room
 
@@ -112,6 +132,13 @@ namespace WorldOfZuul
 
             watermill.AddTask(watermillCourseSustFarTask);
             watermill.AddTask(watermillQuizSustFarTask);
+
+            lake.AddTask(lostanimalsInformation);
+            lake.AddTask(lostanimalsFind);
+            lake.AddTask(lostanimalsShelters);
+
+            farm.AddTask(openHouse);
+            farm.AddTask(lostanimalsMeat);
 
             // Adding things to rooms
 
@@ -131,7 +158,6 @@ namespace WorldOfZuul
         }
 
         /******************task section*********************/
-
 
         private int SDGCourse()
         {
@@ -350,17 +376,208 @@ namespace WorldOfZuul
 
         private int MichealDialogue()
         {
-            return 5;
+            Print("Farmer: Good afternoon... I had a little chat with your friend. He told me to visit your office.", 25);
+            Print("Micheal: Yes! Finally! I have an excellent idea. I am a producent of solar panels and I would be glad to install my new product on your farm.", 25);
+            Print("In exchange I will need in exchange is you hosting a Open House on your farm where I would be able to explain the whole installation to our guest.", 25);
+            Print("What are your thoughts on it?", 25);
+            Print("\n1. Agree to the proposal.", 25);
+            Print("2. Agree to the proposal and offer farm goods to Micheal.", 25);
+
+            string? userInput = Console.ReadLine();
+
+            if (int.TryParse(userInput, out int choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        Print("Farmer: Sounds like a great idea! Let's work together for a sustainable future of our community!", 25);
+                        Print("Micheal: Okay, let's get to work then!", 25);
+                        return 5;
+                    case 2:
+                        Print("Farmer: That is a stunning idea! I will also provide you with some goods my farm creates. I hope you'll be happy.", 25);
+                        Print("Micheal: Thank you Farmer! Time to work together.\n", 25);
+                        return 10;
+                    default:
+                        Print("Invalid choice. Please enter 1 or 2.", 25);
+                        return MichealDialogue(); 
+                }
+            }
+
+            return 0;
         }
 
         private int SolarPanels()
         {
+            Print("Micheal arrives at your farm with a team of experts to install the solar panels.", 25);
+            Print("The installation process begins and you simply can't wait to see the final effect!", 25);
+
+            for (int i = 0; i <= 100; i += 5)
+            {
+                Console.Write($"Installing: {i}% ");
+                System.Threading.Thread.Sleep(200); // Simulate installation time
+                Console.SetCursorPosition(0, Console.CursorTop);
+            }
+
+            Console.WriteLine("\nInstallation complete!\n");
+
+            Print("Now it is time to do the Farm Open House with Micheal.", 25);
+
+            return 5;
+
+        }
+    
+        private int OpenHouseDay()
+        {
+            Print("The day of the Open House has arrived, and your farm is buzzing with excitement!", 25);
+            Print("You have a chance to showcase your commitment to sustainability and inspire others.", 25);
+            Console.ReadKey();
+            Console.Clear();
+
+            Print("Micheal gives tours all around your new solar panel installation gathering new customers,", 25);
+            Print("the whole community is having fun and your job is playing a EcoSort mini-game with villagers.", 25);
+
+            Console.ReadKey();
+            Console.Clear();    
+
+            Print("*EcoSort mini-game*\n", 25);
+            Print("Use numbers to choose an option for each waste item.", 25);
+
+            Console.ReadKey();
+            Console.Clear();
+
+            Dictionary<string, string> wasteItems = new Dictionary<string, string>
+    {
+        {"Plastic Bottle", "1. Recycling"},
+        {"Banana Peel", "2. Composting"},
+        {"Newspaper", "1. Recycling"},
+        {"Aluminum Can", "1. Recycling"},
+        {"Eggshells", "2. Composting"},
+        {"Glass Bottle", "1. Recycling"},
+        {"Coffee Grounds", "2. Composting"},
+        {"Cardboard Box", "1. Recycling"},
+        {"Apple Core", "2. Composting"},
+        {"Plastic Bag", "3. Landfill"},
+        {"Paper Towel", "3. Landfill"},
+        {"Orange Peel", "2. Composting"},
+        {"Tin Foil", "1. Recycling"},
+        {"Cereal Box", "1. Recycling"},
+        {"Pizza Box", "2. Composting"},
+        {"Styrofoam Cup", "3. Landfill"},
+        {"Milk Carton", "1. Recycling"},
+        {"Soda Can", "1. Recycling"},
+        {"Tea Bags", "2. Composting"},
+        {"Plastic Utensils", "3. Landfill"}
+    };
+            int score = 0;
+            int correctToFinish = 4;
+
+            var random = new Random();
+            wasteItems = wasteItems.OrderBy(x => random.Next()).ToDictionary(item => item.Key, item => item.Value);
+
+            foreach (var wasteItem in wasteItems)
+            {
+                Console.Clear();
+                Console.WriteLine($"\n{wasteItem.Key}?\n", 25);
+                Console.WriteLine("Choose a bin: ");
+                Console.WriteLine("1. Recycling");
+                Console.WriteLine("2. Composting");
+                Console.WriteLine("3. Landfill");
+
+                string? userInput = Console.ReadLine();
+
+                if (userInput == wasteItem.Value.Substring(0, 1))
+                {
+                    Print("Correct! This item goes in the right place!\n", 25);
+                    score++;
+                }
+                else
+                {
+                    Print("Oops! Wrong!", 25);
+                }
+
+                System.Threading.Thread.Sleep(1000);
+
+                if (score >= correctToFinish)
+                {
+                    break;
+                }
+            }
+
+            Print($"Challenge complete!", 25);
+
+            return 15;
+        }
+
+        private int LakeInformation()
+        {
+   
+            Console.WriteLine("Seems like they are some stray dogs running around the lake area...");
+            Console.WriteLine("Help your community and find them before it's too late!");
+            Console.ReadKey();
+            Console.Clear();
+
+            string header = "You walk around the lake and ask different people about the lost animals...";
+            string[] option =
+                { "John: Lake's Timberman", "Alex: Local Fisherman", "Elizabeth: Hotel owner", "Exit"};
+
+            while (true)
+            {
+                int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option);
+
+                switch (selectedIndex)
+                {
+                    case 0:
+                        Print("You: Hey John, how's it going?", 25);
+                        Print("John: Oh, hey there! Just trying to get these logs ready for the upcoming construction project. What brings you to the lake today?", 25);
+                        Print("You: I'm actually looking for information about some lost animals around here. Have you seen anything unusual lately?", 25);
+                        Print("John: Animals, you say? Well, I did notice a couple of stray dogs near the timber yard a few days ago. Seemed like they were lost or something.", 25);
+                        Print("You: Thanks, John. I'll check that out. Take care with those logs!", 25);
+                        Console.ReadKey();
+                        break;
+
+                    case 1:
+                        Print("You: Alex, how's the fishing today?", 25);
+                        Print("Alex: Could be better, my friend. The fish seem to be playing hard to get. What brings you to the shore?", 25);
+                        Print("You: I'm on a mission to find some lost animals. Have you noticed anything unusual while out on the water?", 25);
+                        Print("Alex: Lost animals, huh? Well, there was a strange noise the other night, kind of like a distressed animal. But I couldn't pinpoint where it was coming from.", 25);
+                        Print("You: Interesting. I'll keep an eye out. If you hear or see anything, let me know.", 25);
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        Print("You: Hi Elizabeth, everything looks lovely as usual.", 25);
+                        Print("Elizabeth: Thank you! What can I do for you today?", 25);
+                        Print("You: I'm trying to gather information about lost animals in the area. Have you or your guests noticed anything?", 25);
+                        Print("Elizabeth: Lost animals? Now that you mention it, a couple of our guests mentioned hearing strange sounds at night. Maybe some distressed animals? It could be around a timber yard...", 25);
+                        Print("You: That's helpful. If they notice anything specific, let me know. I'll see if I can find and help those animals.", 25);
+                        Console.ReadKey();
+                        break;
+                    case 3:
+                        Console.WriteLine("Looks like I will need some meat...\n");
+                        Console.ReadKey();
+                        return 5;
+
+                    default:
+                        Console.WriteLine("An error occured...");
+                        return 0;
+                }
+            }
+        }
+   
+        private int MeatCollect()
+        {
             return 5;
         }
 
+        //to do!!!!
+        private int LookForAnimals()
+        {
+            return 5;
+        }
 
-
-
+        private int AnimalShelters()
+        {
+            return 5;
+        }
 
         /******************map*********************/
 
@@ -422,6 +639,16 @@ namespace WorldOfZuul
 
 
 
+        //Different Methods
+        static void Print(string text, int speed)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                System.Threading.Thread.Sleep(speed);
+            }
+            Console.WriteLine();
+        }
 
         //Different Classes
 
@@ -870,7 +1097,7 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
                 Console.WriteLine();
                 Print("Villager: Thank you for letting me know all of these things. I can't wait to share this knowledge.", 25);
                 Print("I might know somebody that could help you with sustainable farming.", 25);
-                Print("Talk to Micheal, he is available on the market, right next to the main entrance.");
+                Print("Talk to Micheal, you can find his office right next to the church.");
                 Print("Farmer: Thank you very much, see you around!", 25);
                 Console.WriteLine();
             }
@@ -929,6 +1156,8 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
                 Console.WriteLine();
             }
         }
+
+     
 
 
 
