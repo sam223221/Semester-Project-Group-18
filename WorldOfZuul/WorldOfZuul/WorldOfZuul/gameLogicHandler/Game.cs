@@ -18,7 +18,7 @@ namespace WorldOfZuul
         public Game()
         {
             unlockedChapters = new List<IChapter>();
-            UnlockChapter(new Chapter2Teacher()); // Assuming Chapter 4 is the starting chapter
+            UnlockChapter(new Chapter4Engineer()); // Assuming Chapter 4 is the starting chapter
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
@@ -337,7 +337,7 @@ command list for see:
                     
                     int scoreChange = task.Execute(this);
                     SocialScore += scoreChange;
-                    Console.WriteLine($"Task '{task.Name}' executed.\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n");
+                    Console.WriteLine($"\nTask '{task.Name}' executed.\n\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n\n");
 
                     if (task.RelatedQuest.AreAllTasksCompleted())
                     {
@@ -348,13 +348,13 @@ command list for see:
                    }else
                    {
 
-                    Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.");
-                    if (task.RequiredItem.Description != null)
+                    Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.\n");
+                    if (task.RequiredItem.WhereTofindItem != null)
                     {
-                        Console.WriteLine($"{task.RequiredItem.Description}");
+                        Console.WriteLine($"{task.RequiredItem.WhereTofindItem}");
                     }
                    }
-                    Thread.Sleep(10000);
+                    Thread.Sleep(8000);
                     Console.Clear();
                     Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
                     return;
