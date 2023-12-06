@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\WorldOfZuul",
+    "\\WorldOfZuul\\WorldOfZuul",
+    "\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul"
   ],
-  "SelectedNode": "\\C:\\Users\\ksuch\\OneDrive\\Pulpit\\Sem. Project NEW",
+  "SelectedNode": "\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.sln",
   "PreviewInSolutionExplorer": false
 }
