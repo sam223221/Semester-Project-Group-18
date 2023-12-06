@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Net.Http.Headers;
 
 namespace WorldOfZuul
@@ -19,8 +20,15 @@ namespace WorldOfZuul
         private Room? lab;
 
         private int engineerScore = 0;
+        private int ChosenMethod = 0;
 
-
+        public enum PurificationMethod
+        {
+            SandFiltrationAndBoiling,
+            ChemicalChlorination,
+            NaturalBiofiltration
+        }
+        private PurificationMethod chosenPurificationMethod;
 
         public Chapter4Engineer()
         {
@@ -94,7 +102,10 @@ namespace WorldOfZuul
             Task investigateRiver   = new Task("investigation","there is some polution in this river",waterTreatmentQuest,River,InvestigateRiver,null,WaterSample);
             Task interview          = new Task("Interview"," talk to people around to see what what happend", waterTreatmentQuest,villageCenter,VillageCenterInterview,WaterSample,FactoryInfo);
             Task abandonFactory     = new Task("investigation"," aboandon factory",waterTreatmentQuest,AbandonFactory,AbandonFactoryVisit,FactoryInfo,FactoryIvestigation);
+            Task Analysis           = new Task("Analysis","water analysis of to fix the water factory",waterTreatmentQuest,lab,AnalyzeWaterSample,WaterSample,WaterAnalyzis);
+            Task ResearchSolution   = new Task("Research","Research for the best solutin to solve the water problem",waterTreatmentQuest,Library,ResearchPurificationMethods,WaterAnalyzis,ResearchPaper);
             
+
             
             
             // Add quests to the chapter's quest list
@@ -136,7 +147,118 @@ namespace WorldOfZuul
 
         /****************** down form here are only tasks*********************/
 
+        private int ConvertTheFactory()
+        {
 
+            string header = $"You're in the Historical Archive, seeking information on how to repurpose the abandoned factory.\nYour goal is to find a way to use the factory for '{chosenPurificationMethod}' water purification.\n\nSelect a record to examine:";
+            string[] options = {
+                "1. Factory Blueprints",
+                "2. Historical Industrial Uses",
+                "3. Environmental Impact Reports"
+            };
+
+                int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, options);
+
+                switch (selectedIndex)
+                {
+                    case 0:
+                        Console.WriteLine("The factory blueprints reveal a layout that can be adapted for large-scale filtration systems.");
+                        break;
+                    case 1:
+                        Console.WriteLine("You find records of historical industrial uses, giving you ideas on repurposing existing machinery.");
+                        break;
+                    case 2:
+                        Console.WriteLine("Environmental impact reports show areas of the factory that need modification to prevent further pollution.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please select a valid record.");
+                        break;
+                }
+                Console.ReadKey();
+            
+
+            // Update social score and mark task as completed
+            int scoreChange = 5; // Example score change for a significant task
+            Console.WriteLine($"Plan formulated to convert the factory for '{ChosenMethod}' purification.");
+            return scoreChange;
+        }
+
+        private int ResearchPurificationMethods()
+        {
+            int SocialScore = 0;
+
+            Console.WriteLine("You're in the village library, surrounded by books on environmental science and engineering.");
+            Console.WriteLine("Your goal is to find the most sustainable method to purify the river.");
+
+            string header = "You're in the village library, surrounded by books on environmental science and engineering.\nYour goal is to find the most sustainable method to purify the river.\n\nChoose a water purification method to research:";
+            string[] options = {
+                "1. Sand Filtration and Boiling",
+                "2. Chemical Chlorination",
+                "3. Natural Biofiltration Using Plants"
+            };
+
+                int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, options);
+
+                switch (selectedIndex)
+                {
+                    case 0:
+                        Console.WriteLine("\nYou learn about traditional methods like sand filtration and boiling. While effective, they are less practical for large-scale purification.");
+                        SocialScore += 3; // Less sustainable, moderate score increase
+                        chosenPurificationMethod = PurificationMethod.SandFiltrationAndBoiling;
+                        break;
+                    case 1:
+                        Console.WriteLine("\nChemical chlorination is highly effective but has environmental drawbacks due to chemical usage.");
+                        SocialScore += 2; // Least sustainable, lower score increase
+                        chosenPurificationMethod = PurificationMethod.ChemicalChlorination;
+                        break;
+                    case 2:
+                        Console.WriteLine("\nNatural biofiltration uses plants to remove contaminants. It's highly sustainable and eco-friendly.");
+                        SocialScore += 5; // Most sustainable, highest score increase
+                        chosenPurificationMethod = PurificationMethod.NaturalBiofiltration;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please select a valid purification method.");
+                        break;
+                }
+                Console.ReadKey();
+            
+
+            Console.WriteLine("Research complete. You have identified a sustainable purification method for the river.");
+            return SocialScore; // Return the updated social score
+        }
+        private int AnalyzeWaterSample()
+        {
+
+            string header = "You enter the village workshop, equipped with various scientific instruments.\nIt's time to analyze the water samples collected from the river.\n\nChoose an analysis method:";
+            string[] options = {
+                "1. Chemical Reagent Test",
+                "2. Microscopic Examination",
+                "3. Spectrometric Analysis"
+            };
+
+            int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, options);
+
+            switch (selectedIndex)
+            {
+                case 0:
+                    Console.WriteLine("\nYou add chemical reagents to the water sample. The solution changes color, indicating the presence of heavy metals.");      
+                    break;
+                case 1:
+                    Console.WriteLine("\nUnder the microscope, you observe abnormal bacterial activity, suggesting contamination.");                  
+                    break;
+                case 2:
+                    Console.WriteLine("\nThe spectrometer reveals unusual organic compounds in the water, likely pollutants.");
+                    break;
+                default:
+                    Console.WriteLine("\nInvalid choice. Please select a valid analysis method.");
+                    break;
+            }
+
+             Console.WriteLine("Analysis complete. You have identified the contaminants in the water.");
+            Console.ReadKey();
+
+            return 5;
+        }
         private int AbandonFactoryVisit()
                 {
             bool foundEvidence = false;
@@ -256,7 +378,6 @@ namespace WorldOfZuul
             return 5;
 
         }
-
         private int InvestigateRiver()
         {
             Console.WriteLine("You observe the river's murky waters and notice a decrease in wildlife.");
@@ -264,8 +385,6 @@ namespace WorldOfZuul
 
             return 5;
         }
-
-
         private int QuestionTask()
         {
 
@@ -293,12 +412,6 @@ namespace WorldOfZuul
             }
             
             }
-        }
-
-        public int FindMyKey()
-        {
-            Console.WriteLine("you found my key thanks\n");
-            return 5;
         }
 
         public void showMap(Room currentRoom)
