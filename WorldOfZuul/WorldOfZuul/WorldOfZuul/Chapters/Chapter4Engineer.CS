@@ -21,14 +21,7 @@ namespace WorldOfZuul
 
         private int engineerScore = 0;
         private int ChosenMethod = 0;
-
-        public enum PurificationMethod
-        {
-            SandFiltrationAndBoiling,
-            ChemicalChlorination,
-            NaturalBiofiltration
-        }
-        private PurificationMethod chosenPurificationMethod;
+        private string[] chosenMethod = {"Sand Filtration and Boiling","Chemical Chlorination","Natural Biofiltration Using Plants"};
 
         public Chapter4Engineer()
         {
@@ -59,11 +52,11 @@ namespace WorldOfZuul
         {
 
             //creat Items
-            Item WaterSample = new Item("Watersample","Water sample from the river","You need to go to the river and investigate it then take a sample");
-            Item WaterAnalyzis = new Item("Analyzis paper","An analyzis from the River sample", "you need to analyze the river water");
-            Item FactoryIvestigation = new Item("FactoryInfo", "Information about the abandon water factory", "Go into the library and read about the factory");
-            Item ResearchPaper = new Item("Research paper","Research paper about the riversample","you need to do the research before you can start implementing");
-            Item FactoryInfo = new Item("Factory Investigation", "knowledge about the factory and evidence of illegal dumping","you need to talk to the people in the village center");
+            Item WaterSample            = new Item("Watersample"            ,"Water sample from the river"                                  ,"You need to go to the river and investigate it then take a sample");
+            Item WaterAnalyzis          = new Item("Analyzis paper"         ,"An analyzis from the River sample"                            ,"you need to analyze the river water");
+            Item FactoryIvestigation    = new Item("FactoryInfo"            , "Information about the abandon water factory"                 ,"Go into the library and read about the factory");
+            Item ResearchPaper          = new Item("Research paper"         ,"Research paper about the riversample"                         ,"you need to do the research before you can start implementing");
+            Item FactoryInfo            = new Item("Factory Investigation"  , "knowledge about the factory and evidence of illegal dumping" ,"you need to talk to the people in the village center");
 
             // Initialize rooms
             HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies and inspirations for the Electricity Quest.");
@@ -94,17 +87,17 @@ namespace WorldOfZuul
 
             // Creat quests
             // every quest has to have a sort and a long describtun
-            Quest waterTreatmentQuest   = new Quest("Data", "Locate the missing data in the lab.");
-            Quest housingQutest         = new Quest("Housing Quest", "in this quest you need to research and chose what material\n and show how to build new modern homes");
-            Quest electricityQuest      = new Quest("Electricity Quest","you need to research and find good solution to new and renewible energy, that is sustanible");
+            Quest waterTreatmentQuest       = new Quest("Data"              , "Locate the missing data in the lab."                                                                 );
+            Quest housingQutest             = new Quest("Housing Quest"     , "in this quest you need to research and chose what material\n and show how to build new modern homes" );
+            Quest electricityQuest          = new Quest("Electricity Quest" ,"you need to research and find good solution to new and renewible energy, that is sustanible"          );
             
             //initialize tasks
-            Task investigateRiver   = new Task("investigation","there is some polution in this river",waterTreatmentQuest,River,InvestigateRiver,null,WaterSample);
-            Task interview          = new Task("Interview"," talk to people around to see what what happend", waterTreatmentQuest,villageCenter,VillageCenterInterview,WaterSample,FactoryInfo);
-            Task abandonFactory     = new Task("investigation"," aboandon factory",waterTreatmentQuest,AbandonFactory,AbandonFactoryVisit,FactoryInfo,FactoryIvestigation);
-            Task Analysis           = new Task("Analysis","water analysis of to fix the water factory",waterTreatmentQuest,lab,AnalyzeWaterSample,WaterSample,WaterAnalyzis);
-            Task ResearchSolution   = new Task("Research","Research for the best solutin to solve the water problem",waterTreatmentQuest,Library,ResearchPurificationMethods,WaterAnalyzis,ResearchPaper);
-            
+            Task investigateRiver           = new Task("investigation"      ,"there is some polution in this river"                             ,waterTreatmentQuest,River          ,InvestigateRiver               ,null           ,WaterSample        );
+            Task interview                  = new Task("Interview"          ," talk to people around to see what what happend"                  ,waterTreatmentQuest,villageCenter  ,VillageCenterInterview         ,WaterSample    ,FactoryInfo        );
+            Task abandonFactory             = new Task("investigation"      ," aboandon factory"                                                ,waterTreatmentQuest,AbandonFactory ,AbandonFactoryVisit            ,FactoryInfo    ,FactoryIvestigation);
+            Task Analysis                   = new Task("Analysis"           ,"water analysis of to fix the water factory"                       ,waterTreatmentQuest,lab            ,AnalyzeWaterSample             ,WaterSample    ,WaterAnalyzis      );
+            Task ResearchSolution           = new Task("Research"           ,"Research for the best solutin to solve the water problem"         ,waterTreatmentQuest,Library        ,ResearchPurificationMethods    ,WaterAnalyzis  ,ResearchPaper      );
+            Task ImplementWaterSolutin      = new Task("WaterSolution"      ,"now all the prework is done you can start implementing the filter",waterTreatmentQuest,AbandonFactory ,ImplementPurificationSolution  ,ResearchPaper  ,null               );
 
             
             
@@ -117,12 +110,18 @@ namespace WorldOfZuul
             waterTreatmentQuest.AddTask(investigateRiver);
             waterTreatmentQuest.AddTask(interview);
             waterTreatmentQuest.AddTask(abandonFactory);
+            waterTreatmentQuest.AddTask(Analysis);
+            waterTreatmentQuest.AddTask(ResearchSolution);
+            waterTreatmentQuest.AddTask(ImplementWaterSolutin);
 
 
             // add task to the room
             AbandonFactory.AddTask(abandonFactory);
+            AbandonFactory.AddTask(abandonFactory);
             villageCenter.AddTask(interview);
+            Library.AddTask(ResearchSolution);
             River.AddTask(investigateRiver);
+            lab.AddTask(Analysis);
         
             // adding thigs to rooms
             Rooms.Add(HistoricalArchive);
@@ -147,48 +146,205 @@ namespace WorldOfZuul
 
         /****************** down form here are only tasks*********************/
 
-        private int ConvertTheFactory()
+        private int ImplementPurificationSolution()
         {
+            Console.WriteLine("With a clear plan and the community's support, you begin the implementation of the water purification system.");
 
-            string header = $"You're in the Historical Archive, seeking information on how to repurpose the abandoned factory.\nYour goal is to find a way to use the factory for '{chosenPurificationMethod}' water purification.\n\nSelect a record to examine:";
+            string header = "With a clear plan and the community's support, you begin the implementation of the water purification system.\n\nSelect an action:";
             string[] options = {
-                "1. Factory Blueprints",
-                "2. Historical Industrial Uses",
-                "3. Environmental Impact Reports"
+                "1. Organize a community cleanup",
+                "2. Start construction of the filtration system",
+                "3. Coordinate with local authorities for support"
             };
 
+            bool purificationComplete = false;
+            while (!purificationComplete)
+            {
                 int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, options);
 
                 switch (selectedIndex)
                 {
                     case 0:
-                        Console.WriteLine("The factory blueprints reveal a layout that can be adapted for large-scale filtration systems.");
+                        if (CleanupCoordinationMiniGame()) // Returns true if successful
+                        {
+                            Console.WriteLine("The community cleanup was a success!");
+                            purificationComplete = true;
+                        }
                         break;
                     case 1:
-                        Console.WriteLine("You find records of historical industrial uses, giving you ideas on repurposing existing machinery.");
+                        if (ConstructionPuzzleMiniGame()) // Returns true if successful
+                        {
+                            Console.WriteLine("The construction of the filtration system is complete!");
+                            purificationComplete = true;
+                        }
                         break;
                     case 2:
-                        Console.WriteLine("Environmental impact reports show areas of the factory that need modification to prevent further pollution.");
+                        if (ResourceNegotiationMiniGame()) // Returns true if successful
+                        {
+                            Console.WriteLine("You have successfully secured support from local authorities!");
+                            purificationComplete = true;
+                        }
                         break;
                     default:
-                        Console.WriteLine("Invalid choice. Please select a valid record.");
+                        Console.WriteLine("Invalid choice. Please select a valid action.");
                         break;
                 }
                 Console.ReadKey();
-            
+            }
 
-            // Update social score and mark task as completed
-            int scoreChange = 5; // Example score change for a significant task
-            Console.WriteLine($"Plan formulated to convert the factory for '{ChosenMethod}' purification.");
+            int scoreChange = 10; // Example score change
+            Console.WriteLine("The water purification system is now operational.");
             return scoreChange;
         }
+        private bool ConstructionPuzzleMiniGame()
+        {
+            var components      = new List<string> { "Sand Filter", "Chlorination Tank", "UV Light Disinfection", "Reverse Osmosis Membrane" };
+            var correctOrder    = new List<string> { "Sand Filter", "Reverse Osmosis Membrane", "Chlorination Tank", "UV Light Disinfection" };
+            var playerOrder     = new List<string>();
 
+            Console.WriteLine("You need to assemble the water filtration system. Place the components in the correct order.");
+
+            int attempts = 0;
+            while (playerOrder.Count < components.Count)
+            {
+                Console.WriteLine("\nAvailable components:");
+                foreach (var component in components)
+                {
+                    if (!playerOrder.Contains(component))
+                    {
+                        Console.WriteLine($"- {component}");
+                    }
+                }
+
+                Console.Write("Select the next component to add: ");
+                string selectedComponent = Console.ReadLine();
+
+                if (components.Contains(selectedComponent) && !playerOrder.Contains(selectedComponent))
+                {
+                    playerOrder.Add(selectedComponent);
+                    Console.WriteLine($"{selectedComponent} added.");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid component or already added. Please try again.");
+                }
+
+                attempts++;
+            }
+
+            if (playerOrder.SequenceEqual(correctOrder))
+            {
+                Console.WriteLine("\nFiltration system successfully assembled!");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\nThe components are not in the correct order. Please try again.");
+                return false;
+            }
+        }
+        private bool ResourceNegotiationMiniGame()
+        {
+            var questions = new List<string>
+            {
+                "How will this project impact the local ecosystem?" ,
+                "What are the long-term benefits for our community?",
+                "How do you plan to manage the project's costs?"
+            };
+
+            var responses = new Dictionary<string, List<string>>
+            {
+                { "How will this project impact the local ecosystem?", new List<string> { "It will improve biodiversity.", "It's not a major concern.", "We'll assess it later." } },
+                { "What are the long-term benefits for our community?", new List<string> { "Clean water for decades.", "It's mostly short-term.", "Boost to local tourism." } },
+                { "How do you plan to manage the project's costs?", new List<string> { "Through efficient budgeting.", "We'll figure it out as we go.", "Seeking external funding." } }
+            };
+
+            int successfulResponses = 0;
+
+            foreach (var question in questions)
+            {
+                Console.WriteLine($"\nAuthority: {question}");
+                for (int i = 0; i < responses[question].Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {responses[question][i]}");
+                }
+
+                Console.Write("Your response: ");
+                if (int.TryParse(Console.ReadLine(), out int selectedIndex) && selectedIndex > 0 && selectedIndex <= responses[question].Count)
+                {
+                    // Assuming the first response is always the most convincing
+                    if (selectedIndex == 1)
+                    {
+                        successfulResponses++;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid response. Please try again.");
+                }
+            }
+
+            if (successfulResponses >= questions.Count)
+            {
+                Console.WriteLine("\nYou have successfully negotiated support from the local authorities!");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\nYou were unable to secure the necessary support.");
+                return false;
+            }
+        }
+        private bool CleanupCoordinationMiniGame()
+        {
+            var areas = new List<string> { "North Bank", "South Bank", "East Bank", "West Bank" };
+            var volunteers = new Dictionary<string, string>
+            {
+                { "Alice"   , "Collecting"      },
+                { "Bob"     , "Heavy Lifting"   },
+                { "Charlie" , "Sorting"         },
+                { "Diana"   , "Scouting"        }
+            };
+
+            int turns = 4; // Each volunteer gets one turn
+            int cleanedAreas = 0;
+
+            Console.WriteLine("You need to assign volunteers to clean different areas of the riverbank.");
+
+            for (int i = 0; i < turns; i++)
+            {
+                Console.WriteLine("\nAreas to clean: " + string.Join(", ", areas));
+                Console.WriteLine("Available volunteers and their skills:");
+                foreach (var volunteer in volunteers)
+                {
+                    Console.WriteLine($"- {volunteer.Key} (Skill: {volunteer.Value})");
+                }
+
+                Console.Write("Choose a volunteer to assign: ");
+                string volunteerName = Console.ReadLine();
+                Console.Write("Choose an area to clean: ");
+                string area = Console.ReadLine();
+
+                // Simple logic to determine if the choice was effective
+                if (volunteers.ContainsKey(volunteerName) && areas.Contains(area))
+                {
+                    Console.WriteLine($"{volunteerName} is cleaning the {area}.");
+                    cleanedAreas++; // Increment for each successful assignment
+                    areas.Remove(area); // Remove the cleaned area
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    i--; // Allow the player to make the choice again
+                }
+            }
+
+            Console.WriteLine($"\nCleanup complete. You successfully cleaned {cleanedAreas} areas of the riverbank.");
+            return cleanedAreas >= 3; // Return true if most areas are cleaned
+        }
         private int ResearchPurificationMethods()
         {
             int SocialScore = 0;
-
-            Console.WriteLine("You're in the village library, surrounded by books on environmental science and engineering.");
-            Console.WriteLine("Your goal is to find the most sustainable method to purify the river.");
 
             string header = "You're in the village library, surrounded by books on environmental science and engineering.\nYour goal is to find the most sustainable method to purify the river.\n\nChoose a water purification method to research:";
             string[] options = {
@@ -203,18 +359,18 @@ namespace WorldOfZuul
                 {
                     case 0:
                         Console.WriteLine("\nYou learn about traditional methods like sand filtration and boiling. While effective, they are less practical for large-scale purification.");
+                        ChosenMethod=0;
                         SocialScore += 3; // Less sustainable, moderate score increase
-                        chosenPurificationMethod = PurificationMethod.SandFiltrationAndBoiling;
                         break;
                     case 1:
                         Console.WriteLine("\nChemical chlorination is highly effective but has environmental drawbacks due to chemical usage.");
+                        ChosenMethod=1;
                         SocialScore += 2; // Least sustainable, lower score increase
-                        chosenPurificationMethod = PurificationMethod.ChemicalChlorination;
                         break;
                     case 2:
                         Console.WriteLine("\nNatural biofiltration uses plants to remove contaminants. It's highly sustainable and eco-friendly.");
+                        ChosenMethod=2;
                         SocialScore += 5; // Most sustainable, highest score increase
-                        chosenPurificationMethod = PurificationMethod.NaturalBiofiltration;
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Please select a valid purification method.");
@@ -385,35 +541,6 @@ namespace WorldOfZuul
 
             return 5;
         }
-        private int QuestionTask()
-        {
-
-                
-            string header = "Here's a tricky question for you:\nWhat is the capital of France?";
-            string[] option = {"1. Paris","2. London","3. Berlin"};
-            
-            while(true){
-            int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option); 
-
-            switch (selectedIndex)
-            {
-                case 0:
-                    Console.WriteLine("Correct! Paris is the capital of France.\n");
-                    
-                    return 10;                 
-                case 1:
-                case 2:
-                    Console.WriteLine("That's not correct.\n");
-                    return -5;
-
-                default:
-                    Console.WriteLine("Invalid choice.");
-                    return 0;
-            }
-            
-            }
-        }
-
         public void showMap(Room currentRoom)
         {
             string HistoricalArchive    = "     ";
