@@ -10,7 +10,7 @@ namespace WorldOfZuul
             do
             {
                 Console.Clear();
-                Console.WriteLine(header);
+                Printer.PrintLine(header);
                 Console.WriteLine();
 
                 for (int i = 0; i < options.Length; i++)

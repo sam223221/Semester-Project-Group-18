@@ -66,10 +66,10 @@ namespace WorldOfZuul
             Item BluePrint              = new Item("BluePrint"              ,"this is the BLuePrint for the new homes"                      ,"you need togo to DesignHQ and desing the new homes");
             Item TrainingCir            = new Item("Training Certify"       ,"you have qualifyed the workers to start bulding homes"        ,"you need togo to ConstructionSite and do Training");
             // Initialize rooms
-            HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies and inspirations for the Electricity Quest.");
-            construtionSite         = new Room("ConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of Sam's designs coming to life in the Housing Quest");
+            HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies.");
+            construtionSite         = new Room("ConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of the engineers designs coming to life in the Housing Quest");
             AbandonFactory          = new Room("AbandonFactory"     , "A dilapidated structure with rusted machinery and broken windows, overtaken by nature. \nIt holds clues to the village's industrial past and is key to solving the Water Treatment Quest.");
-            villageCenter           = new Room("VillageCenter"      , "The bustling heart of the village, with cobblestone streets, quaint shops, and a lively marketplace.\nIt's a central meeting point for villagers, buzzing with gossip and activity, and serves as a starting point for both the Water Treatment and Electricity Quests.");
+            villageCenter           = new Room("VillageCenter"      , "The bustling heart of the village, with cobblestone streets, quaint shops, and a lively marketplace.\nIt's a central meeting point for villagers, buzzing with gossip and activity.");
             ModernHome              = new Room("ModernHome"         , "A newly built eco-friendly house, showcasing innovative design and sustainable living. \nIt serves as a model home, demonstrating the success of your effort in the Housing Quest.");
             TownHall                = new Room("TownHall"           , "A grand, old building with a clock tower, symbolizing the village's heritage and governance. Inside, it's adorned with historical artifacts and portraits of past leaders.\nThis is where you discusses the Electricity Quest with village officials.");
             DesignHQ                = new Room("DesignHQ"           , "A creative studio with architectural models, blueprints, and a large drafting table. It's a hub of innovation where you'll design sustainable homes for the Housing Quest.");
@@ -143,11 +143,15 @@ namespace WorldOfZuul
             electricityQuest.AddTask(LightShow);
 
             housingQutest.AddTask(designHouses);
+            housingQutest.AddTask(Train);
+            housingQutest.AddTask(modernHome);
 
 
             // add task to the room
             AbandonFactory.AddTask(abandonFactory);
             AbandonFactory.AddTask(ImplementWaterSolutin);
+
+            construtionSite.AddTask(Train);
 
             villageCenter.AddTask(interview);
             villageCenter.AddTask(LightShow);
@@ -159,6 +163,8 @@ namespace WorldOfZuul
 
             SunStone.AddTask(SunStoneExplor);
             SunStone.AddTask(InstalingSolarPanel);
+
+            ModernHome.AddTask(modernHome);
 
             TownHall.AddTask(funding);
 
@@ -931,7 +937,7 @@ namespace WorldOfZuul
    
         private int ImplementPurificationSolution()
         {
-            Console.WriteLine("With a clear plan and the community's support, you begin the implementation of the water purification system.");
+            Printer.PrintLine("With a clear plan and the community's support, you begin the implementation of the water purification system.");
 
             string header = "With a clear plan and the community's support, you begin the implementation of the water purification system.\n\nSelect an action:";
             string[] options = {
@@ -950,33 +956,33 @@ namespace WorldOfZuul
                     case 0:
                         if (CleanupCoordinationMiniGame()) // Returns true if successful
                         {
-                            Console.WriteLine("The community cleanup was a success!");
+                            Printer.PrintLine("The community cleanup was a success!");
                             purificationComplete = true;
                         }
                         break;
                     case 1:
                         if (ConstructionPuzzleMiniGame()) // Returns true if successful
                         {
-                            Console.WriteLine("The construction of the filtration system is complete!");
+                            Printer.PrintLine("The construction of the filtration system is complete!");
                             purificationComplete = true;
                         }
                         break;
                     case 2:
                         if (ResourceNegotiationMiniGame()) // Returns true if successful
                         {
-                            Console.WriteLine("You have successfully secured support from local authorities!");
+                            Printer.PrintLine("You have successfully secured support from local authorities!");
                             purificationComplete = true;
                         }
                         break;
                     default:
-                        Console.WriteLine("Invalid choice. Please select a valid action.");
+                        Printer.PrintLine("Invalid choice. Please select a valid action.");
                         break;
                 }
                 Console.ReadKey();
             }
 
             int scoreChange = 10; // Example score change
-            Console.WriteLine("The water purification system is now operational.");
+            Printer.PrintLine("The water purification system is now operational.");
             return scoreChange;
         }
       
@@ -987,17 +993,17 @@ namespace WorldOfZuul
             var correctOrder    = new List<string> { "Sand Filter", "Reverse Osmosis Membrane", "Chlorination Tank", "UV Light Disinfection" };
             var playerOrder     = new List<string>();
 
-            Console.WriteLine("You need to assemble the water filtration system. Place the components in the correct order.");
+            Printer.PrintLine("You need to assemble the water filtration system. Place the components in the correct order.");
 
             int attempts = 0;
             while (playerOrder.Count < components.Count)
             {
-                Console.WriteLine("\nAvailable components:");
+                Printer.PrintLine("\nAvailable components:");
                 foreach (var component in components)
                 {
                     if (!playerOrder.Contains(component))
                     {
-                        Console.WriteLine($"- {component}");
+                        Printer.PrintLine($"- {component}");
                     }
                 }
 
@@ -1007,11 +1013,11 @@ namespace WorldOfZuul
                 if (components.Contains(selectedComponent) && !playerOrder.Contains(selectedComponent))
                 {
                     playerOrder.Add(selectedComponent);
-                    Console.WriteLine($"{selectedComponent} added.");
+                    Printer.PrintLine($"{selectedComponent} added.");
                 }
                 else
                 {
-                    Console.WriteLine("Invalid component or already added. Please try again.");
+                    Printer.PrintLine("Invalid component or already added. Please try again.");
                 }
 
                 attempts++;
@@ -1019,12 +1025,12 @@ namespace WorldOfZuul
 
             if (playerOrder.SequenceEqual(correctOrder))
             {
-                Console.WriteLine("\nFiltration system successfully assembled!");
+                Printer.PrintLine("\nFiltration system successfully assembled!");
                 return true;
             }
             else
             {
-                Console.WriteLine("\nThe components are not in the correct order. Please try again.");
+                Printer.PrintLine("\nThe components are not in the correct order. Please try again.");
                 return false;
             }
         }
@@ -1050,13 +1056,13 @@ namespace WorldOfZuul
 
             foreach (var question in questions)
             {
-                Console.WriteLine($"\nAuthority: {question}");
+                Printer.PrintLine($"\nAuthority: {question}");
                 for (int i = 0; i < responses[question].Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {responses[question][i]}");
                 }
 
-                Console.Write("Your response: ");
+                Printer.Print("Your response: ");
                 if (int.TryParse(Console.ReadLine(), out int selectedIndex) && selectedIndex > 0 && selectedIndex <= responses[question].Count)
                 {
                     // Assuming the first response is always the most convincing
@@ -1067,18 +1073,18 @@ namespace WorldOfZuul
                 }
                 else
                 {
-                    Console.WriteLine("Invalid response. Please try again.");
+                    Printer.PrintLine("Invalid response. Please try again.");
                 }
             }
 
             if (successfulResponses >= questions.Count)
             {
-                Console.WriteLine("\nYou have successfully negotiated support from the local authorities!");
+                Printer.PrintLine("\nYou have successfully negotiated support from the local authorities!");
                 return true;
             }
             else
             {
-                Console.WriteLine("\nYou were unable to secure the necessary support.");
+                Printer.PrintLine("\nYou were unable to secure the necessary support.");
                 return false;
             }
         }
@@ -1098,15 +1104,15 @@ namespace WorldOfZuul
             int turns = 4; // Each volunteer gets one turn
             int cleanedAreas = 0;
 
-            Console.WriteLine("You need to assign volunteers to clean different areas of the riverbank.");
+            Printer.PrintLine("You need to assign volunteers to clean different areas of the riverbank.");
 
             for (int i = 0; i < turns; i++)
             {
-                Console.WriteLine("\nAreas to clean: " + string.Join(", ", areas));
-                Console.WriteLine("Available volunteers and their skills:");
+                Printer.PrintLine("\nAreas to clean: " + string.Join(", ", areas));
+                Printer.PrintLine("Available volunteers and their skills:");
                 foreach (var volunteer in volunteers)
                 {
-                    Console.WriteLine($"- {volunteer.Key} (Skill: {volunteer.Value})");
+                    Printer.PrintLine($"- {volunteer.Key} (Skill: {volunteer.Value})");
                 }
 
                 Console.Write("Choose a volunteer to assign: ");
@@ -1117,18 +1123,18 @@ namespace WorldOfZuul
                 // Simple logic to determine if the choice was effective
                 if (volunteers.ContainsKey(volunteerName) && areas.Contains(area))
                 {
-                    Console.WriteLine($"{volunteerName} is cleaning the {area}.");
+                    Printer.PrintLine($"{volunteerName} is cleaning the {area}.");
                     cleanedAreas++; // Increment for each successful assignment
                     areas.Remove(area); // Remove the cleaned area
                 }
                 else
                 {
-                    Console.WriteLine("Invalid choice. Please try again.");
+                    Printer.PrintLine("Invalid choice. Please try again.");
                     i--; // Allow the player to make the choice again
                 }
             }
 
-            Console.WriteLine($"\nCleanup complete. You successfully cleaned {cleanedAreas} areas of the riverbank.");
+            Printer.PrintLine($"\nCleanup complete. You successfully cleaned {cleanedAreas} areas of the riverbank.");
             return cleanedAreas >= 3; // Return true if most areas are cleaned
         }
        
@@ -1149,28 +1155,28 @@ namespace WorldOfZuul
                 switch (selectedIndex)
                 {
                     case 0:
-                        Console.WriteLine("\nYou learn about traditional methods like sand filtration and boiling. While effective, they are less practical for large-scale purification.");
+                        Printer.PrintLine("\nYou learn about traditional methods like sand filtration and boiling. While effective, they are less practical for large-scale purification.");
                         ChosenMethod=0;
                         SocialScore += 3; // Less sustainable, moderate score increase
                         break;
                     case 1:
-                        Console.WriteLine("\nChemical chlorination is highly effective but has environmental drawbacks due to chemical usage.");
+                        Printer.PrintLine("\nChemical chlorination is highly effective but has environmental drawbacks due to chemical usage.");
                         ChosenMethod=1;
                         SocialScore += 2; // Least sustainable, lower score increase
                         break;
                     case 2:
-                        Console.WriteLine("\nNatural biofiltration uses plants to remove contaminants. It's highly sustainable and eco-friendly.");
+                        Printer.PrintLine("\nNatural biofiltration uses plants to remove contaminants. It's highly sustainable and eco-friendly.");
                         ChosenMethod=2;
                         SocialScore += 5; // Most sustainable, highest score increase
                         break;
                     default:
-                        Console.WriteLine("Invalid choice. Please select a valid purification method.");
+                        Printer.PrintLine("Invalid choice. Please select a valid purification method.");
                         break;
                 }
                 Console.ReadKey();
             
 
-            Console.WriteLine("Research complete. You have identified a sustainable purification method for the river.");
+            Printer.PrintLine("Research complete. You have identified a sustainable purification method for the river.");
             return SocialScore; // Return the updated social score
         }
        
@@ -1190,20 +1196,20 @@ namespace WorldOfZuul
             switch (selectedIndex)
             {
                 case 0:
-                    Console.WriteLine("\nYou add chemical reagents to the water sample. The solution changes color, indicating the presence of heavy metals.");      
+                    Printer.PrintLine("\nYou add chemical reagents to the water sample. The solution changes color, indicating the presence of heavy metals.");      
                     break;
                 case 1:
-                    Console.WriteLine("\nUnder the microscope, you observe abnormal bacterial activity, suggesting contamination.");                  
+                    Printer.PrintLine("\nUnder the microscope, you observe abnormal bacterial activity, suggesting contamination.");                  
                     break;
                 case 2:
-                    Console.WriteLine("\nThe spectrometer reveals unusual organic compounds in the water, likely pollutants.");
+                    Printer.PrintLine("\nThe spectrometer reveals unusual organic compounds in the water, likely pollutants.");
                     break;
                 default:
-                    Console.WriteLine("\nInvalid choice. Please select a valid analysis method.");
+                    Printer.PrintLine("\nInvalid choice. Please select a valid analysis method.");
                     break;
             }
 
-             Console.WriteLine("Analysis complete. You have identified the contaminants in the water.");
+             Printer.PrintLine("Analysis complete. You have identified the contaminants in the water.");
             Console.ReadKey();
 
             return 5;
@@ -1230,25 +1236,25 @@ namespace WorldOfZuul
                     case 0:
                         string header1 = "The office is cluttered with old papers and broken furniture. Amidst the chaos, you find a locked filing cabinet.\nDo you want to try to open it?";
                         string[] options1 = {"Yes","No"};
-                        Console.WriteLine("Do you want to try to open it? (yes/no)");
+                        Printer.PrintLine("Do you want to try to open it? (yes/no)");
                         int selectedIndex1 = InteractiveMenu.MultichoiceQuestion(header1, options1);
                         if (selectedIndex1 == 0)
                         {
-                            Console.WriteLine("After some effort, the cabinet creaks open, revealing documents about illegal waste disposal practices.");
+                            Printer.PrintLine("After some effort, the cabinet creaks open, revealing documents about illegal waste disposal practices.");
                             foundEvidence = true;
                         }else
                         {
-                            Console.WriteLine("Since the room didn't entail anything else, you went back down to the main floor");
+                            Printer.PrintLine("Since the room didn't entail anything else, you went back down to the main floor");
                         }
                         break;
                     case 1:
-                        Console.WriteLine("The production floor is littered with remnants of the factory's past operations. You notice a trail of dried chemical residues leading towards the back.");
+                        Printer.PrintLine("The production floor is littered with remnants of the factory's past operations. You notice a trail of dried chemical residues leading towards the back.");
                         break;
                     case 2:
-                        Console.WriteLine("In the storage area, you find barrels labeled with hazardous material warnings, some of them leaking a strange substance.");
+                        Printer.PrintLine("In the storage area, you find barrels labeled with hazardous material warnings, some of them leaking a strange substance.");
                         break;
                     default:
-                        Console.WriteLine("Invalid choice. Please select a valid option.");
+                        Printer.PrintLine("Invalid choice. Please select a valid option.");
                         break;
                 }
                 Console.ReadKey();
@@ -1282,40 +1288,40 @@ namespace WorldOfZuul
                 case 0:
                     if (!infoCollected.Contains("fisherman"))
                     {
-                        Console.WriteLine("\nFisherman: \n'The fish are gone, and the water smells strange. It's not like it used to be.'");
-                        Console.WriteLine("'ever sice that factory shut down'");
+                        Printer.PrintLine("\nFisherman: \n'The fish are gone, and the water smells strange. It's not like it used to be.'");
+                        Printer.PrintLine("'ever sice that factory shut down'");
                         infoCollected.Add("fisherman");
 
                     }
                     else
                     {
-                        Console.WriteLine("You have already talked to the fisherman.");
+                        Printer.PrintLine("You have already talked to the fisherman.");
                     }
                     break;
                 case 1:
                     if (!infoCollected.Contains("shopkeeper"))
                     {
-                        Console.WriteLine("Shopkeeper: 'People have been complaining about the water quality. It's affecting my business too.'");
+                        Printer.PrintLine("Shopkeeper: 'People have been complaining about the water quality. It's affecting my business too.'");
                         infoCollected.Add("shopkeeper");
                     }
                     else
                     {
-                        Console.WriteLine("You have already talked to the shopkeeper.");
+                        Printer.PrintLine("You have already talked to the shopkeeper.");
                     }
                     break;
                 case 2:
                     if (!infoCollected.Contains("children"))
                     {
-                        Console.WriteLine("Children: 'We don't play near the river anymore, it's yucky and smells bad!'");
+                        Printer.PrintLine("Children: 'We don't play near the river anymore, it's yucky and smells bad!'");
                         infoCollected.Add("children");
                     }
                     else
                     {
-                        Console.WriteLine("You have already talked to the children.");
+                        Printer.PrintLine("You have already talked to the children.");
                     }
                     break;
                 default:
-                    Console.WriteLine("Invalid choice. Please select a valid option.");
+                    Printer.PrintLine("Invalid choice. Please select a valid option.");
                     break;
                 }
                 Console.ReadKey();
@@ -1335,8 +1341,8 @@ namespace WorldOfZuul
         
         private int InvestigateRiver()
         {
-            Console.WriteLine("You observe the river's murky waters and notice a decrease in wildlife.");
-            Console.WriteLine("You collect water samples from different parts of the river.\n");
+            Printer.PrintLine("You observe the river's murky waters and notice a decrease in wildlife.");
+            Printer.PrintLine("You collect water samples from different parts of the river.\n");
 
             return 5;
         }
