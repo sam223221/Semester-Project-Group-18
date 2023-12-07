@@ -26,13 +26,13 @@ namespace WorldOfZuul
 
         }
 
-       /* public string PlayerScore(){
+       public string PlayerScore(){
             return "Your score is {} ";
-        }*/
+        }
 
         public Room GetStartRoom() => outside;
 
-                public void ShowIntroduction()
+        public void ShowIntroduction()
         {
 
         }
@@ -134,7 +134,7 @@ namespace WorldOfZuul
         private int colleaguehelp()
         {
             Console.WriteLine("A colleague asks for your help with a task.Will you help him?");
-            Console.WriteLine("assist/ignore?");
+            Console.WriteLine(" assist/ignore?");
             string awnser = Console.ReadLine().ToLower();
             if (awnser == "assist")
             {
@@ -238,7 +238,7 @@ namespace WorldOfZuul
                     library = "*You*";
                     break;
             }
-
+        // The map
             string map = $@"
           ┌───────────┐   ┌───────────┐  ┌────────────┐
           │           │   │           │  │            │
