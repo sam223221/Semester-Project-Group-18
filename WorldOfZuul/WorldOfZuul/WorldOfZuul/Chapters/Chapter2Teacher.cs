@@ -168,7 +168,6 @@ namespace WorldOfZuul
                                       2.That every teacher has to deal with this problem and that he will get better as the time goes on
                                       3.That he should yell at the kids who don't listen to him
                                       4.That he he should show respect to the kids in order to be respected");
-                awnser = Console.ReadLine().ToLower();
                 if(awnser =="1")
                     {
                         Console.WriteLine("The colleague is dissapointed,and he's thinking about quiting he's job.");
@@ -291,7 +290,7 @@ namespace WorldOfZuul
          }
         }
 
-        }
+        
         private int lostpen()
         {
             Console.WriteLine("A kid lost hes pen and it's looking for it.Do you you give him a pen?");
@@ -319,19 +318,6 @@ namespace WorldOfZuul
 
         }
         // 
-        private int FindDataTaskAction()
-        {
-            Console.WriteLine("You found the hidden data!");
-            // Additional logic for completing the task
-            return 5;
-        }
-
-        private int SolvePuzzleTaskAction()
-        {
-            Console.WriteLine("You solved the puzzle!");
-            // Additional logic for completing the task
-            return 10;
-        }
        public void showMap(Room currentRoom)
         {
             string class1       = "     ";
@@ -375,7 +361,7 @@ namespace WorldOfZuul
                     library = "*You*";
                     break;
             }
-        // The map
+            // The map
             string map = $@"
           ┌───────────┐   ┌───────────┐  ┌────────────┐
           │           │   │           │  │            │
