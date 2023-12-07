@@ -45,7 +45,7 @@ namespace WorldOfZuul
 
         }
 
-        public Room GetStartRoom() => TownHall;
+        public Room GetStartRoom() => villageCenter;
 
 
         public void CreateRoomsAndQuests()
@@ -62,7 +62,7 @@ namespace WorldOfZuul
             Item AreaMaster             = new Item("All knowing Area master","Now we know where the solarpanals are going to stand"         ,"you need togo to Sun Stone and do the SunStoneExplor task to get acess to this one");
             Item Prototype              = new Item("SolarPanel Prototype"   ,"this is the prototype of the solarPanel"                      ,"you need togo to the Lab and do the PrototypeSolar task to get acess");
             Item FundingPaper           = new Item("Funding Paper"          ,"The funding for the SolarPanels"                              ,"you need togo to TownHall to ask for funding");
-
+            Item Instalation            = new Item("Instalation"            ,"The instalation is now done and this is a proof of that"      ,"you need togo to Sun Stone and do the instalation task");
 
             // Initialize rooms
             HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies and inspirations for the Electricity Quest.");
@@ -108,11 +108,13 @@ namespace WorldOfZuul
             Task ImplementWaterSolutin      = new Task("WaterSolution"      ,"Water treatment : now all the prework is done you can start implementing the filter"  ,waterTreatmentQuest,AbandonFactory ,ImplementPurificationSolution  ,ResearchPaper  ,null               );
 
             // Electricity quest
-            Task colectKnowlage             = new Task("PowerQuiz"          ,"EL    :   You need to know learn some thing about Power"          , electricityQuest      ,Library        ,EnergyQuizMiniGame                 ,null           ,EnergyMind  );
-            Task SunStoneExplor             = new Task("SunStoneExplor"     ,"EL    :   Exploring is good, knowing the place and story"         , electricityQuest      ,SunStone       ,SolarPanelSiteSelectionMiniGame    ,EnergyMind     ,AreaMaster  );
-            Task PrototypeSolar             = new Task("SolarTest"          ,"EL    :   Bulding the solar Panels that are going to be used"     , electricityQuest      ,lab            ,PrototypeSolarPanelsPuzzle         ,AreaMaster     ,Prototype   );
-            Task funding                    = new Task("funding"            ,"EL    :   Securing the fund for the solarpanels"                  , electricityQuest      ,TownHall       ,SecureFundingMiniGame              ,Prototype      ,FundingPaper);
-            Task InstalingSolarPanel        = new Task("InstallSolarPanel"  ,"EL    :   Instaling the solarPanels"                              , electricityQuest      ,SunStone       ,ManageInstallationResources        ,FundingPaper);
+            Task colectKnowlage             = new Task("PowerQuiz"          ,"EL    :   You need to know learn some thing about Power"              , electricityQuest      ,Library        ,EnergyQuizMiniGame                 ,null           ,EnergyMind     );
+            Task SunStoneExplor             = new Task("SunStoneExplor"     ,"EL    :   Exploring is good, knowing the place and story"             , electricityQuest      ,SunStone       ,SolarPanelSiteSelectionMiniGame    ,EnergyMind     ,AreaMaster     );
+            Task PrototypeSolar             = new Task("SolarTest"          ,"EL    :   Bulding the solar Panels that are going to be used"         , electricityQuest      ,lab            ,PrototypeSolarPanelsPuzzle         ,AreaMaster     ,Prototype      );
+            Task funding                    = new Task("funding"            ,"EL    :   Securing the fund for the solarpanels"                      , electricityQuest      ,TownHall       ,SecureFundingMiniGame              ,Prototype      ,FundingPaper   );
+            Task InstalingSolarPanel        = new Task("InstallSolarPanel"  ,"EL    :   Instaling the solarPanels"                                  , electricityQuest      ,SunStone       ,ManageInstallationResources        ,FundingPaper   ,Instalation    );
+            Task LightShow                  = new Task("LightShow"          ,"EL    :   Light show for the first time EL goes trough the village"   , electricityQuest      ,villageCenter  ,LightUpVillageEvent                ,Instalation);
+            
             // Add quests to the chapter's quest list
             Quests.Add(waterTreatmentQuest);
             Quests.Add(housingQutest);
@@ -131,6 +133,7 @@ namespace WorldOfZuul
             electricityQuest.AddTask(PrototypeSolar);
             electricityQuest.AddTask(funding);
             electricityQuest.AddTask(InstalingSolarPanel);
+            electricityQuest.AddTask(LightShow);
 
 
             // add task to the room
@@ -138,6 +141,7 @@ namespace WorldOfZuul
             AbandonFactory.AddTask(ImplementWaterSolutin);
 
             villageCenter.AddTask(interview);
+            villageCenter.AddTask(LightShow);
 
             Library.AddTask(ResearchSolution);
             Library.AddTask(colectKnowlage);
@@ -176,6 +180,58 @@ namespace WorldOfZuul
 
 
         /****************** down form here are only tasks*********************/
+
+
+
+        private int LightUpVillageEvent()
+        {
+            string[] villageBefore = new string[]
+            {
+                "    ___     ",
+                "   /   \\   ",
+                "  /     \\  ",
+                " /_______\\ ",
+                " |       | ",
+                " |[     ]| ",
+                " |       | "
+            };
+
+            string[] villageAfter = new string[]
+            {
+                "    ___     ",
+                "   /   \\   ",
+                "  /     \\  ",
+                " /_______\\ ",
+                " |       | ",
+                " |[Light]| ",
+                " |       | "
+            };
+
+            Printer.PrintLine("Lighting Up the Village Event...");
+            Printer.PrintLine("The solar panels are now powering the village!");
+
+            // Display the village before lighting up
+            foreach (var line in villageBefore)
+            {
+                Console.WriteLine(line);
+                Thread.Sleep(500); // Delay for effect
+            }
+
+            Thread.Sleep(1000); // Pause before the lights turn on
+
+            Console.Clear();
+
+            // Display the village after lighting up
+            foreach (var line in villageAfter)
+            {
+                Console.WriteLine(line);
+                Thread.Sleep(500); // Delay for effect
+            }
+
+            Printer.PrintLine("\nThe village is lit up! The event is a success!");
+            return 10;
+        }
+
         private int PresentEnvironmentalBenefits()
         {
             Printer.PrintLine("\nPresenting Environmental Benefits:");
