@@ -140,7 +140,7 @@ namespace WorldOfZuul
             farm.AddTask(openHouse);
             farm.AddTask(lostanimalsMeat);
             farm.AddTask(lostanimalsShelters);
-               
+
             // Adding things to rooms
 
             Rooms.Add(lake);
@@ -400,7 +400,7 @@ namespace WorldOfZuul
                         return 10;
                     default:
                         Print("Invalid choice. Please enter 1 or 2.", 25);
-                        return MichealDialogue(); 
+                        return MichealDialogue();
                 }
             }
 
@@ -426,7 +426,7 @@ namespace WorldOfZuul
             return 5;
 
         }
-    
+
         private int OpenHouseDay()
         {
             Print("The day of the Open House has arrived, and your farm is buzzing with excitement!", 25);
@@ -438,7 +438,7 @@ namespace WorldOfZuul
             Print("the whole community is having fun and your job is playing a EcoSort mini-game with villagers.", 25);
 
             Console.ReadKey();
-            Console.Clear();    
+            Console.Clear();
 
             Print("*EcoSort mini-game*\n", 25);
             Print("Use numbers to choose an option for each waste item.", 25);
@@ -511,7 +511,7 @@ namespace WorldOfZuul
 
         private int LakeInformation()
         {
-   
+
             Console.WriteLine("Seems like they are some stray dogs running around the lake area...");
             Console.WriteLine("Help your community and find them before it's too late!");
             Console.ReadKey();
@@ -563,7 +563,7 @@ namespace WorldOfZuul
                 }
             }
         }
-   
+
         private int MeatCollect()
         {
             Print("Getting meat from the fridge...", 25);
@@ -571,7 +571,7 @@ namespace WorldOfZuul
             Console.Clear();
             return 5;
         }
-      
+
         delegate bool SearchAnimalsDelegate();
         private int LookForAnimals()
         {
@@ -1262,7 +1262,6 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
             }
         }
 
-     
 
 
 
@@ -1270,4 +1269,3 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
 
 
     }
-}
