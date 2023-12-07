@@ -26,9 +26,9 @@ namespace WorldOfZuul
 
         }
 
-        public string PlayerScore(){
+       /* public string PlayerScore(){
             return "Your score is {} ";
-        }
+        }*/
 
         public Room GetStartRoom() => outside;
 
