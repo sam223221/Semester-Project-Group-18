@@ -36,7 +36,8 @@ namespace WorldOfZuul
 
         public void ShowIntroduction()
         {
-
+            Console.WriteLine(TextArtManager.GetTextArt("TeacheraCharacter"));
+            Console.ReadKey();
         }
 
         public void CreateRoomsAndQuests()
