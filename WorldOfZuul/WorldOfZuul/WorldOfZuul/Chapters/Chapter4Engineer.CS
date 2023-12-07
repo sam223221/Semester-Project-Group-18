@@ -21,8 +21,7 @@ namespace WorldOfZuul
 
         private int engineerScore = 0;
         private int ChosenMethod = 0;
-        private string[] chosenMethod = {"Sand Filtration and Boiling","Chemical Chlorination","Natural Biofiltration Using Plants"};
-
+    
         public Chapter4Engineer()
         {
 
@@ -65,7 +64,7 @@ namespace WorldOfZuul
             Item Instalation            = new Item("Instalation"            ,"The instalation is now done and this is a proof of that"      ,"you need togo to Sun Stone and do the instalation task");
 
             Item BluePrint              = new Item("BluePrint"              ,"this is the BLuePrint for the new homes"                      ,"you need togo to DesignHQ and desing the new homes");
-
+            Item TrainingCir            = new Item("Training Certify"       ,"you have qualifyed the workers to start bulding homes"        ,"you need togo to ConstructionSite and do Training");
             // Initialize rooms
             HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies and inspirations for the Electricity Quest.");
             construtionSite         = new Room("ConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of Sam's designs coming to life in the Housing Quest");
@@ -118,9 +117,9 @@ namespace WorldOfZuul
             Task LightShow                  = new Task("LightShow"          ,"EL    :   Light show for the first time EL goes trough the village"           , electricityQuest      ,villageCenter  ,LightUpVillageEvent                ,Instalation    ,null               );
 
             // The Eco-Friendly Housing quest
-            Task designHouses               = new Task("desing"             ,"House :   Designing and chosing how the new homes shall look like"            , housingQutest         , DesignHQ   , DesignAndPlanSustainableHouses       ,null           ,BluePrint          );
-            
-
+            Task designHouses               = new Task("desing"             ,"House :   Designing and chosing how the new homes shall look like"            , housingQutest         , DesignHQ      , DesignAndPlanSustainableHouses    ,null           ,BluePrint          );
+            Task Train                      = new Task("Training"           ,"House :   Training and teaching the workers"                                  , housingQutest         ,construtionSite,SourceAndTrainTask                 ,BluePrint      ,TrainingCir        );
+            Task modernHome                 = new Task("Home"               ,"House :   Construct the new home"                                             , housingQutest         ,ModernHome     ,ConstructModelHouse                ,TrainingCir    ,null               );
 
 
             // Add quests to the chapter's quest list
@@ -193,6 +192,116 @@ namespace WorldOfZuul
 
         /****************** down form here are only tasks*********************/
 
+        private int ConstructModelHouse()
+        {
+            Printer.PrintLine("Construct a Model House Task");
+            Printer.PrintLine("------------------------------------------------");
+            Printer.PrintLine("You are tasked with overseeing the construction of a model eco-friendly house. This project will demonstrate sustainable building techniques and use eco-friendly materials.");
+
+            int totalScore = 0;
+
+            // Decision: Foundation Construction
+            Printer.PrintLine("Choose the type of foundation : ");
+            Printer.PrintLine("1 - Traditional Concrete");
+            Printer.PrintLine("2 - Eco-Friendly Concrete");
+            Printer.Print("Your choice (Number): ");
+            string foundationChoice = Console.ReadLine();
+            Console.Clear();
+            totalScore += foundationChoice == "2" ? 4 : 1; // Eco-friendly option scores higher
+
+            // Decision: Framing and Insulation
+            Printer.PrintLine("Select insulation material: ");
+            Printer.PrintLine("1 - Fiberglass");
+            Printer.PrintLine("2 - Recycled Material");
+            Printer.Print("Your choice (Number): ");
+            string insulationChoice = Console.ReadLine();
+            Console.Clear();
+            totalScore += insulationChoice == "2" ? 4 : 1; // Recycled material scores higher
+
+            // Decision: Finishing
+            Printer.PrintLine("Choose exterior materials : ");
+            Printer.PrintLine("1 - Standard Paint");
+            Printer.PrintLine("2 - Eco-Friendly Paint");
+            Printer.Print("Your choice (Number): ");
+            string exteriorChoice = Console.ReadLine();
+            Console.Clear();
+            totalScore += exteriorChoice == "2" ? 4 : 1; // Eco-friendly paint scores higher
+
+            // Quality and Sustainability Check
+            Printer.PrintLine("Performing a final check on sustainability features and build quality...");
+            Printer.PrintLine("Press any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+            totalScore += 2; // Additional points for successful completion
+
+            Printer.PrintLine($"Construction complete.");
+            return totalScore;
+        }
+
+
+
+        private int SourceAndTrainTask()
+        {
+            Printer.PrintLine("Source and Train Task");
+            Printer.PrintLine("------------------------------------------------");
+            Printer.PrintLine("As the morning sun casts its first light over the village, you find yourself at the crossroads of tradition and innovation. Today, you shoulder a pivotal responsibility in the village's journey towards sustainable living.");
+            Printer.PrintLine("Your first challenge lies in navigating the bustling local market and the surrounding areas to source materials that will set the foundation for eco-friendly housing.\nThe air is filled with the potential of new beginnings as you ponder choices that balance environmental responsibility with practical needs.");
+            Printer.PrintLine("Later, under the shade of an old oak tree, you'll gather with the local construction crew.\nThese skilled artisans, familiar with traditional methods, are eager yet apprehensive about learning modern, sustainable building techniques.\nYour task is to bridge the gap between age-old practices and the new wave of eco-conscious construction.");
+            Printer.PrintLine("Every decision you make today will ripple through the future of the village. It's time to blend the wisdom of the past with the innovations of the present.");
+            Printer.PrintLine("Press any key to begin your journey...");
+            Console.ReadKey();
+            Console.Clear();
+
+            int totalScore = 0;
+
+            // Sourcing sustainable materials
+            Printer.PrintLine("\nSelect sustainable building materials for the project:");
+            Printer.PrintLine("1 - Recycled Steel");
+            Printer.PrintLine("2 - Sustainably Sourced Wood");
+            Printer.PrintLine("3 - Energy-Efficient Insulation");
+            Printer.Print("Your choice (Number): ");
+            string materialChoice = Console.ReadLine();
+            totalScore += EvaluateMaterialChoice(materialChoice);
+            Console.Clear();
+
+            // Training construction crew
+            Printer.PrintLine("\nOrganize training sessions on sustainable building techniques:");
+            Printer.PrintLine("1 - Efficient Use of Materials");
+            Printer.PrintLine("2 - Minimizing Construction Waste");
+            Printer.PrintLine("3 - Implementing Green Technologies");
+            Printer.Print("Choose a training focus (Number): ");
+            string trainingChoice = Console.ReadLine();
+            totalScore += EvaluateTrainingChoice(trainingChoice);
+            Console.Clear();
+
+            Printer.PrintLine($"Task complete. Total score: {totalScore}");
+            return totalScore;
+        }
+
+
+        private int EvaluateMaterialChoice(string choice)
+        {
+            switch (choice)
+            {
+                case "1": return 3; // Recycled Steel
+                case "2": return 2; // Sustainably Sourced Wood
+                case "3": return 3; // Energy-Efficient Insulation
+                default: return 0;
+            }
+        }
+
+
+        private int EvaluateTrainingChoice(string choice)
+        {
+            switch (choice)
+            {
+                case "1": return 3; // Efficient Use of Materials
+                case "2": return 2; // Minimizing Construction Waste
+                case "3": return 3; // Implementing Green Technologies
+                default: return 0;
+            }
+        }
+
 
         private int DesignAndPlanSustainableHouses()
         {
@@ -203,6 +312,7 @@ namespace WorldOfZuul
         Printer.PrintLine("The decisions you make today will shape the future of the village. It's time to turn your eco-friendly vision into a reality.");
         Printer.PrintLine("Press any key to start the consultation...");
         Console.ReadKey();
+        Console.Clear();
             int totalScore = 0;
 
             // Design decisions
@@ -211,7 +321,7 @@ namespace WorldOfZuul
             // Planning the development
             totalScore += PlanHousingDevelopment();
 
-            Printer.PrintLine($"Design and planning complete. Total score: {totalScore}");
+            Printer.PrintLine($"Design and planning complete.");
             return totalScore;
         }
 
@@ -229,6 +339,7 @@ namespace WorldOfZuul
             Printer.PrintLine("Your choice (Number): ");
             string styleChoice = Console.ReadLine();
             score += EvaluateDesignChoice(styleChoice, "Architectural Style");
+            Console.Clear();
 
             // Material Selection Decision
             Printer.PrintLine("\nSelect the primary building material:");
@@ -238,6 +349,7 @@ namespace WorldOfZuul
             Printer.PrintLine("Your choice (Number): ");
             string materialChoice = Console.ReadLine();
             score += EvaluateDesignChoice(materialChoice, "Material");
+            Console.Clear();
 
             // Energy Efficiency Decision
             Printer.PrintLine("\nDecide on the energy efficiency approach:");
@@ -247,6 +359,7 @@ namespace WorldOfZuul
             Printer.PrintLine("Your choice (Number): ");
             string energyChoice = Console.ReadLine();
             score += EvaluateDesignChoice(energyChoice, "Energy Efficiency");
+            Console.Clear();
 
             return score;
         }
@@ -265,6 +378,7 @@ namespace WorldOfZuul
             Printer.PrintLine("Your choice (1, 2): ");
             string layoutChoice = Console.ReadLine();
             score += EvaluateDesignChoice(layoutChoice,"Layout");
+            Console.Clear();
 
             // Green Space Decision
             Printer.PrintLine("\nPlan the green spaces within the development:");
@@ -273,6 +387,7 @@ namespace WorldOfZuul
             Printer.PrintLine("Your choice (1, 2): ");
             string greenSpaceChoice = Console.ReadLine();
             score += EvaluateDesignChoice(greenSpaceChoice,"GreenSpace");
+            Console.Clear();
 
             // Infrastructure Decision
             Printer.PrintLine("\nDetermine the infrastructure approach:");
@@ -281,9 +396,11 @@ namespace WorldOfZuul
             Printer.PrintLine("Your choice (1, 2): ");
             string infrastructureChoice = Console.ReadLine();
             score += EvaluateDesignChoice(infrastructureChoice,"Infrastructure");
+            Console.Clear();
 
             return score;
         }
+
 
         private int EvaluateDesignChoice(string choice, string category)
         {
