@@ -64,6 +64,8 @@ namespace WorldOfZuul
             Item FundingPaper           = new Item("Funding Paper"          ,"The funding for the SolarPanels"                              ,"you need togo to TownHall to ask for funding");
             Item Instalation            = new Item("Instalation"            ,"The instalation is now done and this is a proof of that"      ,"you need togo to Sun Stone and do the instalation task");
 
+            Item BluePrint              = new Item("BluePrint"              ,"this is the BLuePrint for the new homes"                      ,"you need togo to DesignHQ and desing the new homes");
+
             // Initialize rooms
             HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies and inspirations for the Electricity Quest.");
             construtionSite         = new Room("ConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of Sam's designs coming to life in the Housing Quest");
@@ -100,21 +102,27 @@ namespace WorldOfZuul
             //initialize tasks
 
             // water treatment quest
-            Task investigateRiver           = new Task("investigation"      ,"Water treatment : there is some polution in this river"                               ,waterTreatmentQuest,River          ,InvestigateRiver               ,null           ,WaterSample        );
-            Task interview                  = new Task("Interview"          ,"Water treatment : talk to people around to see what what happend"                     ,waterTreatmentQuest,villageCenter  ,VillageCenterInterview         ,WaterSample    ,FactoryInfo        );
-            Task abandonFactory             = new Task("investigation"      ,"Water treatment : aboandon factory"                                                   ,waterTreatmentQuest,AbandonFactory ,AbandonFactoryVisit            ,FactoryInfo    ,FactoryIvestigation);
-            Task Analysis                   = new Task("Analysis"           ,"Water treatment : water analysis of to fix the water factory"                         ,waterTreatmentQuest,lab            ,AnalyzeWaterSample             ,WaterSample    ,WaterAnalyzis      );
-            Task ResearchSolution           = new Task("Research"           ,"Water treatment : Research for the best solutin to solve the water problem"           ,waterTreatmentQuest,Library        ,ResearchPurificationMethods    ,WaterAnalyzis  ,ResearchPaper      );
-            Task ImplementWaterSolutin      = new Task("WaterSolution"      ,"Water treatment : now all the prework is done you can start implementing the filter"  ,waterTreatmentQuest,AbandonFactory ,ImplementPurificationSolution  ,ResearchPaper  ,null               );
+            Task investigateRiver           = new Task("investigation"      ,"Water :   there is some polution in this river"                               ,waterTreatmentQuest    ,River          ,InvestigateRiver                   ,null           ,WaterSample        );
+            Task interview                  = new Task("Interview"          ,"Water :   talk to people around to see what what happend"                     ,waterTreatmentQuest    ,villageCenter  ,VillageCenterInterview             ,WaterSample    ,FactoryInfo        );
+            Task abandonFactory             = new Task("investigation"      ,"Water :   aboandon factory"                                                   ,waterTreatmentQuest    ,AbandonFactory ,AbandonFactoryVisit                ,FactoryInfo    ,FactoryIvestigation);
+            Task Analysis                   = new Task("Analysis"           ,"Water :   water analysis of to fix the water factory"                         ,waterTreatmentQuest    ,lab            ,AnalyzeWaterSample                 ,WaterSample    ,WaterAnalyzis      );
+            Task ResearchSolution           = new Task("Research"           ,"Water :   Research for the best solutin to solve the water problem"           ,waterTreatmentQuest    ,Library        ,ResearchPurificationMethods        ,WaterAnalyzis  ,ResearchPaper      );
+            Task ImplementWaterSolutin      = new Task("WaterSolution"      ,"Water :   now all the prework is done you can start implementing the filter"  ,waterTreatmentQuest    ,AbandonFactory ,ImplementPurificationSolution      ,ResearchPaper  ,null               );
 
             // Electricity quest
-            Task colectKnowlage             = new Task("PowerQuiz"          ,"EL    :   You need to know learn some thing about Power"              , electricityQuest      ,Library        ,EnergyQuizMiniGame                 ,null           ,EnergyMind     );
-            Task SunStoneExplor             = new Task("SunStoneExplor"     ,"EL    :   Exploring is good, knowing the place and story"             , electricityQuest      ,SunStone       ,SolarPanelSiteSelectionMiniGame    ,EnergyMind     ,AreaMaster     );
-            Task PrototypeSolar             = new Task("SolarTest"          ,"EL    :   Bulding the solar Panels that are going to be used"         , electricityQuest      ,lab            ,PrototypeSolarPanelsPuzzle         ,AreaMaster     ,Prototype      );
-            Task funding                    = new Task("funding"            ,"EL    :   Securing the fund for the solarpanels"                      , electricityQuest      ,TownHall       ,SecureFundingMiniGame              ,Prototype      ,FundingPaper   );
-            Task InstalingSolarPanel        = new Task("InstallSolarPanel"  ,"EL    :   Instaling the solarPanels"                                  , electricityQuest      ,SunStone       ,ManageInstallationResources        ,FundingPaper   ,Instalation    );
-            Task LightShow                  = new Task("LightShow"          ,"EL    :   Light show for the first time EL goes trough the village"   , electricityQuest      ,villageCenter  ,LightUpVillageEvent                ,Instalation);
+            Task colectKnowlage             = new Task("PowerQuiz"          ,"EL    :   You need to know learn some thing about Power"                      , electricityQuest      ,Library        ,EnergyQuizMiniGame                 ,null           ,EnergyMind         );
+            Task SunStoneExplor             = new Task("SunStoneExplor"     ,"EL    :   Exploring is good, knowing the place and story"                     , electricityQuest      ,SunStone       ,SolarPanelSiteSelectionMiniGame    ,EnergyMind     ,AreaMaster         );
+            Task PrototypeSolar             = new Task("SolarTest"          ,"EL    :   Bulding the solar Panels that are going to be used"                 , electricityQuest      ,lab            ,PrototypeSolarPanelsPuzzle         ,AreaMaster     ,Prototype          );
+            Task funding                    = new Task("funding"            ,"EL    :   Securing the fund for the solarpanels"                              , electricityQuest      ,TownHall       ,SecureFundingMiniGame              ,Prototype      ,FundingPaper       );
+            Task InstalingSolarPanel        = new Task("InstallSolarPanel"  ,"EL    :   Instaling the solarPanels"                                          , electricityQuest      ,SunStone       ,ManageInstallationResources        ,FundingPaper   ,Instalation        );
+            Task LightShow                  = new Task("LightShow"          ,"EL    :   Light show for the first time EL goes trough the village"           , electricityQuest      ,villageCenter  ,LightUpVillageEvent                ,Instalation    ,null               );
+
+            // The Eco-Friendly Housing quest
+            Task designHouses               = new Task("desing"             ,"House :   Designing and chosing how the new homes shall look like"            , housingQutest         , DesignHQ   , DesignAndPlanSustainableHouses       ,null           ,BluePrint          );
             
+
+
+
             // Add quests to the chapter's quest list
             Quests.Add(waterTreatmentQuest);
             Quests.Add(housingQutest);
@@ -135,6 +143,8 @@ namespace WorldOfZuul
             electricityQuest.AddTask(InstalingSolarPanel);
             electricityQuest.AddTask(LightShow);
 
+            housingQutest.AddTask(designHouses);
+
 
             // add task to the room
             AbandonFactory.AddTask(abandonFactory);
@@ -145,6 +155,8 @@ namespace WorldOfZuul
 
             Library.AddTask(ResearchSolution);
             Library.AddTask(colectKnowlage);
+
+            DesignHQ.AddTask(designHouses);
 
             SunStone.AddTask(SunStoneExplor);
             SunStone.AddTask(InstalingSolarPanel);
@@ -181,6 +193,118 @@ namespace WorldOfZuul
 
         /****************** down form here are only tasks*********************/
 
+
+        private int DesignAndPlanSustainableHouses()
+        {
+        Printer.PrintLine("Design and Plan Sustainable Houses Task");
+        Printer.PrintLine("------------------------------------------------");
+        Printer.PrintLine("As the appointed lead of the village's new eco-friendly housing initiative, you step into the local architect's office.\nThe walls are adorned with blueprints and sketches of innovative designs. Today, you embark on a journey to blend the village's traditional charm with the efficiencies of modern sustainability.");
+        Printer.PrintLine("Your task: Work hand-in-hand with the renowned architect, Alex Green, to design houses that are not only environmentally friendly but also resonate with the village's aesthetic.\nTogether, you'll create a comprehensive plan for a housing development that sets a new standard for sustainable living.");
+        Printer.PrintLine("The decisions you make today will shape the future of the village. It's time to turn your eco-friendly vision into a reality.");
+        Printer.PrintLine("Press any key to start the consultation...");
+        Console.ReadKey();
+            int totalScore = 0;
+
+            // Design decisions
+            totalScore += MakeDesignDecisions();
+
+            // Planning the development
+            totalScore += PlanHousingDevelopment();
+
+            Printer.PrintLine($"Design and planning complete. Total score: {totalScore}");
+            return totalScore;
+        }
+
+
+        private int MakeDesignDecisions()
+        {
+            int score = 0;
+            Printer.PrintLine("You are now making key design decisions for the eco-friendly houses.");
+
+            // Architectural Style Decision
+            Printer.PrintLine("Choose an architectural style for the houses:");
+            Printer.PrintLine("1 - Traditional: Emphasizes local heritage and classic designs.");
+            Printer.PrintLine("2 - Modern: Focuses on minimalism and contemporary aesthetics.");
+            Printer.PrintLine("3 - Hybrid: A blend of traditional and modern elements.");
+            Printer.PrintLine("Your choice (Number): ");
+            string styleChoice = Console.ReadLine();
+            score += EvaluateDesignChoice(styleChoice, "Architectural Style");
+
+            // Material Selection Decision
+            Printer.PrintLine("\nSelect the primary building material:");
+            Printer.PrintLine("1 - Locally Sourced Wood: Sustainable and blends with the environment.");
+            Printer.PrintLine("2 - Recycled Steel: Durable and modern.");
+            Printer.PrintLine("3 - Natural Stone: Traditional and long-lasting.");
+            Printer.PrintLine("Your choice (Number): ");
+            string materialChoice = Console.ReadLine();
+            score += EvaluateDesignChoice(materialChoice, "Material");
+
+            // Energy Efficiency Decision
+            Printer.PrintLine("\nDecide on the energy efficiency approach:");
+            Printer.PrintLine("1 - Solar Panels: Harness solar energy for electricity.");
+            Printer.PrintLine("2 - Geothermal Heating: Utilize underground heat for warming homes.");
+            Printer.PrintLine("3 - Passive Design: Maximize natural light and insulation.");
+            Printer.PrintLine("Your choice (Number): ");
+            string energyChoice = Console.ReadLine();
+            score += EvaluateDesignChoice(energyChoice, "Energy Efficiency");
+
+            return score;
+        }
+
+
+
+        private int PlanHousingDevelopment()
+        {
+            int score = 0;
+            Printer.PrintLine("You are now planning the layout and features of the housing development.");
+
+            // Layout Decision
+            Printer.PrintLine("Decide on the overall layout of the housing development:");
+            Printer.PrintLine("1 - Clustered: Houses are close together, fostering community interaction.");
+            Printer.PrintLine("2 - Spread Out: Houses are more spaced apart, providing privacy.");
+            Printer.PrintLine("Your choice (1, 2): ");
+            string layoutChoice = Console.ReadLine();
+            score += EvaluateDesignChoice(layoutChoice,"Layout");
+
+            // Green Space Decision
+            Printer.PrintLine("\nPlan the green spaces within the development:");
+            Printer.PrintLine("1 - Central Park: A large communal green space in the center.");
+            Printer.PrintLine("2 - Scattered Gardens: Multiple small green spaces throughout.");
+            Printer.PrintLine("Your choice (1, 2): ");
+            string greenSpaceChoice = Console.ReadLine();
+            score += EvaluateDesignChoice(greenSpaceChoice,"GreenSpace");
+
+            // Infrastructure Decision
+            Printer.PrintLine("\nDetermine the infrastructure approach:");
+            Printer.PrintLine("1 - Eco-Friendly Public Transport: Emphasize shared transportation options.");
+            Printer.PrintLine("2 - Pedestrian-Friendly Design: Prioritize walking and cycling paths.");
+            Printer.PrintLine("Your choice (1, 2): ");
+            string infrastructureChoice = Console.ReadLine();
+            score += EvaluateDesignChoice(infrastructureChoice,"Infrastructure");
+
+            return score;
+        }
+
+        private int EvaluateDesignChoice(string choice, string category)
+        {
+            switch (category)
+            {
+                case "Architectural Style":
+                    return choice == "3" ? 3 : 2;
+                case "Material":
+                    return choice == "1" ? 3 : 2; 
+                case "Energy Efficiency":
+                    return choice == "1" ? 3 : 2; 
+                case "Layout":
+                    return choice == "1" ? 3 : 2;
+                case "GreenSpace":
+                    return choice == "1" ? 3 : 2;
+                case "Infrastructure":
+                    return choice == "2" ? 3 : 2;
+                default:
+                    return 0;
+            }
+        }
 
 
         private int LightUpVillageEvent()
@@ -232,6 +356,7 @@ namespace WorldOfZuul
             return 10;
         }
 
+
         private int PresentEnvironmentalBenefits()
         {
             Printer.PrintLine("\nPresenting Environmental Benefits:");
@@ -273,6 +398,8 @@ namespace WorldOfZuul
             Console.Clear();
             return points;
         }
+
+
         private int ManageInstallationResources()
         {
             Printer.PrintLine("\nManage the Installation Resources:");
@@ -307,6 +434,8 @@ namespace WorldOfZuul
             Printer.PrintLine($"Installation management complete.");
             return totalScore;
         }
+
+
         private int EvaluateTaskManagement(string task, string workerAllocation, string installationStep)
         {
             // Scoring logic based on the effectiveness of decisions
@@ -334,6 +463,8 @@ namespace WorldOfZuul
 
             return score;
         }
+
+
         private int SecureFundingMiniGame()
         {
             Printer.PrintLine("Secure Funding Task");
@@ -364,7 +495,9 @@ namespace WorldOfZuul
             }
 
             return totalScore;
-        }       
+        }    
+
+
         private int PresentEconomicAdvantages()
         {
             Printer.PrintLine("\nPresenting Economic Advantages:");
@@ -406,6 +539,8 @@ namespace WorldOfZuul
             Console.Clear();
             return points; 
         }
+
+
         private int AddressConcernsAboutCost()
         {
             Printer.PrintLine("\nAddressing Concerns About Cost:");
@@ -453,6 +588,8 @@ namespace WorldOfZuul
             }
             
         }
+
+
         private int AddressConcernsAboutMaintenance()
         {
             Printer.PrintLine("\nAddressing Concerns About Maintenance:");
@@ -499,6 +636,8 @@ namespace WorldOfZuul
                     return 0; // No points for invalid response
             }
         }
+
+
         private int PrototypeSolarPanelsPuzzle()
         {
             Printer.PrintLine("Prototype Solar Panels Task");
@@ -543,6 +682,8 @@ namespace WorldOfZuul
 
             return efficiencyScore;
         }
+
+       
         private int EvaluateComponentChoice(string component, string choice)
         {
             // Example scoring logic
@@ -560,6 +701,8 @@ namespace WorldOfZuul
                     return 0;
             }
         }
+      
+      
         private int SolarPanelSiteSelectionMiniGame()
         {
                 Console.Clear();
@@ -615,6 +758,8 @@ namespace WorldOfZuul
             Printer.PrintLine($"Total score for site selection: {totalScore}");
             return totalScore; // The total score reflects the suitability of chosen locations
         }
+      
+      
         private int EnergyQuizMiniGame()
         {
             var questions = new Dictionary<string, List<string>>
@@ -665,6 +810,8 @@ namespace WorldOfZuul
             Console.WriteLine($"\nQuiz complete. Your score: {score}/{questions.Count}");
             return score;
         }
+   
+   
         private int ImplementPurificationSolution()
         {
             Console.WriteLine("With a clear plan and the community's support, you begin the implementation of the water purification system.");
@@ -715,6 +862,8 @@ namespace WorldOfZuul
             Console.WriteLine("The water purification system is now operational.");
             return scoreChange;
         }
+      
+      
         private bool ConstructionPuzzleMiniGame()
         {
             var components      = new List<string> { "Sand Filter", "Chlorination Tank", "UV Light Disinfection", "Reverse Osmosis Membrane" };
@@ -762,6 +911,8 @@ namespace WorldOfZuul
                 return false;
             }
         }
+     
+     
         private bool ResourceNegotiationMiniGame()
         {
             var questions = new List<string>
@@ -814,6 +965,8 @@ namespace WorldOfZuul
                 return false;
             }
         }
+    
+    
         private bool CleanupCoordinationMiniGame()
         {
             var areas = new List<string> { "North Bank", "South Bank", "East Bank", "West Bank" };
@@ -861,6 +1014,8 @@ namespace WorldOfZuul
             Console.WriteLine($"\nCleanup complete. You successfully cleaned {cleanedAreas} areas of the riverbank.");
             return cleanedAreas >= 3; // Return true if most areas are cleaned
         }
+       
+       
         private int ResearchPurificationMethods()
         {
             int SocialScore = 0;
@@ -901,6 +1056,8 @@ namespace WorldOfZuul
             Console.WriteLine("Research complete. You have identified a sustainable purification method for the river.");
             return SocialScore; // Return the updated social score
         }
+       
+       
         private int AnalyzeWaterSample()
         {
 
@@ -934,6 +1091,8 @@ namespace WorldOfZuul
 
             return 5;
         }
+        
+        
         private int AbandonFactoryVisit()
                 {
             bool foundEvidence = false;
@@ -982,6 +1141,8 @@ namespace WorldOfZuul
             Console.WriteLine("\nYou have found crucial evidence linking the factory to the river's pollution.\n");            
             return 5;
         }
+        
+        
         private int VillageCenterInterview()
         {
 
@@ -1053,6 +1214,8 @@ namespace WorldOfZuul
             return 5;
 
         }
+        
+        
         private int InvestigateRiver()
         {
             Console.WriteLine("You observe the river's murky waters and notice a decrease in wildlife.");
@@ -1060,6 +1223,8 @@ namespace WorldOfZuul
 
             return 5;
         }
+        
+        
         public void showMap(Room currentRoom)
         {
             string HistoricalArchive    = "     ";
