@@ -20,8 +20,7 @@ namespace WorldOfZuul
         private Room? lab;
 
         private int engineerScore = 0;
-        private int ChosenMethod = 0;
-    
+        
         public Chapter4Engineer()
         {
 
@@ -1156,17 +1155,14 @@ namespace WorldOfZuul
                 {
                     case 0:
                         Printer.PrintLine("\nYou learn about traditional methods like sand filtration and boiling. While effective, they are less practical for large-scale purification.");
-                        ChosenMethod=0;
                         SocialScore += 3; // Less sustainable, moderate score increase
                         break;
                     case 1:
                         Printer.PrintLine("\nChemical chlorination is highly effective but has environmental drawbacks due to chemical usage.");
-                        ChosenMethod=1;
                         SocialScore += 2; // Least sustainable, lower score increase
                         break;
                     case 2:
                         Printer.PrintLine("\nNatural biofiltration uses plants to remove contaminants. It's highly sustainable and eco-friendly.");
-                        ChosenMethod=2;
                         SocialScore += 5; // Most sustainable, highest score increase
                         break;
                     default:
