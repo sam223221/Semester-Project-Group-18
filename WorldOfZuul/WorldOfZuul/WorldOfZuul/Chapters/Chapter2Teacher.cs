@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.Linq;
+using System.Threading.Tasks.Dataflow;
 
 namespace WorldOfZuul
 {
@@ -82,11 +84,12 @@ namespace WorldOfZuul
             // Add rooms to the chapter's room list
             Rooms.AddRange(new List<Room>() {outside,class1,library,canteen,hallway2,hallway1,office,pub,theatre});
 
-            Item pen = new Item("pen" , "a pen");
+            Item pen = new Item("pen" , "A beatiful pen given to you by your collegue");
             // Create Quests
             Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
             Quest Helpkids = new Quest("Helpkids ","Help the kids around the university");
             Quest Helpcolleagues = new Quest("Helpcolleagues","Help your colleagues");
+    
            // Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
             
             // Create Tasks and associate them with quests
@@ -94,18 +97,20 @@ namespace WorldOfZuul
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
             Task hallway1task = new Task("Kid is crying","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
             Task hallway2task = new Task("Help needed","A collegue needs help",Helpcolleagues,hallway2,colleaguehelp,null,null);
-            
+            Task outsidetask = new Task("Protest?","There is a protest!",Helpkids,outside,protest,null,null);
+            Task classtask = new Task("Geography","You have to help ypur gegraphy collegue",Helpcolleagues,class1,geography,null,pen);
             // Add quest to Chapter list
             //Quests.Add(findDataQuest);
             //Quests.Add(solvePuzzleQuest);
             Quests.Add(Helpkids);
             Quests.Add(Helpcolleagues);
-            
 
             // Add tasks to rooms
             //startRoom.AddTask(findDataTask);
             hallway1.AddTask(kidCrying);
             hallway2.AddTask(colleaguehelp);
+            outside.AddTask(protest);
+            class1.AddTask(geography);
             //anotherRoom.AddTask(solvePuzzleTask);
 
             // Add task to quest
@@ -113,7 +118,7 @@ namespace WorldOfZuul
             //solvePuzzleQuest.AddTask(solvePuzzleTask);
 
         }
-
+                                                //Choice quests
         private int kidCrying()
         {
             Console.WriteLine("You encounter a student crying in the hallway.What will you do?");
@@ -181,6 +186,81 @@ namespace WorldOfZuul
             }
         }
 
+        private int protest()
+        {
+            Console.WriteLine(" Students are organizing a peaceful protest for a cause they believe in. What will you do?");
+            Console.WriteLine(" Observe/Ignore");
+            string awnser = Console.ReadLine().ToLower();
+            if(awnser == "observe")
+            {
+                Console.WriteLine(" A fight broke out. What will you do?");
+                Console.WriteLine($@"
+                                    1.Stop the fight
+                                    2.Ignore");
+                awnser = Console.ReadLine().ToLower();
+                if(awnser == "1") 
+                {
+                    Console.WriteLine("You stop the fight!");
+                    return 10;
+                }
+                else
+                if(awnser == "2")
+                {
+                    Console.WriteLine("The fight was stopped by other teacher,you lose repect in front of the people!");
+                    return -10;
+                }
+                else
+                {
+                    Console.WriteLine("The fight was stopped by other teacher,you lose repect in front of the people!");
+                    return -10;
+                }
+
+
+            }
+            else if(awnser=="Ignore")
+            {
+                Console.WriteLine("You didn't do your duty");
+                return -10;
+            }
+            else 
+            {
+                Console.WriteLine("You didn't do your duty");
+                return -10;
+            }
+        }
+        private int geography()
+        {
+            Console.WriteLine("Your collegue request your help,he won't be able to attend he's lecture,will you attend the lecture in he's place?");
+            Console.WriteLine($@"1.Yes
+                                 2.No");
+            string awnser = Console.ReadLine().ToLower();
+            if(awnser=="1")
+            {
+                Console.WriteLine("You have to teach the students geography and history!");
+                Console.WriteLine($@"What is the capital of Germany?
+                                     1.Berlin
+                                     2.Paris
+                                     3.Moscow
+                                     4.London");
+                awnser = Console.ReadLine().ToLower();
+                if(awnser == "1")
+                {
+                    Console.WriteLine("Correct!");
+                    return 10;
+
+                }
+                else
+                {
+                    Console.WriteLine("Wrong!");
+                    return -10;
+                }
+            }
+            else
+            {
+                return -10;
+            }
+
+        }
         // 
         private int FindDataTaskAction()
         {
