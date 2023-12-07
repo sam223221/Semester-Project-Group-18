@@ -84,6 +84,7 @@ namespace WorldOfZuul
 
             Item pen = new Item("pen" , "a pen");
             // Create Quests
+            Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
             Quest Helpkids = new Quest("Helpkids ","Help the kids around the university");
             Quest Helpcolleagues = new Quest("Helpcolleagues","Help your colleagues");
            // Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
