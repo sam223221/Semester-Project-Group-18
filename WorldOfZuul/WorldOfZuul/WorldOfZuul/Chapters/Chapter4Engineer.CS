@@ -45,7 +45,7 @@ namespace WorldOfZuul
 
         }
 
-        public Room GetStartRoom() => villageCenter;
+        public Room GetStartRoom() => TownHall;
 
 
         public void CreateRoomsAndQuests()
@@ -59,7 +59,9 @@ namespace WorldOfZuul
             Item FactoryInfo            = new Item("Factory Investigation"  , "knowledge about the factory and evidence of illegal dumping" ,"you need to talk to the people in the village center");
 
             Item EnergyMind             = new Item("Energy quiz master"     ,"you are now the master of energy"                             ,"you need togo to the Library to do the PowerQuiz to unluck this task");
-
+            Item AreaMaster             = new Item("All knowing Area master","Now we know where the solarpanals are going to stand"         ,"you need togo to Sun Stone and do the SunStoneExplor task to get acess to this one");
+            Item Prototype              = new Item("SolarPanel Prototype"   ,"this is the prototype of the solarPanel"                      ,"you need togo to the Lab and do the PrototypeSolar task to get acess");
+            Item FundingPaper           = new Item("Funding Paper"          ,"The funding for the SolarPanels"                              ,"you need togo to TownHall to ask for funding");
 
 
             // Initialize rooms
@@ -91,24 +93,26 @@ namespace WorldOfZuul
 
             // Creat quests
             // every quest has to have a sort and a long describtun
-            Quest waterTreatmentQuest       = new Quest("Data"              , "Locate the missing data in the lab."                                                                 );
-            Quest housingQutest             = new Quest("Housing Quest"     , "in this quest you need to research and chose what material\n and show how to build new modern homes" );
-            Quest electricityQuest          = new Quest("Electricity Quest" ,"you need to research and find good solution to new and renewible energy, that is sustanible"          );
+            Quest waterTreatmentQuest       = new Quest("Data"              ,"Locate the missing data in the lab."                                                                 );
+            Quest electricityQuest          = new Quest("Electricity Quest" ,"you need to research and find good solution to new and renewible energy, that is sustanible"         );
+            Quest housingQutest             = new Quest("Housing Quest"     ,"in this quest you need to research and chose what material\n and show how to build new modern homes" );
             
             //initialize tasks
 
             // water treatment quest
-            Task investigateRiver           = new Task("investigation"      ,"there is some polution in this river"                             ,waterTreatmentQuest,River          ,InvestigateRiver               ,null           ,WaterSample        );
-            Task interview                  = new Task("Interview"          ," talk to people around to see what what happend"                  ,waterTreatmentQuest,villageCenter  ,VillageCenterInterview         ,WaterSample    ,FactoryInfo        );
-            Task abandonFactory             = new Task("investigation"      ," aboandon factory"                                                ,waterTreatmentQuest,AbandonFactory ,AbandonFactoryVisit            ,FactoryInfo    ,FactoryIvestigation);
-            Task Analysis                   = new Task("Analysis"           ,"water analysis of to fix the water factory"                       ,waterTreatmentQuest,lab            ,AnalyzeWaterSample             ,WaterSample    ,WaterAnalyzis      );
-            Task ResearchSolution           = new Task("Research"           ,"Research for the best solutin to solve the water problem"         ,waterTreatmentQuest,Library        ,ResearchPurificationMethods    ,WaterAnalyzis  ,ResearchPaper      );
-            Task ImplementWaterSolutin      = new Task("WaterSolution"      ,"now all the prework is done you can start implementing the filter",waterTreatmentQuest,AbandonFactory ,ImplementPurificationSolution  ,ResearchPaper  ,null               );
+            Task investigateRiver           = new Task("investigation"      ,"Water treatment : there is some polution in this river"                               ,waterTreatmentQuest,River          ,InvestigateRiver               ,null           ,WaterSample        );
+            Task interview                  = new Task("Interview"          ,"Water treatment : talk to people around to see what what happend"                     ,waterTreatmentQuest,villageCenter  ,VillageCenterInterview         ,WaterSample    ,FactoryInfo        );
+            Task abandonFactory             = new Task("investigation"      ,"Water treatment : aboandon factory"                                                   ,waterTreatmentQuest,AbandonFactory ,AbandonFactoryVisit            ,FactoryInfo    ,FactoryIvestigation);
+            Task Analysis                   = new Task("Analysis"           ,"Water treatment : water analysis of to fix the water factory"                         ,waterTreatmentQuest,lab            ,AnalyzeWaterSample             ,WaterSample    ,WaterAnalyzis      );
+            Task ResearchSolution           = new Task("Research"           ,"Water treatment : Research for the best solutin to solve the water problem"           ,waterTreatmentQuest,Library        ,ResearchPurificationMethods    ,WaterAnalyzis  ,ResearchPaper      );
+            Task ImplementWaterSolutin      = new Task("WaterSolution"      ,"Water treatment : now all the prework is done you can start implementing the filter"  ,waterTreatmentQuest,AbandonFactory ,ImplementPurificationSolution  ,ResearchPaper  ,null               );
 
             // Electricity quest
-            Task colectKnowlage             = new Task("PowerQuiz"          ,"you need to know learn some thing about Power"                    , electricityQuest  ,Library        ,EnergyQuizMiniGame             ,null           ,EnergyMind);
-            
-            
+            Task colectKnowlage             = new Task("PowerQuiz"          ,"EL    :   You need to know learn some thing about Power"          , electricityQuest      ,Library        ,EnergyQuizMiniGame                 ,null           ,EnergyMind  );
+            Task SunStoneExplor             = new Task("SunStoneExplor"     ,"EL    :   Exploring is good, knowing the place and story"         , electricityQuest      ,SunStone       ,SolarPanelSiteSelectionMiniGame    ,EnergyMind     ,AreaMaster  );
+            Task PrototypeSolar             = new Task("SolarTest"          ,"EL    :   Bulding the solar Panels that are going to be used"     , electricityQuest      ,lab            ,PrototypeSolarPanelsPuzzle         ,AreaMaster     ,Prototype   );
+            Task funding                    = new Task("funding"            ,"EL    :   Securing the fund for the solarpanels"                  , electricityQuest      ,TownHall       ,SecureFundingMiniGame              ,Prototype      ,FundingPaper);
+            Task InstalingSolarPanel        = new Task("InstallSolarPanel"  ,"EL    :   Instaling the solarPanels"                              , electricityQuest      ,SunStone       ,ManageInstallationResources        ,FundingPaper);
             // Add quests to the chapter's quest list
             Quests.Add(waterTreatmentQuest);
             Quests.Add(housingQutest);
@@ -123,7 +127,10 @@ namespace WorldOfZuul
             waterTreatmentQuest.AddTask(ImplementWaterSolutin);
 
             electricityQuest.AddTask(colectKnowlage);
-
+            electricityQuest.AddTask(SunStoneExplor);
+            electricityQuest.AddTask(PrototypeSolar);
+            electricityQuest.AddTask(funding);
+            electricityQuest.AddTask(InstalingSolarPanel);
 
 
             // add task to the room
@@ -135,10 +142,18 @@ namespace WorldOfZuul
             Library.AddTask(ResearchSolution);
             Library.AddTask(colectKnowlage);
 
+            SunStone.AddTask(SunStoneExplor);
+            SunStone.AddTask(InstalingSolarPanel);
+
+            TownHall.AddTask(funding);
+
             River.AddTask(investigateRiver);
 
             lab.AddTask(Analysis);
+            lab.AddTask(PrototypeSolar);
         
+            
+            
             // adding thigs to rooms
             Rooms.Add(HistoricalArchive);
             Rooms.Add(construtionSite);
@@ -161,8 +176,390 @@ namespace WorldOfZuul
 
 
         /****************** down form here are only tasks*********************/
+        private int PresentEnvironmentalBenefits()
+        {
+            Printer.PrintLine("\nPresenting Environmental Benefits:");
+            Printer.PrintLine("You begin to explain the environmental benefits of the solar power project.");
+            
+            int points = 0;
+            string[] benefits = {
+                "Reduces carbon emissions by replacing fossil fuels",
+                "Promotes biodiversity by minimizing habitat disruption",
+                "Supports sustainable community development",
+                "Decreases air and water pollution"
+            };
 
-                private int EnergyQuizMiniGame()
+            foreach (var benefit in benefits)
+            {
+                Printer.Print($"Do you want to mention this benefit?\n'{benefit}'\n (yes/no): ");
+                string response = Console.ReadLine().ToLower();
+
+                if (response == "yes")
+                {
+                    points++;
+                    Printer.PrintLine($"You highlight: '{benefit}'");
+                }
+                Printer.PrintLine("Press any key togo to next question...");
+                Console.ReadKey();
+                Console.Clear();              
+            }
+
+            if (points > 0)
+            {
+                Printer.PrintLine("Your points about environmental benefits are well-received.");
+            }
+            else
+            {
+                Printer.PrintLine("You missed discussing the key environmental benefits.");
+            }
+            Printer.PrintLine("Press any key togo to next question...");
+            Console.ReadKey();
+            Console.Clear();
+            return points;
+        }
+        private int ManageInstallationResources()
+        {
+            Printer.PrintLine("\nManage the Installation Resources:");
+            Printer.PrintLine("You need to allocate workers to various tasks and guide them through the installation steps.");
+
+            int totalScore = 0;
+            var tasks = new Dictionary<string, string>
+            {
+                { "Site Preparation"    , "Clearing the area and setting up the base for panels."       },
+                { "Panel Assembly"      , "Assembling the solar panels and wiring."                     },
+                { "Panel Installation"  , "Mounting the panels and connecting them to the power grid."  }
+            };
+
+            foreach (var task in tasks)
+            {
+                Printer.PrintLine($"\nTask: {task.Key}");
+                Printer.PrintLine($"Description: {task.Value}");
+                Printer.PrintLine("Allocate workers (1 - Few, 2 - Many): ");
+                string workerAllocation = Console.ReadLine();
+
+                Printer.PrintLine("Choose installation step (1 - Start, 2 - Middle, 3 - Finalize): ");
+                string installationStep = Console.ReadLine();
+
+                int taskScore = EvaluateTaskManagement(task.Key, workerAllocation, installationStep);
+                totalScore += taskScore;
+                
+                Printer.PrintLine("Press any key togo to next question...");
+                Console.ReadKey(); 
+                Console.Clear();       
+            }
+
+            Printer.PrintLine($"Installation management complete.");
+            return totalScore;
+        }
+        private int EvaluateTaskManagement(string task, string workerAllocation, string installationStep)
+        {
+            // Scoring logic based on the effectiveness of decisions
+            int score = 0;
+
+            // Example scoring for worker allocation
+            score += workerAllocation == "2" ? 1 : 0;
+
+            // Example scoring for installation steps
+            switch (installationStep)
+            {
+                case "1": // Start
+                    score += task == "Site Preparation" ? 2 : 1;
+                    break;
+                case "2": // Middle
+                    score += task == "Panel Assembly" ? 2 : 1;
+                    break;
+                case "3": // Finalize
+                    score += task == "Panel Installation" ? 2 : 1;
+                    break;
+                default:
+                    score += 0; // No score for invalid choices
+                    break;
+            }
+
+            return score;
+        }
+        private int SecureFundingMiniGame()
+        {
+            Printer.PrintLine("Secure Funding Task");
+            Printer.PrintLine("------------------------------------------------");
+            Printer.PrintLine("You are in the village hall, ready to present the solar power project to the village council and local business owners.");
+            Printer.PrintLine("Your goal is to persuade them to invest in the project. You will need to highlight the benefits and address any concerns they might have.");
+            Printer.PrintLine("Make your case compelling to secure the necessary funding.");
+            Printer.PrintLine("Press any key to begin your presentation...");
+            Console.ReadKey();
+            Console.Clear();
+            int totalScore = 0;
+
+            // Presentation and negotiation
+            totalScore += PresentEnvironmentalBenefits();
+            totalScore += PresentEconomicAdvantages();
+            totalScore += AddressConcernsAboutCost();
+            totalScore += AddressConcernsAboutMaintenance();
+
+            // Evaluate the outcome based on the total score
+            Printer.PrintLine("\nYour presentation is complete.");
+            if (totalScore >= 12) // Threshold for successful funding
+            {
+                Printer.PrintLine("Congratulations! The council and business owners are impressed and agree to fund the project.");
+            }
+            else
+            {
+                Printer.PrintLine("The stakeholders are hesitant. It seems you need to refine your proposal and address their concerns more effectively.");
+            }
+
+            return totalScore;
+        }       
+        private int PresentEconomicAdvantages()
+        {
+            Printer.PrintLine("\nPresenting Economic Advantages:");
+            Printer.PrintLine("You are ready to discuss the economic benefits of the solar power project.");
+
+            int points = 0;
+            string[] economicAdvantages = {
+                "Long-term cost savings due to reduced energy bills",
+                "Job creation in solar panel installation and maintenance",
+                "Boost to local businesses through increased energy independence",
+                "Attracting new investments and eco-tourism to the village"
+            };
+
+            foreach (var advantage in economicAdvantages)
+            {
+                Printer.Print($"Do you want to emphasize this advantage? '{advantage}'\n (yes/no): ");
+                string response = Console.ReadLine().ToLower();
+
+                if (response == "yes")
+                {
+                    points++;
+                    Printer.PrintLine($"You emphasize: '{advantage}'");
+                }
+                Printer.PrintLine("Press any key togo to next question...");
+                Console.ReadKey(); 
+                Console.Clear();               
+            }
+
+            if (points > 0)
+            {
+                Printer.PrintLine("Your presentation on economic advantages resonates with the audience.");
+            }
+            else
+            {
+                Printer.PrintLine("You missed discussing the key economic advantages.");
+            }
+            Printer.PrintLine("Press any key togo to next question...");
+            Console.ReadKey();
+            Console.Clear();
+            return points; 
+        }
+        private int AddressConcernsAboutCost()
+        {
+            Printer.PrintLine("\nAddressing Concerns About Cost:");
+            Printer.PrintLine("A council member raises a concern: 'This solar power project sounds promising, but what about the initial investment? How do we manage the costs?'");
+
+            string[] responses = {
+                "We plan to utilize government grants and renewable energy incentives to offset initial costs.",
+                "We'll start small and expand gradually, managing costs as we go.",
+                "The community will fund the entire project through donations."
+            };
+
+            Printer.PrintLine("How do you respond? (Choose 1, 2, or 3)");
+            for (int i = 0; i < responses.Length; i++)
+            {
+                Printer.PrintLine($"{i + 1}: {responses[i]}");
+            }
+
+            string chosenResponse = Console.ReadLine();
+            switch (chosenResponse)
+            {
+                case "1":
+                    Printer.PrintLine("You explain: 'We plan to utilize government grants and renewable energy incentives to offset initial costs.'");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();  
+                    Console.Clear();                 
+                    return 3; // Most effective response
+                case "2":
+                    Printer.PrintLine("You suggest: 'We'll start small and expand gradually, managing costs as we go.'");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();  
+                    Console.Clear();                 
+                    return 2; // Moderately effective response
+                case "3":
+                    Printer.PrintLine("You propose: 'The community will fund the entire project through donations.'");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();      
+                    Console.Clear();              
+                    return 1; // Least effective response
+                default:
+                    Printer.PrintLine("Invalid response. The council looks confused.");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    return 0; // No points for invalid response
+            }
+            
+        }
+        private int AddressConcernsAboutMaintenance()
+        {
+            Printer.PrintLine("\nAddressing Concerns About Maintenance:");
+            Printer.PrintLine("A local business owner raises a concern: 'Solar panels are great, but what about the long-term maintenance costs?'");
+
+            string[] responses = {
+                "The maintenance costs are relatively low, and we'll train local technicians to handle it, creating more jobs.",
+                "We'll set up a maintenance fund contributed by all beneficiaries of the project.",
+                "Maintenance will be managed by a specialized company at a fixed annual fee."
+            };
+
+            Printer.PrintLine("How do you respond? (Choose 1, 2, or 3)");
+            for (int i = 0; i < responses.Length; i++)
+            {
+                Printer.PrintLine($"{i + 1}: {responses[i]}");
+            }
+
+            string chosenResponse = Console.ReadLine();
+            switch (chosenResponse)
+            {
+                case "1":
+                    Printer.PrintLine("You explain: 'The maintenance costs are relatively low, and we'll train local technicians to handle it, creating more jobs.'");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();              
+                    Console.Clear();      
+                    return 3; // Most effective response
+                case "2":
+                    Printer.PrintLine("You suggest: 'We'll set up a maintenance fund contributed by all beneficiaries of the project.'");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();    
+                    Console.Clear();                
+                    return 2; // Moderately effective response
+                case "3":
+                    Printer.PrintLine("You propose: 'Maintenance will be managed by a specialized company at a fixed annual fee.'");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();     
+                    Console.Clear();               
+                    return 1; // Least effective response
+                default:
+                    Printer.PrintLine("Invalid response. The business owner looks unsatisfied.");
+                    Printer.PrintLine("\nPress any key togo to next question...");
+                    Console.ReadKey();       
+                    Console.Clear();             
+                    return 0; // No points for invalid response
+            }
+        }
+        private int PrototypeSolarPanelsPuzzle()
+        {
+            Printer.PrintLine("Prototype Solar Panels Task");
+            Printer.PrintLine("------------------------------------------------");
+            Printer.PrintLine("Welcome to the village workshop! Your task is to prototype an efficient solar panel using available components.");
+            Printer.PrintLine("You'll need to choose the right type of photovoltaic cells, inverter, battery, and frame material.");
+            Printer.PrintLine("Each choice affects the overall efficiency of the solar panel. Aim for the highest efficiency possible.");
+            Printer.PrintLine("Let's get started!");
+            Printer.PrintLine("Press any key to begin...");
+            Console.ReadKey();
+
+            var components = new Dictionary<string, string>
+            {
+                { "Photovoltaic Cells", "Choose type: Monocrystalline, Polycrystalline, Thin-Film" },
+                { "Inverter", "Choose type: String, Central, Micro" },
+                { "Battery", "Choose capacity: High, Medium, Low" },
+                { "Frame", "Choose material: Aluminum, Steel, Composite" }
+            };
+
+            int efficiencyScore = 0;
+
+            foreach (var component in components)
+            {
+                Console.Clear();
+                Printer.PrintLine($"Component: {component.Key}");
+                Printer.PrintLine($"Options: {component.Value}");
+                Printer.Print("Your choice: ");
+                string choice = Console.ReadLine().ToLower();
+
+                efficiencyScore += EvaluateComponentChoice(component.Key, choice);
+            }
+
+            Printer.PrintLine("\nTesting the solar panel prototype...");
+            if (efficiencyScore > 10) // Example threshold for a successful prototype
+            {
+                Printer.PrintLine("The prototype is highly efficient! Good job!");
+            }
+            else
+            {
+                Printer.PrintLine("The prototype could be improved. Try adjusting the components.");
+            }
+
+            return efficiencyScore;
+        }
+        private int EvaluateComponentChoice(string component, string choice)
+        {
+            // Example scoring logic
+            switch (component)
+            {
+                case "Photovoltaic Cells":
+                    return (choice == "monocrystalline") ? 5 : 2;
+                case "Inverter":
+                    return (choice == "micro") ? 4 : 2;
+                case "Battery":
+                    return (choice == "high") ? 3 : 1;
+                case "Frame":
+                    return (choice == "aluminum") ? 3 : 1;
+                default:
+                    return 0;
+            }
+        }
+        private int SolarPanelSiteSelectionMiniGame()
+        {
+                Console.Clear();
+            Printer.PrintLine("Solar Panel Site Selection Task");
+            Console.WriteLine("------------------------------------------------");
+            Printer.PrintLine("You are about to scout the Sun Stone area for potential solar panel installation sites.");
+            Printer.PrintLine("There are three locations to evaluate, but be cautious: not all of them are optimal.");
+            Printer.PrintLine("Your choices will impact the village's solar energy project and your social score.");
+            Printer.PrintLine("Choose wisely!");
+            Printer.PrintLine("Press any key to begin...");
+            Console.ReadKey();
+            var locations = new Dictionary<string, (string Description, int Score)>
+            {
+                { "Near the Ancient Tree"   , ("Good sunlight, but roots may interfere with installation."      , -4 )  },
+                { "Atop the Hill"           , ("Excellent sunlight, but the ground is uneven."                  , 10 )  },
+                { "Beside the Old Ruins"    , ("Moderate sunlight, stable ground, but close to historical site.", -2 )  }
+            };
+
+            int totalScore = 0;
+
+            foreach (var location in locations)
+            {
+                Console.Clear();
+                Printer.PrintLine($"Location: {location.Key}");
+                Printer.PrintLine($"Assessment: {location.Value.Description}");
+                Printer.Print("Do you approve this location for solar panels? (yes/no): ");
+                string approval = Console.ReadLine().ToLower();
+
+                if (approval == "yes")
+                {
+                    if (location.Key == "Atop the Hill")
+                    {
+                        Printer.PrintLine("you've made a wise choise, this is the best sutible area");
+                    }else
+                    {
+                        Printer.PrintLine("ufff you will bee interfering with sorunding history which will not go well with the locals");
+                    }
+                    totalScore += location.Value.Score;
+                    Printer.PrintLine($"Location '{location.Key}' approved.");
+                    break;
+                }
+                else
+                {
+                    Printer.PrintLine($"Location '{location.Key}' rejected.");
+                }
+                Printer.PrintLine("Press any key to continue...");
+                Console.ReadKey();
+            }
+
+            Printer.PrintLine("Press any key to continue...");
+            Console.ReadKey();
+            Console.Clear();
+            Printer.PrintLine($"Total score for site selection: {totalScore}");
+            return totalScore; // The total score reflects the suitability of chosen locations
+        }
+        private int EnergyQuizMiniGame()
         {
             var questions = new Dictionary<string, List<string>>
             {
@@ -212,8 +609,6 @@ namespace WorldOfZuul
             Console.WriteLine($"\nQuiz complete. Your score: {score}/{questions.Count}");
             return score;
         }
-
-
         private int ImplementPurificationSolution()
         {
             Console.WriteLine("With a clear plan and the community's support, you begin the implementation of the water purification system.");
