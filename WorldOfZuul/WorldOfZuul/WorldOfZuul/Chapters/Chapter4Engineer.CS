@@ -58,6 +58,10 @@ namespace WorldOfZuul
             Item ResearchPaper          = new Item("Research paper"         ,"Research paper about the riversample"                         ,"you need to do the research before you can start implementing");
             Item FactoryInfo            = new Item("Factory Investigation"  , "knowledge about the factory and evidence of illegal dumping" ,"you need to talk to the people in the village center");
 
+            Item EnergyMind             = new Item("Energy quiz master"     ,"you are now the master of energy"                             ,"you need togo to the Library to do the PowerQuiz to unluck this task");
+
+
+
             // Initialize rooms
             HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies and inspirations for the Electricity Quest.");
             construtionSite         = new Room("ConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of Sam's designs coming to life in the Housing Quest");
@@ -92,6 +96,8 @@ namespace WorldOfZuul
             Quest electricityQuest          = new Quest("Electricity Quest" ,"you need to research and find good solution to new and renewible energy, that is sustanible"          );
             
             //initialize tasks
+
+            // water treatment quest
             Task investigateRiver           = new Task("investigation"      ,"there is some polution in this river"                             ,waterTreatmentQuest,River          ,InvestigateRiver               ,null           ,WaterSample        );
             Task interview                  = new Task("Interview"          ," talk to people around to see what what happend"                  ,waterTreatmentQuest,villageCenter  ,VillageCenterInterview         ,WaterSample    ,FactoryInfo        );
             Task abandonFactory             = new Task("investigation"      ," aboandon factory"                                                ,waterTreatmentQuest,AbandonFactory ,AbandonFactoryVisit            ,FactoryInfo    ,FactoryIvestigation);
@@ -99,6 +105,8 @@ namespace WorldOfZuul
             Task ResearchSolution           = new Task("Research"           ,"Research for the best solutin to solve the water problem"         ,waterTreatmentQuest,Library        ,ResearchPurificationMethods    ,WaterAnalyzis  ,ResearchPaper      );
             Task ImplementWaterSolutin      = new Task("WaterSolution"      ,"now all the prework is done you can start implementing the filter",waterTreatmentQuest,AbandonFactory ,ImplementPurificationSolution  ,ResearchPaper  ,null               );
 
+            // Electricity quest
+            Task colectKnowlage             = new Task("PowerQuiz"          ,"you need to know learn some thing about Power"                    , electricityQuest  ,Library        ,EnergyQuizMiniGame             ,null           ,EnergyMind);
             
             
             // Add quests to the chapter's quest list
@@ -114,13 +122,21 @@ namespace WorldOfZuul
             waterTreatmentQuest.AddTask(ResearchSolution);
             waterTreatmentQuest.AddTask(ImplementWaterSolutin);
 
+            electricityQuest.AddTask(colectKnowlage);
+
+
 
             // add task to the room
             AbandonFactory.AddTask(abandonFactory);
-            AbandonFactory.AddTask(abandonFactory);
+            AbandonFactory.AddTask(ImplementWaterSolutin);
+
             villageCenter.AddTask(interview);
+
             Library.AddTask(ResearchSolution);
+            Library.AddTask(colectKnowlage);
+
             River.AddTask(investigateRiver);
+
             lab.AddTask(Analysis);
         
             // adding thigs to rooms
@@ -145,6 +161,58 @@ namespace WorldOfZuul
 
 
         /****************** down form here are only tasks*********************/
+
+                private int EnergyQuizMiniGame()
+        {
+            var questions = new Dictionary<string, List<string>>
+            {
+                { "What is the main benefit of using solar energy?", new List<string> { "It's renewable", "It's cheap", "It's unlimited", "It's colorful" } },
+                { "How do solar panels generate electricity?", new List<string> { "Using wind", "Using water", "Converting sunlight into electricity", "Burning fossil fuels" } },
+                { "What can affect the efficiency of a solar panel?", new List<string> { "The color of the panel", "The time of day", "The panel's size", "The weather and placement" } }
+            };
+
+            var correctAnswers = new List<int> { 0, 2, 3 }; // Indices of correct answers
+            int score = 0;
+
+            foreach (var question in questions)
+            {
+
+                Printer.Print($"\nQuestion: {question.Key}",25);
+                    
+
+                for (int i = 0; i < question.Value.Count; i++)
+                {
+                    Printer.Print($"{i + 1}. {question.Value[i]}",35);
+                }
+
+                Printer.Print("Your answer (number): ",25);
+                if (int.TryParse(Console.ReadLine(), out int answerIndex) && answerIndex > 0 && answerIndex <= question.Value.Count)
+                {
+                    if (answerIndex - 1 == correctAnswers[questions.Keys.ToList().IndexOf(question.Key)])
+                    {
+                        Printer.Print("Correct!");
+                        score++;
+                    }
+                    else
+                    {
+                        Printer.Print("Incorrect.");
+                    }
+                }
+                else
+                {
+                    Printer.Print("Invalid answer. Please try again.");
+                }
+                Console.WriteLine("Press any key to advance to next question...");
+                Console.ReadKey();
+                Console.Clear();
+
+
+            }
+
+            Console.WriteLine($"\nQuiz complete. Your score: {score}/{questions.Count}");
+            return score;
+        }
+
 
         private int ImplementPurificationSolution()
         {
@@ -631,7 +699,6 @@ namespace WorldOfZuul
 
         Console.WriteLine(map);
         }
-
-
+        
     }
 }
