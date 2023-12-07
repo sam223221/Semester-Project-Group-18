@@ -1269,3 +1269,5 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
 
 
     }
+
+}
