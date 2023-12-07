@@ -18,7 +18,7 @@ namespace WorldOfZuul
         public Game()
         {
             unlockedChapters = new List<IChapter>();
-            UnlockChapter(new Chapter2Teacher()); // Assuming Chapter 4 is the starting chapter
+            UnlockChapter(new Chapter1Farmer()); // Assuming Chapter 4 is the starting chapter
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
@@ -221,13 +221,16 @@ command list for see:
         private void UnlockNextChapter()
         {
             // Example: Unlock Chapter 5 after Chapter 4
-            if (currentChapter is Chapter4Engineer)
-            {
-                UnlockChapter(new ChapterExample());
-            }
-            if (currentChapter is ChapterExample)
+            if (currentChapter is Chapter1Farmer)
             {
                 UnlockChapter(new Chapter2Teacher());
+            }
+            if (currentChapter is Chapter2Teacher)
+            {
+                UnlockChapter(new Chapter3Medic());
+            }if (currentChapter is Chapter3Medic)
+            {
+                UnlockChapter(new Chapter4Engineer());
             }
             // Add more conditions for other chapters
         }
@@ -337,7 +340,7 @@ command list for see:
                     
                     int scoreChange = task.Execute(this);
                     SocialScore += scoreChange;
-                    Console.WriteLine($"Task '{task.Name}' executed.\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n");
+                    Console.WriteLine($"\nTask '{task.Name}' executed.\n\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n\n");
 
                     if (task.RelatedQuest.AreAllTasksCompleted())
                     {
@@ -348,9 +351,13 @@ command list for see:
                    }else
                    {
 
-                    Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.");
+                    Console.WriteLine($"You need {task.RequiredItem?.Name} to perform this task.\n");
+                    if (task.RequiredItem.WhereTofindItem != null)
+                    {
+                        Console.WriteLine($"{task.RequiredItem.WhereTofindItem}");
+                    }
                    }
-                    Thread.Sleep(10000);
+                    Thread.Sleep(8000);
                     Console.Clear();
                     Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
                     return;
@@ -446,7 +453,7 @@ command list for see:
              "Some breeds of chickens can lay colored eggs. The Ameraucana and Araucana can lay eggs of green or blue."
             };
 
-            Console.WriteLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}\n");
+            Printer.PrintLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}\n");
             for (int i = 0; i < cycles; i++)
             {
                 foreach (var s in sequence)
@@ -487,6 +494,8 @@ command list for see:
             Console.WriteLine("~ See    :   Type 'see' to see what comands are related to it");
             Console.WriteLine("~ Help   :   To see this message XD");
             Console.WriteLine("~ Quit   :   This will end the game :(");
+            Console.WriteLine();
+            Console.WriteLine("~ Next Chapter   :  when you are done with all quest write this to advance to next chapter");
         }
     }
 }

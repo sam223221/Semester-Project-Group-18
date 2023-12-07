@@ -11,6 +11,7 @@ namespace WorldOfZuul
             {
                 Console.Clear();
                 Console.WriteLine(header);
+                Console.WriteLine();
 
                 for (int i = 0; i < options.Length; i++)
                 {
