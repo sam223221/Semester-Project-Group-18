@@ -94,7 +94,7 @@ namespace WorldOfZuul
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
             Task hallway1task = new Task("Kid is crying","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
             Task hallway2task = new Task("Help needed","A collegue needs help",Helpcolleagues,hallway2,colleaguehelp,null,null);
-
+            
             // Add quest to Chapter list
             //Quests.Add(findDataQuest);
             //Quests.Add(solvePuzzleQuest);
