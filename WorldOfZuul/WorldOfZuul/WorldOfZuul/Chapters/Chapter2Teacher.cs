@@ -62,7 +62,10 @@ namespace WorldOfZuul
 
             library     = new("Library"         ,"You enter the library, a sanctuary of knowledge and quiet contemplation. The air is hushed, and the scent of aged paper mingles with the subtle aroma of leather-bound books. The vast room is lined with towering shelves, each holding the accumulated wisdom of countless authors and scholars.");
             
-            
+            // Add rooms to the chapter's room list
+
+            Rooms.AddRange(new List<Room>() {outside,class1,library,canteen,hallway2,hallway1,office,pub,theatre});
+
             outside.SetExits(null, pub, hallway1, theatre); // North, East, South, West
 
             theatre.SetExits(null, null,office,outside);
@@ -82,9 +85,6 @@ namespace WorldOfZuul
             library.SetExits(class1,null,null,hallway2);
         
 
-            // Add rooms to the chapter's room list
-            Rooms.AddRange(new List<Room>() {outside,class1,library,canteen,hallway2,hallway1,office,pub,theatre});
-
             Item pen = new Item("pen" , "A beatiful pen given to you by your collegue");
             // Create Quests
             Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
@@ -96,10 +96,12 @@ namespace WorldOfZuul
             // Create Tasks and associate them with quests
             //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
-            Task hallway1task = new Task("Kid is crying","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
+            Task hallway1task = new Task("Kid","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
             Task hallway2task = new Task("Colleguehelp","A collegue needs help",Helpcolleagues,hallway2,colleaguehelp,null,null);
             Task outsidetask = new Task("Protest","There is a protest!",Helpkids,outside,protest,null,null);
             Task classtask = new Task("Geography","You have to help ypur gegraphy collegue",Helpcolleagues,class1,geography,null,pen);
+            Task hallway2task2 = new Task("Lost","A kid is looking for something",Helpkids,hallway2,lostpen,pen,null);
+
             // Add quest to Chapter list
             //Quests.Add(findDataQuest);
             //Quests.Add(solvePuzzleQuest);
@@ -110,12 +112,19 @@ namespace WorldOfZuul
             //startRoom.AddTask(findDataTask);
             hallway1.AddTask(hallway1task);
             hallway2.AddTask(hallway2task);
+            hallway2.AddTask(hallway2task2);
             outside.AddTask(outsidetask);
             class1.AddTask(classtask);
             //anotherRoom.AddTask(solvePuzzleTask);
 
             // Add task to quest
             //findDataQuest.AddTask(findDataTask);
+            Helpkids.AddTask(hallway1task);
+            Helpkids.AddTask(hallway2task);
+            Helpcolleagues.AddTask(outsidetask);
+            Helpcolleagues.AddTask(classtask);
+            Helpkids.AddTask(hallway2task2);
+
             //solvePuzzleQuest.AddTask(solvePuzzleTask);
 
         }
@@ -123,7 +132,11 @@ namespace WorldOfZuul
         private int kidCrying()
         {
             Console.WriteLine("You encounter a student crying in the hallway.What will you do?");
-            Console.WriteLine("help/ignore?");
+            Console.WriteLine($@"
+            1.help
+            2.ignore?");
+            while(true)
+            {
             string awnser = Console.ReadLine().ToLower();
             if (awnser == "help")
             {
@@ -136,13 +149,18 @@ namespace WorldOfZuul
                 Console.WriteLine("The student feels ignored. Lose a bit of reputation.");
                 return -5;
             }
+            }
         }
         private int colleaguehelp()
         {
             Console.WriteLine("A colleague asks for your help with a task.Will you help him?");
-            Console.WriteLine(" assist/ignore?");
+            Console.WriteLine($@"
+            1.assist
+            2.ignore?");
+            while(true)
+            {
             string awnser = Console.ReadLine().ToLower();
-            if (awnser == "assist")
+            if (awnser == "1")
             {
                 Console.WriteLine("The colleague is a new teacher and he needs advice on how to deal with the students");
                 Console.WriteLine("What will you tell him?");
@@ -176,23 +194,30 @@ namespace WorldOfZuul
                 }
                 else
                 {
-                    Console.WriteLine("The collegue is dissapointed that you refused to help");
-                    return 0;
+                    Console.WriteLine("Unknown Command");
                 }
             }
             else
+            if(awnser== "2")
             {
                 Console.WriteLine("The collegue is dissapointed that you refused to help");
                 return -5;
+            }
+            else
+            Console.WriteLine("Unknown Command");
             }
         }
 
         private int protest()
         {
             Console.WriteLine(" Students are organizing a peaceful protest for a cause they believe in. What will you do?");
-            Console.WriteLine(" Observe/Ignore");
+            Console.WriteLine($@"
+            1.Observe
+            2.Ignore");
+            while(true)
+            {
             string awnser = Console.ReadLine().ToLower();
-            if(awnser == "observe")
+            if(awnser == "1")
             {
                 Console.WriteLine(" A fight broke out. What will you do?");
                 Console.WriteLine($@"
@@ -212,21 +237,22 @@ namespace WorldOfZuul
                 }
                 else
                 {
-                    Console.WriteLine("The fight was stopped by other teacher,you lose repect in front of the people!");
-                    return -10;
+                    Console.WriteLine("Unknown Command");
+                    
                 }
 
 
             }
-            else if(awnser=="Ignore")
+            else if(awnser=="2")
             {
                 Console.WriteLine("You didn't do your duty");
                 return -10;
             }
             else 
             {
-                Console.WriteLine("You didn't do your duty");
-                return -10;
+                Console.WriteLine("Unknown Command");
+            
+            }
             }
         }
         private int geography()
@@ -234,6 +260,8 @@ namespace WorldOfZuul
             Console.WriteLine("Your collegue request your help,he won't be able to attend he's lecture,will you attend the lecture in he's place?");
             Console.WriteLine($@"1.Yes
                                  2.No");
+            while (true)
+            {
             string awnser = Console.ReadLine().ToLower();
             if(awnser=="1")
             {
@@ -258,8 +286,36 @@ namespace WorldOfZuul
             }
             else
             {
-                return -10;
+                Console.WriteLine("Unknown command");
             }
+         }
+        }
+
+        }
+        private int lostpen()
+        {
+            Console.WriteLine("A kid lost hes pen and it's looking for it.Do you you give him a pen?");
+            Console.WriteLine($@"
+            1.Yes
+            2.No");
+            while(true)
+            {
+            string awnser = Console.ReadLine().ToLower();
+
+                if(awnser == "1")
+                    {
+                        Console.WriteLine("The kid thanks you");
+                        return 10;
+                    }
+                else if (awnser == "2")
+                {
+                    Console.WriteLine("The kid stars crying");
+                    return -5;
+                }
+                else
+                Console.WriteLine("Unknown Command");
+            }
+
 
         }
         // 
