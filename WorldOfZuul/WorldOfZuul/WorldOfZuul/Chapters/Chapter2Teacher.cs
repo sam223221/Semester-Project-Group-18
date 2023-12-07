@@ -17,9 +17,6 @@ namespace WorldOfZuul
         private Room? office;
         private Room? canteen;
         private Room? hallway2;
-        private Room? hallway3;
-        private Room? workshop;
-        private Room? lab;
         private Room? library;
 
         public Chapter2Teacher()
@@ -60,12 +57,6 @@ namespace WorldOfZuul
 
             hallway2    = new("Hallway2"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
 
-            hallway3    = new("Hallway3"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
-
-            workshop    = new("Workshop"        ,"You enter the engineering workshop, a realm of creativity and innovation. The air is filled with the scent of metal, the faint whir of machinery, and the occasional sizzling sound of welding. The workshop is a symphony of activity, with engineers and students huddled over workbenches, sketching designs, and fine-tuning intricate machinery.");
-
-            lab         = new("Laboratory"      , "You step into the laboratory, a realm of scientific exploration and discovery. The air is crisp, carrying the faint scent of chemicals and the sterile environment of controlled experimentation. Fluorescent lights overhead illuminate rows of lab benches, each adorned with glassware, instruments, and the promise of groundbreaking research.");
-
             library     = new("Library"         ,"You enter the library, a sanctuary of knowledge and quiet contemplation. The air is hushed, and the scent of aged paper mingles with the subtle aroma of leather-bound books. The vast room is lined with towering shelves, each holding the accumulated wisdom of countless authors and scholars.");
             
             
@@ -81,38 +72,39 @@ namespace WorldOfZuul
              
             hallway1.SetExits(outside, office,hallway2,class1);
 
-            hallway2.SetExits(hallway1,library,hallway3,workshop);
+            hallway2.SetExits(hallway1,library,null,null);
 
-            hallway3.SetExits(hallway2,lab,null,workshop);
+            canteen.SetExits(office,null,null,null);
 
-            workshop.SetExits(canteen,null,null,hallway3);
-
-            canteen.SetExits(office,null,workshop,null);
-
-            lab.SetExits(library,null,null,hallway3);
-
-            library.SetExits(class1,null,lab,hallway2);
+            library.SetExits(class1,null,null,hallway2);
         
 
             // Add rooms to the chapter's room list
-            Rooms.AddRange(new List<Room>() {outside,class1,lab,library,canteen,hallway3,hallway2,hallway1,workshop,office,pub,theatre});
+            Rooms.AddRange(new List<Room>() {outside,class1,library,canteen,hallway2,hallway1,office,pub,theatre});
 
-            Item showel = new Item("showel" , " hellow wana dig a hole");
+            Item pen = new Item("pen" , "a pen");
             // Create Quests
-            Quest Helpkids = new Quest("Help the kids around the school");
-            Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
+            Quest Helpkids = new Quest("Helpkids ","Help the kids around the university");
+            Quest Helpcolleagues = new Quest("Helpcolleagues","Help your colleagues");
+           // Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
             
             // Create Tasks and associate them with quests
             //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
-            Task hallwaytask = new Task("hallwaytask","kid is crying",Helpkids,hallway1,kidCrying,null,showel);
+            Task hallway1task = new Task("Kid is crying","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
+            Task hallway2task = new Task("Help needed","A collegue needs help",Helpcolleagues,hallway2,colleaguehelp,null,null);
 
-            // Add quest to Chpter list
+            // Add quest to Chapter list
             //Quests.Add(findDataQuest);
             //Quests.Add(solvePuzzleQuest);
+            Quests.Add(Helpkids);
+            Quests.Add(Helpcolleagues);
+            
 
             // Add tasks to rooms
             //startRoom.AddTask(findDataTask);
+            hallway1.AddTask(kidCrying);
+            hallway2.AddTask(colleaguehelp);
             //anotherRoom.AddTask(solvePuzzleTask);
 
             // Add task to quest
@@ -123,15 +115,67 @@ namespace WorldOfZuul
 
         private int kidCrying()
         {
-            Console.WriteLine("do you want to help the kid?");
-            Console.WriteLine("y/n?");
+            Console.WriteLine("You encounter a student crying in the hallway.What will you do?");
+            Console.WriteLine("help/ignore?");
             string awnser = Console.ReadLine().ToLower();
-            if (awnser == "y")
+            if (awnser == "help")
             {
+                Console.WriteLine("The student appreciates your support.You gain a positive reputation. ");
                 return 5;
+
             }
             else
             {
+                Console.WriteLine("The student feels ignored. Lose a bit of reputation.");
+                return -5;
+            }
+        }
+        private int colleaguehelp()
+        {
+            Console.WriteLine("A colleague asks for your help with a task.Will you help him?");
+            Console.WriteLine("assist/ignore?");
+            string awnser = Console.ReadLine().ToLower();
+            if (awnser == "assist")
+            {
+                Console.WriteLine("The colleague is a new teacher and he needs advice on how to deal with the students");
+                Console.WriteLine("What will you tell him?");
+                Console.WriteLine( $@"1.That he is a bad teacher
+                                      2.That every teacher has to deal with this problem and that he will get better as the time goes on
+                                      3.That he should yell at the kids who don't listen to him
+                                      4.That he he should show respect to the kids in order to be respected");
+                awnser = Console.ReadLine().ToLower();
+                if(awnser =="1")
+                    {
+                        Console.WriteLine("The colleague is dissapointed,and he's thinking about quiting he's job.");
+                        return -20;
+                    }
+                else
+                if(awnser =="2")
+                {
+                    Console.WriteLine("The colleague is more confident now,thanks to you!");
+                    return 5;
+                }
+                else
+                if(awnser == "3")
+                {
+                    Console.WriteLine("You gave the collegue bad advice");
+                    return -10;
+                }
+                else
+                if(awnser == "4")
+                {
+                    Console.WriteLine("You gave your collegue a great advice");
+                    return 10;
+                }
+                else
+                {
+                    Console.WriteLine("The collegue is dissapointed that you refused to help");
+                    return 0;
+                }
+            }
+            else
+            {
+                Console.WriteLine("The collegue is dissapointed that you refused to help");
                 return -5;
             }
         }
@@ -153,15 +197,12 @@ namespace WorldOfZuul
        public void showMap(Room currentRoom)
         {
             string class1       = "     ";
-            string lab          = "     ";
             string hallway1     = "     ";
             string hallway2     = "     ";
-            string hallway3     = "     ";
             string pub          = "     ";
             string outside      = "     ";
             string canteen      = "     ";
             string theatre      = "     ";
-            string workshop     = "     ";
             string office       = "     ";
             string library      = "     ";
 
@@ -177,12 +218,6 @@ namespace WorldOfZuul
                 case "Outside":
                     outside = "*You*";
                     break;
-                case "Lab":
-                    lab = "*You*";
-                    break;
-                case "Workshop":
-                    workshop = "*You*";
-                    break;
                 case "Pub":
                     pub = "*You*";
                     break;
@@ -191,9 +226,6 @@ namespace WorldOfZuul
                     break;
                 case "Hallway2":
                     hallway2 = "*You*";
-                    break;
-                case "Hallway3":
-                    hallway3 = "*You*";
                     break;
                 case "Office":
                     office = "*You*";
@@ -223,15 +255,7 @@ namespace WorldOfZuul
           │           │   │           │  │            │        
           │  Canteen  ├───┤  Hallway2 ├──┤  Library   │
           │  {canteen}    │   │ {hallway2}     │  │ {library}      │
-          └───┬───────┘   └───┬───────┘  └───┬────────┘
-              │               │              │
-          ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
-          │           │   │           │  │            │
-          │  Workshop │───│ Hallway3  ├──┤    Lab     │
-          │{workshop}      │   │{hallway3}      │  │   {lab}    │
           └───────────┘   └───────────┘  └────────────┘
-
-
                         ";
 
             Console.WriteLine(map);

@@ -47,6 +47,11 @@ namespace WorldOfZuul
             return inventory.Any(item => item.Name == RequiredItem.Name);
         }
 
+        internal void AddTask(Func<int> colleaguehelp)
+        {
+            throw new NotImplementedException();
+        }
+
         public static implicit operator Room(string v)
         {
             throw new NotImplementedException();
