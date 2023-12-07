@@ -149,6 +149,9 @@ namespace WorldOfZuul
                                       2.That every teacher has to deal with this problem and that he will get better as the time goes on
                                       3.That he should yell at the kids who don't listen to him
                                       4.That he he should show respect to the kids in order to be respected");
+                while (true)
+                {
+                                        
                 awnser = Console.ReadLine().ToLower();
                 if(awnser =="1")
                     {
@@ -175,8 +178,10 @@ namespace WorldOfZuul
                 }
                 else
                 {
-                    Console.WriteLine("The collegue is dissapointed that you refused to help");
-                    return 0;
+                    Console.WriteLine("Unknown Command");
+                
+                }
+
                 }
             }
             else
@@ -191,12 +196,16 @@ namespace WorldOfZuul
             Console.WriteLine(" Students are organizing a peaceful protest for a cause they believe in. What will you do?");
             Console.WriteLine(" Observe/Ignore");
             string awnser = Console.ReadLine().ToLower();
-            if(awnser == "observe")
+            while(true)
             {
+             if(awnser == "observe")
+             {
                 Console.WriteLine(" A fight broke out. What will you do?");
                 Console.WriteLine($@"
                                     1.Stop the fight
                                     2.Ignore");
+                while(true)
+                {
                 awnser = Console.ReadLine().ToLower();
                 if(awnser == "1") 
                 {
@@ -211,11 +220,11 @@ namespace WorldOfZuul
                 }
                 else
                 {
-                    Console.WriteLine("The fight was stopped by other teacher,you lose repect in front of the people!");
-                    return -10;
+                    Console.WriteLine("Unknown Command");
+                
                 }
 
-
+                }
             }
             else if(awnser=="Ignore")
             {
@@ -224,15 +233,19 @@ namespace WorldOfZuul
             }
             else 
             {
-                Console.WriteLine("You didn't do your duty");
-                return -10;
+                {
+                    Console.WriteLine("Unknown Command");
+                }
             }
+          }
         }
         private int geography()
         {
             Console.WriteLine("Your collegue request your help,he won't be able to attend he's lecture,will you attend the lecture in he's place?");
             Console.WriteLine($@"1.Yes
                                  2.No");
+            while(true)
+            {
             string awnser = Console.ReadLine().ToLower();
             if(awnser=="1")
             {
@@ -257,7 +270,8 @@ namespace WorldOfZuul
             }
             else
             {
-                return -10;
+                Console.WriteLine("Unknown Command");
+            }
             }
 
         }
