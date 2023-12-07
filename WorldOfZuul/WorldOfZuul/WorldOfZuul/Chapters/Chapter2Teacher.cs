@@ -96,8 +96,8 @@ namespace WorldOfZuul
             //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
             //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
             Task hallway1task = new Task("Kid is crying","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
-            Task hallway2task = new Task("Help needed","A collegue needs help",Helpcolleagues,hallway2,colleaguehelp,null,null);
-            Task outsidetask = new Task("Protest?","There is a protest!",Helpkids,outside,protest,null,null);
+            Task hallway2task = new Task("Colleguehelp","A collegue needs help",Helpcolleagues,hallway2,colleaguehelp,null,null);
+            Task outsidetask = new Task("Protest","There is a protest!",Helpkids,outside,protest,null,null);
             Task classtask = new Task("Geography","You have to help ypur gegraphy collegue",Helpcolleagues,class1,geography,null,pen);
             // Add quest to Chapter list
             //Quests.Add(findDataQuest);
@@ -107,10 +107,10 @@ namespace WorldOfZuul
 
             // Add tasks to rooms
             //startRoom.AddTask(findDataTask);
-            hallway1.AddTask(kidCrying);
-            hallway2.AddTask(colleaguehelp);
-            outside.AddTask(protest);
-            class1.AddTask(geography);
+            hallway1.AddTask(hallway1task);
+            hallway2.AddTask(hallway2task);
+            outside.AddTask(outsidetask);
+            class1.AddTask(classtask);
             //anotherRoom.AddTask(solvePuzzleTask);
 
             // Add task to quest
