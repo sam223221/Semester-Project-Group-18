@@ -46,8 +46,8 @@ namespace WorldOfZuul
             Item solarpanelItem = new Item("solar panels");
 
             Item lostanimalsInfo = new Item("information about lost animals");
-            Item lostanimalsAnimals = new Item("lost animals");
             Item lostanimalsSnack = new Item("meat");
+            Item lostanimalsAnimals = new Item("lost stray dogs");
 
             // Initialize rooms
             village = new Room("Village", "you are at the center of your beautiful village!");
@@ -93,7 +93,7 @@ namespace WorldOfZuul
             Task lostanimalsInformation = new Task("LostAnimals", "Gather information about lost animals next to the lake area.", lakeQuest, lake, LakeInformation, null, lostanimalsInfo);
             Task lostanimalsMeat = new Task("Meat", "Get a snack to pet the dogs...", lakeQuest, farm, MeatCollect, lostanimalsInfo, lostanimalsSnack);
             Task lostanimalsFind = new Task("LookAround", "Look for the lost animals!", lakeQuest, lake, LookForAnimals, lostanimalsSnack, lostanimalsAnimals);
-            Task lostanimalsShelters = new Task("AnimalShelter", "Build A shelter for the lost animaLS", lakeQuest, lake, LookForAnimals, lostanimalsAnimals, null);
+            Task lostanimalsShelters = new Task("AnimalShelter", "Build a shelter for the lost animals", lakeQuest, farm, AnimalShelters, /*lostanimalsAnimals*/ null);
 
             //*************************************************************************************
 
@@ -118,6 +118,7 @@ namespace WorldOfZuul
             watermillQuest.AddTask(watermillQuizSustFarTask);
 
             lakeQuest.AddTask(lostanimalsInformation);
+            lakeQuest.AddTask(lostanimalsMeat);
             lakeQuest.AddTask(lostanimalsFind);
             lakeQuest.AddTask(lostanimalsShelters);
 
@@ -135,11 +136,11 @@ namespace WorldOfZuul
 
             lake.AddTask(lostanimalsInformation);
             lake.AddTask(lostanimalsFind);
-            lake.AddTask(lostanimalsShelters);
 
             farm.AddTask(openHouse);
             farm.AddTask(lostanimalsMeat);
-
+            farm.AddTask(lostanimalsShelters);
+               
             // Adding things to rooms
 
             Rooms.Add(lake);
@@ -565,18 +566,122 @@ namespace WorldOfZuul
    
         private int MeatCollect()
         {
+            Print("Getting meat from the fridge...", 25);
+            Console.ReadKey();
+            Console.Clear();
             return 5;
         }
-
-        //to do!!!!
+      
+        delegate bool SearchAnimalsDelegate();
         private int LookForAnimals()
         {
-            return 5;
-        }
+            string[] locations = { "Timber Yard", "Lakeside", "Crystal Lake Resort", "Park" };
+            int score = 0;
+            int totalDogs = locations.Length * 3;
 
+            Console.WriteLine("Time to find lost animals in the lake area.");
+            Console.WriteLine("Explore each location carefully and try to find all the stray dogs.");
+            Console.WriteLine("Good luck!\n");
+
+            Console.ReadKey();
+            Console.Clear();
+
+            while (score < totalDogs)
+            {
+                foreach (var location in locations)
+                {
+                    Console.WriteLine($"{location}: You search near {location} for any signs of lost dogs.");
+                    SearchAnimalsDelegate searchGame = () =>
+                    {
+                        Console.WriteLine($"You have to decide where to search at {location}. Choose a number between 1 and 4:");
+                        Console.WriteLine("1. Check the bushes");
+                        Console.WriteLine("2. Look behind the trees");
+                        Console.WriteLine("3. Investigate the nearby fields");
+                        Console.WriteLine("4. Behind you");
+
+                        int playerChoice;
+                        while (true)
+                        {
+                            Console.Write("Enter your choice: ");
+                            if (int.TryParse(Console.ReadLine(), out playerChoice) && playerChoice >= 1 && playerChoice <= 5)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+                            }
+                        }
+
+                        Random random = new Random();
+                        bool foundDogs = random.Next(1, 5) == 1; //25% chance
+
+                        Console.Clear();
+
+                        if (foundDogs)
+                        {
+                            Console.WriteLine($"You found a stray dog at {location}! Great job!");
+                            Console.WriteLine("A little snack and he likes you!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"No luck this time at {location}... Keep exploring!");
+                        }
+
+                        Console.WriteLine();
+
+                        return foundDogs;
+                    };
+
+                    bool foundDogs = searchGame();
+
+                    if (foundDogs)
+                    {
+                        score += 5;
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+            Console.WriteLine($"\nCongratulations! You've found all the stray dogs and completed the mission with a score of {score}!");
+            Console.WriteLine("Now it is time to build some animal shelters for the new citizens!");
+            return score;
+        }
         private int AnimalShelters()
         {
-            return 5;
+            Print("Congratulations again on finding the stray dogs.", 25);
+            Print("Now you need to build homes for the lost animals.", 25);
+            Console.ReadKey();
+
+            string header = "Build some shelters for your guests!";
+            string[] options =
+                { "1: Build a shelter for Hugo", "2: Build a shelter for Sky", "3: Build a shelter for Goldie", "Complete the quest." };
+
+            bool[] sheltersBuilt = { false, false, false };
+
+            while (true)
+            {
+                int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, options);
+
+                if (selectedIndex >= 0 && selectedIndex < 3 && !sheltersBuilt[selectedIndex])
+                {
+                    Console.WriteLine($"Shelter {selectedIndex + 1} built! {(selectedIndex == 0 ? "Hugo" : (selectedIndex == 1 ? "Sky" : "Goldie"))} is happy!");
+                    sheltersBuilt[selectedIndex] = true;
+                    Console.ReadKey();
+                }
+                else if (selectedIndex == 3 && sheltersBuilt.All(built => built))
+                {
+                    Console.ReadKey();
+                    return 10;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection. Please try again.");
+                }
+            }
         }
 
         /******************map*********************/

@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dkg50S7VP372veBxSyfcRsL+G76rnQ7gP1hz573hPLFp9JDOqAeKdVflX0DXi5CwW7oeMuE9nj3aO/S9GGYJRQ==",
+  "dgSpecHash": "7vzHEUV50PH87GMBLywRTrYE3ymZEb84HzuZDQy+gfSRrwXkK8NkipL8pit8rf15nQlqxk75spwUq4rh7LBSpg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.22\\microsoft.netcore.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.22\\microsoft.windowsdesktop.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.22\\microsoft.aspnetcore.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.22\\microsoft.netcore.app.host.win-x64.6.0.22.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\ksuch\\OneDrive\\Pulpit\\Project\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
