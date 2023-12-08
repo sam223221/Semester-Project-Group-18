@@ -9,6 +9,7 @@ namespace WorldOfZuul
         private Parser parser = new();
         private IChapter? currentChapter; // Declare as nullable if it can be null
         private bool continuePlaying = true;
+        private bool gameRunning = false;
         private List<Quest> currentChapterQuests = new List<Quest>();
         public int SocialScore { get; private set; }
         private List<IChapter> unlockedChapters;
@@ -17,11 +18,20 @@ namespace WorldOfZuul
 
         public Game()
         {
+
+            ShowMainMenu();
+            if (gameRunning)
+            {
             unlockedChapters = new List<IChapter>();
+<<<<<<< HEAD
             UnlockChapter(new Chapter2Teacher()); // Assuming Chapter 4 is the starting chapter
+=======
+            UnlockChapter(new Chapter1Farmer()); // Assuming Chapter 4 is the starting chapter
+>>>>>>> a7ff4faece9cee7edd745365f74f5e9712a6be90
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
+            }
 
         }
         private void StartChapter(IChapter chapter)
@@ -37,6 +47,8 @@ namespace WorldOfZuul
                 
                 currentChapterQuests.Add(quest);
             }
+            Console.Clear();
+            Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
         }
 
            private void UnlockChapter(IChapter chapter) => unlockedChapters.Add(chapter);
@@ -50,8 +62,6 @@ namespace WorldOfZuul
         // *** here is where the game logic is ***
         public void Play()
         {
-            Console.Clear();
-            Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
             while (continuePlaying)
             {
 
@@ -191,16 +201,24 @@ command list for see:
                     break;
 
                     // Quit command is processed here
-                case "quit":
-                    continuePlaying = false;
+                case "menu":
+                    ShowMainMenu();
                     break;
                 case "next":
                 if (command.SecondWord == "chapter")
                 {
                     if (CanAdvanceToNextChapter())
                     {
-                    UnlockNextChapter();
-                    PromptForNextChapter();
+                        UnlockNextChapter();
+
+                        if (AreAllChaptersCompleted())
+                        {
+                            ShowOutro();
+                            continuePlaying = false;
+                            break;
+                        }
+
+                        PromptForNextChapter();
 
                     }else
                     {
@@ -220,7 +238,13 @@ command list for see:
 
         private void UnlockNextChapter()
         {
-            // Example: Unlock Chapter 5 after Chapter 4
+
+            if (currentChapter != null)
+            {
+                currentChapter.IsCompleted = true;
+            }
+            
+
             if (currentChapter is Chapter1Farmer)
             {
                 UnlockChapter(new Chapter2Teacher());
@@ -232,7 +256,6 @@ command list for see:
             {
                 UnlockChapter(new Chapter4Engineer());
             }
-            // Add more conditions for other chapters
         }
 
         private bool CanAdvanceToNextChapter()
@@ -251,27 +274,26 @@ command list for see:
         }
         public void ChooseChapter()
         {
-            string[] chapterList = new string[unlockedChapters.Count];
+            List<string> chapterList = new List<string>();
 
             for (int i = 0; i < unlockedChapters.Count; i++)
             {
-                chapterList[i] = $"{i + 1}. {unlockedChapters[i].GetType().Name}";
+                string chapterStatus = unlockedChapters[i].IsCompleted ? "(completed)" : "";
+                chapterList.Add($"{i + 1}. {unlockedChapters[i].GetType().Name} {chapterStatus}");
             }
 
             string choice = "Choose a chapter:";
-            int chapterIndex = InteractiveMenu.MultichoiceQuestion(choice, chapterList);
+            int chapterIndex = InteractiveMenu.MultichoiceQuestion(choice, chapterList.ToArray());
 
-            // Ensure the selected index is within the range
-            if (chapterIndex >= 0 && chapterIndex <= unlockedChapters.Count)
+            if (chapterIndex >= 0 && chapterIndex < unlockedChapters.Count && !unlockedChapters[chapterIndex].IsCompleted)
             {
                 StartChapter(unlockedChapters[chapterIndex]);
                 Console.Clear();
                 Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
-
             }
             else
             {
-                Console.WriteLine("Invalid choice.");
+                Console.WriteLine("Invalid choice or chapter already completed.");
             }
         }
 
@@ -324,9 +346,39 @@ command list for see:
                 ChooseChapter();
             }
         }
+        private bool AreAllChaptersCompleted()
+        {
+            return unlockedChapters.All(chapter => chapter.IsCompleted);
+        }
 
+        private void ShowOutro()
+        {
+            Console.Clear();
+            Printer.PrintLine("Congratulations on completing your journey in Hope Rising, a new begining!");
+            Printer.PrintLine($"Your final social score is: {SocialScore}");
 
+            if (SocialScore > 100)
+            {
+                Printer.PrintLine("You've become a legend and will be rememberd as the hero that came to save there future.");
+            }
+            else if (SocialScore > 50)
+            {
+                Printer.PrintLine("You've made a positive impact, and are leaving a trail of good deeds behind.");
+            }
+            else if (SocialScore > 0)
+            {
+                Printer.PrintLine("You've had a fair journey, with both ups and downs along the way.");
+                Printer.PrintLine("But it really seems that you are not made for right choses");
+            }
+            else
+            {
+                Printer.PrintLine("Your journey was challenging, with many tough decisions and hardships.");
+            }
 
+            Printer.PrintLine("\nThank you for playing! Press any key to exit.");
+            Console.ReadKey();
+            continuePlaying = false;
+        }
 
 
         private void ExecuteTask(string taskName)
@@ -469,7 +521,111 @@ command list for see:
 
         }
 
+        public void ShowMainMenu()
+        {
+            bool exitMenu = false;
 
+
+            while (!exitMenu)
+            {
+                Console.Clear();
+                    string header ="Welcome to Hope Rising, a new begining!";
+                    string[] options = {"Start New Game","Continue Game","Tutorial","Exit"};
+                Console.Write("\nEnter your choice: ");
+                int choice = InteractiveMenu.MultichoiceQuestion(header,options);
+
+                switch (choice)
+                {
+                    case 0:
+                        
+                        if (!gameRunning)
+                        {
+
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Console.Clear();
+                                
+                                Console.WriteLine("Starting a new game...");
+                            
+                                for (int ii = 0; ii < 5; ii++)
+                                    {
+                                        Console.Write("#");
+                                        Thread.Sleep(500);
+                                    }
+                                
+                            }
+                            gameRunning = true;
+                            return;
+                        }else
+                        {
+                            Console.WriteLine("A game is currently running");
+                            Console.ReadKey();
+                        }
+                        break;
+
+                    case 1:
+
+                        if (gameRunning)
+                        {
+
+                        Console.WriteLine("Continuing game...");
+                        Thread.Sleep(2000);
+                        Console.Clear();
+                        Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
+                        return;
+
+                        }else
+                        {
+                            Console.WriteLine("there is no game running");
+                            Console.ReadKey();
+                        }
+                        break;
+
+                    case 2:
+                        Tutorial();
+                        break;
+                    case 3:
+                        continuePlaying = false;
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice, please try again.");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+
+
+
+        public void Tutorial()
+        {
+            // Introduction to the game
+            ShowSlide("Welcome to the Hope Rising, a new begining! This tutorial will guide you through the basics of the game.");
+
+            // Basic controls
+            ShowSlide("To move around, use the commands: north, south, east, and west.");
+
+            // Interaction commands
+            ShowSlide("To interact with objects characters or tasks, use commands:  'Do' folowed with the name of the task\nExample : \nTask: Quiz\n> Do Quiz \n\nThis would execute the task");
+
+            // Quests and tasks
+            ShowSlide("Throughout your journey, you will encounter various quests and tasks. Complete them to progress in the game.");
+
+            // Inventory management
+            ShowSlide("You can carry items in your inventory. Use the 'see inventory' command to view your items.");
+
+            // Ending the tutorial
+            ShowSlide("That's the end of the tutorial. if you need any Help just type 'Help' then you will be show what comands you can use\nYour adventure awaits!");
+
+        }
+
+    private void ShowSlide(string text)
+    {
+        Console.Clear();
+        Printer.PrintLine(text);
+        Console.WriteLine("\nPress any key to continue...");
+        Console.ReadKey();
+    }
 
 
 
@@ -493,7 +649,7 @@ command list for see:
             Console.WriteLine("~ Back   :   Makes you go back to the room you just came from");
             Console.WriteLine("~ See    :   Type 'see' to see what comands are related to it");
             Console.WriteLine("~ Help   :   To see this message XD");
-            Console.WriteLine("~ Quit   :   This will end the game :(");
+            Console.WriteLine("~ Menu   :   This will send you to the Menu");
             Console.WriteLine();
             Console.WriteLine("~ Next Chapter   :  when you are done with all quest write this to advance to next chapter");
         }

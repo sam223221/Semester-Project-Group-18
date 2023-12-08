@@ -8,6 +8,7 @@ namespace WorldOfZuul
         Introduction intro = new Introduction();
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests { get; set; }
+        public bool IsCompleted { get; set; }
         private Room? village;
         private Room? house;
         private Room? market;

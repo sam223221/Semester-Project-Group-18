@@ -10,7 +10,7 @@ namespace WorldOfZuul
     {
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests {get; set;}
-
+        public bool IsCompleted { get; set; }
         private Room? class1;
         private Room? outside;
         private Room? theatre;

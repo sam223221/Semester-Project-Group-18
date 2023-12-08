@@ -14,6 +14,7 @@ namespace WorldOfZuul
     {
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests { get; set; }
+        public bool IsCompleted { get; set; }
         private Room? PublicHospital;
         private Room? VillageCenter;
         private Room? GreenForest;
@@ -44,7 +45,6 @@ namespace WorldOfZuul
 
         public void CreateRoomsAndQuests()
         {
-
             // Create items
             Item BookOfHerbGathering = new Item("Book Of Herb Gathering", "With this book, you will now which herbs to gather...", "You'll get this after defeating sickness in forest");
 
@@ -65,6 +65,12 @@ namespace WorldOfZuul
             Item TownMarketTicket = new Item("Slightly Torn Ticket", "With this ticket you can now enter the Town Market...", "You'll receive it from Travelling Merchant after talk");
 
             Item SDG3Book = new Item("Very Well-made Book", "With help of this book, you can finish the SDG Quiz and prepare for the final quest...", "You'll receive it after trade with Travelling Merchant");
+
+            Item SDG3Knowledge = new Item("Sustainable Development Goal 3 Knowledge", "You have provent that you are worthy to be called SDG Medic", "You'll get it after finishing SDG Quiz in Holy Church");
+            
+            Item Reputation = new Item("Good reputation among citizens", "Knowing that you are helping people, you sleep better...", "You'll get it after treating patients in Public Hospital");
+
+            Item HospitalDoorCode = new Item("Door to access Public Hospital doors", "This will come in handy to get to Hospital next time...", "You firsly need to guess it...");
 
             // Initialize rooms
             
@@ -147,9 +153,13 @@ namespace WorldOfZuul
 
             Task TradeInTownMarket = new Task("Trade", "This Travelling Merchant seems quite shady, but you need to trade with him", TownMarketTrade, TownMarket, TradeWithTravellingMerchant, TownMarketTicket, SDG3Book);
 
-            Task SDGQuizInHolyChurch = new Task("SDG", "This quiz will confirm whether you are worthy of being an SDG Medic", ChurchQuizzes, HolyChurch, SDGQuizInChurch, SDG3Book, null);
+            Task SDGQuizInHolyChurch = new Task("SDG", "This quiz will confirm whether you are worthy of being an SDG Medic", ChurchQuizzes, HolyChurch, SDGQuizInChurch, SDG3Book, SDG3Knowledge);
 
-            Task TreatingPatients = new Task("Patients", "Citizens in Public Hospital need help, you are the only one who can cure them...", HospitalHealing, PublicHospital, HospitalPatients, SDG3Book, null);
+            Task TreatingPatients = new Task("Patients", "Citizens in Public Hospital need help, you are the only one who can cure them...", HospitalHealing, PublicHospital, HospitalPatients, SDG3Knowledge, Reputation);
+
+            Task GuessTheCode = new Task("Guessing", "You've spent so much time in hospital, that now you can't exit...", HospitalHealing, PublicHospital, DoorNumberGuessingGame, Reputation, HospitalDoorCode);
+
+            Task FinalTalkWithMayor = new Task("Mayor", "This is final talk, your adventure is coming to an end, you have already done your part...", TalkingWithLocals, VillageCenter, FinalTalk, HospitalDoorCode, null);
 
             //Add quests to the chapters quests lists
 
@@ -180,6 +190,7 @@ namespace WorldOfZuul
             TalkingWithLocals.AddTask(InformMayor);
             TalkingWithLocals.AddTask(InformMayor2);
             TalkingWithLocals.AddTask(InformFarmer);
+            TalkingWithLocals.AddTask(FinalTalkWithMayor);
 
             DeepCaveRescue.AddTask(DiscoveringNewMedicines);
             DeepCaveRescue.AddTask(RescueMiners);
@@ -189,6 +200,7 @@ namespace WorldOfZuul
             TownMarketTrade.AddTask(TradeInTownMarket);
 
             HospitalHealing.AddTask(TreatingPatients);
+            HospitalHealing.AddTask(GuessTheCode);
 
             //Add task to the room
 
@@ -199,6 +211,7 @@ namespace WorldOfZuul
             VillageCenter.AddTask(InformMayor);
             VillageCenter.AddTask(InformMayor2);
             VillageCenter.AddTask(InformFarmer);
+            VillageCenter.AddTask(FinalTalkWithMayor);
 
             HolyChurch.AddTask(MedicalQuizInHolyChurch);
             HolyChurch.AddTask(SDGQuizInHolyChurch);
@@ -212,6 +225,7 @@ namespace WorldOfZuul
             TownMarket.AddTask(TradeInTownMarket);
 
             PublicHospital.AddTask(TreatingPatients);
+            PublicHospital.AddTask(GuessTheCode);
             
             // Adding thigs to rooms
             Rooms.Add(HolyChurch);
@@ -230,6 +244,73 @@ namespace WorldOfZuul
         }
 
         /************************* HOSPITAL HEALING TASK ***************************/
+
+        private int DoorNumberGuessingGame()
+        {
+            Random random = new Random();
+
+            int min = 1;
+            int max = 100;
+            int guess;
+            int number;
+            int guesses;
+
+            PrintText("You worked so hard that I lost track of time. It's late and there's no one with the keys. " +
+                      "\nYou have to guess the hospital door code to get out...");
+
+            PrintText("Press any key...");
+
+            PressKey();
+
+
+            Console.WriteLine("Guess a code number of between " + min + " - " + max + " : ");
+            guess = Convert.ToInt32(Console.ReadLine());
+
+            number = random.Next(min, max + 1);
+            guesses = 1;
+
+            if (guess == number)
+            {
+                Console.WriteLine("Number: " + number);
+                Console.WriteLine("Guesses: " + guesses);
+                Console.WriteLine("Nice! You guessed the code you can now exit the hospital...");
+                return 15; 
+            }
+
+            while (guess != number)
+            {
+                Console.WriteLine(TextArtManager.GetTextArt("CodeMedic"));
+                
+                Console.WriteLine("Guess: " + guess);
+
+                if (guess > number)
+                {
+                    Console.WriteLine(guess + " is too high!");
+
+                    Thread.Sleep(1500);
+                    Console.Clear();
+                }
+                else if (guess < number)
+                {
+                    Console.WriteLine(guess + " is too low!");
+                    
+                    Thread.Sleep(1500);
+                    Console.Clear();
+                }
+
+                Console.WriteLine("Guess a number between " + min + " - " + max + " : ");
+                guess = Convert.ToInt32(Console.ReadLine());
+
+                guesses++;
+            }
+
+            Console.WriteLine("Number: " + number);
+            Console.WriteLine("Guesses: " + guesses);
+            Console.WriteLine("Okay, you guessed ");
+
+            Console.ReadKey();
+            return 0; 
+        }
 
         static int patientsTreated = 0;
         static int medicalSupplies = 20;
@@ -904,6 +985,66 @@ namespace WorldOfZuul
 
         }
 
+        private int FinalTalk()
+        {
+            bool gatheredAllInfo = false;
+            HashSet<string> infoCollected = new HashSet<string>();
+
+            string header = "\nYou need to inform mayor about your accomplishment with defeating the sickness.\n";
+            string[] option = {
+                               "1. Mayor Campbell"
+                              };
+
+            while (!gatheredAllInfo)
+            {
+                int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option);
+
+                switch (selectedIndex)
+                {
+                    case 0:
+                        if (!infoCollected.Contains("Mayor"))
+                        {
+                            PrintText("\nMedic: \nHello Mayor Campbell, I have great news! I've was in Public Hospital and I've treated many patients...", 15);
+
+                            PrintText("\nMayor Campbell: \nYou are amazing, the village has really come back to life and you can see the positive changes at first glance. " +
+                                                         "\nIt's a pity you have to leave the village.", 15);
+
+                            PrintText("\nMedic: \nDon't worry, citizens got a good example of what all this should look like.", 15);
+
+                            PrintText("\nMayor Campbell: \nThank you for everything you have done for the village, I hope to see you again...", 15);
+
+                            PrintText("\nMedic: \nGoodbye... I'm glad I could help...");
+                            infoCollected.Add("Mayor");
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nYou've already talked with Mayor... Go talk with others!\n");
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("\nYou can't to that! This choice is not valid.\n");
+                        break;
+                }
+
+                Console.ReadKey();
+
+                if (infoCollected.Count >= 1)
+                {
+                    gatheredAllInfo = true;
+                }
+
+            }
+
+            Console.Clear();
+
+            Console.WriteLine("\nMayor is really grateful for your help...");
+
+            return 5;
+
+        }
+
         /****************** DISCOVER MEDICINES TASK *********************/
 
         private int DiscoverMedicines()
@@ -1198,12 +1339,10 @@ namespace WorldOfZuul
 
             Console.ReadLine();
         }
-
         static bool CheckAnswer(int selectedIndex)
         {
             return selectedIndex == 0; 
         }
-
         static string GetCorrectAnswer(string[] options)
         {
             return options[0].Substring(3); 
@@ -1461,6 +1600,7 @@ namespace WorldOfZuul
         private static void PressKey()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+            Console.Clear();
         }
 
         public static void TitleAnimation(string titleText)
