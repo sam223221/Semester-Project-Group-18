@@ -5,6 +5,7 @@ using System.Formats.Asn1;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks.Dataflow;
+using System.Xml;
 
 namespace WorldOfZuul
 {
@@ -90,12 +91,13 @@ namespace WorldOfZuul
             Item pen = new Item("pen" , "A beatiful pen given to you by your collegue","Help your collegue to by teaching he's students");
             Item screwdriver = new Item("screwdriver","A simple screwdriver","Workshop");
             Item hammer = new Item("hammer","A hammer nothing too speacial about it","Theatre");
+            Item smartphone= new Item("smartphone","A smartphone that you found","Office");
 
             // Create Quests
             Quest Repairschool = new Quest("RepairTheSchool.","Repair the school");
             Quest Helpkids = new Quest("Helpkids ","Help the kids around the university");
             Quest Helpcolleagues = new Quest("Helpcolleagues","Help your colleagues");
-
+            Quest LostSomething= new Quest("LostPhone","Someone lost something valuable");
 
             // Create Tasks and associate them with quests
             Task hallway1task = new Task("Kid","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
@@ -107,10 +109,14 @@ namespace WorldOfZuul
             Task screwdriver1 = new Task("Screwdriver","A screwdriver",Repairschool,workshop,screwdriverfound,null,screwdriver);
             Task Hammer = new Task("Hammer","A hammer",Repairschool,theatre,hammerfound,screwdriver,hammer);
             Task canteenrepair = new Task("Canteenrepair","The canteen needs repairs",Repairschool,canteen,repairs,hammer,null);
+            Task foundphone = new Task("Phone","You found a phone",LostSomething,office,lostphone,null,smartphone);
+            Task givephone = new Task("GiveOrNot","Will you make the right choice?",LostSomething,pub,GiveOrNot,smartphone,null);
             // Add quest to Chapter list
             Quests.Add(Helpkids);
             Quests.Add(Helpcolleagues);
             Quests.Add(Repairschool);
+            Quests.Add(LostSomething);
+
             // Add tasks to rooms
             hallway1.AddTask(hallway1task);
             hallway2.AddTask(hallway2task);
@@ -121,16 +127,21 @@ namespace WorldOfZuul
             workshop.AddTask(screwdriver1);
             canteen.AddTask(canteenrepair);
             pub.AddTask(canteenrepair);
+            office.AddTask(foundphone);
+            pub.AddTask(givephone);
             // Add task to quest
             Helpkids.AddTask(hallway1task);
             Helpkids.AddTask(hallway2task);
             Helpkids.AddTask(pubtask);
             Helpkids.AddTask(hallway2task2);
+            Helpkids.AddTask(foundphone);
             Helpcolleagues.AddTask(outsidetask);
             Helpcolleagues.AddTask(classtask);
             Repairschool.AddTask(Hammer);
             Repairschool.AddTask(screwdriver1);
             Repairschool.AddTask(canteenrepair);
+            LostSomething.AddTask(foundphone);
+            LostSomething.AddTask(givephone);
             
         }
                                                 //Tasks
@@ -483,6 +494,74 @@ namespace WorldOfZuul
 
              }
         }
+        private int lostphone()
+        {
+            Printer.PrintLine("You found a smartphone some kid might have lost it.You should take it and find the kid that lost it");
+            Printer.PrintLine(@$"
+            1.Take it
+            ");
+            while(true)
+            {
+            string awnser = Console.ReadLine().ToLower();
+            if(awnser=="1")
+            {
+                Printer.PrintLine("You took the phone");
+                return 0;
+            }
+            else 
+                Printer.PrintLine("Unknown command");
+            }
+
+        }
+        private int GiveOrNot()
+        {
+            Printer.PrintLine("A kid comes to you,and says that the phone that you found in the office is he's phone");
+            Printer.PrintLine(@$"What will you do
+            1.Give he's phone back
+            2.Ask where he lost he's phone
+            "); 
+        while(true)
+        {
+         string awnser = Console.ReadLine().ToLower();
+         if(awnser=="1")
+         {
+            Printer.PrintLine("Immediately after you gave him the phone a kid comes to you and tells you that he lost he's phone in the office.You made the wrong decision");
+            return -10;
+         }
+         if(awnser=="2")
+         {
+            Printer.PrintLine("He said the he lost he's phone in the workshop");
+            Printer.PrintLine(@$"
+            What will you do?
+            1.Give him the phone
+            2.Tell him that thats not he's phone and that you won't give it to him
+            ");
+        while(true)
+        {
+         awnser = Console.ReadLine().ToLower();
+         if(awnser=="1")
+         {
+            Printer.PrintLine("It wasn't he's phone, you should have paid more attention...");
+            return -10;
+         }
+         else
+         if(awnser=="2")
+         {
+            Printer.PrintLine("You did the right choice the phone is in good hands until the kid that lost it will ask for back for it");
+            return 10;
+         }
+         else
+        Printer.PrintLine("Unknown command");
+
+        }
+
+         }
+         else
+         Printer.PrintLine("Unknown command");
+        }
+
+        }
+
 
         // 
        public void showMap(Room currentRoom)
@@ -533,19 +612,19 @@ namespace WorldOfZuul
           ┌───────────┐   ┌───────────┐  ┌────────────┐
           │           │   │           │  │            │
           │  Theatre  │───│  Outside  ├──┤    Pub     │
-          │ {theatre}     │   │{outside}      │  │   {pub}    │
+          │   {theatre}   │   │  {outside}    │  │     {pub}  │
           └───┬───────┘   └───┬───────┘  └───┬────────┘
               │               │              │
           ┌───┴───────┐   ┌───┴────────┐  ┌──┴─────────┐
           │           │   │            │  │            │    
           │  Office   │───┤  Hallway1  ├──┤   Class    │  
-          │  {office}    │   │ {hallway1}      │  │  {class1}     │
+          │    {office}  │   │   {hallway1}    │  │      {class1} │
           └───┬───────┘   └───┬────────┘  └──┬─────────┘
               │               │              │
           ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
           │           │   │           │  │            │        
           │  Canteen  ├───┤  Hallway2 ├──┤  Workshop  │
-          │  {canteen}    │   │ {hallway2}     │  │ {workshop}      │
+          │    {canteen}  │   │   {hallway2}   │  │    {workshop}   │
           └───────────┘   └───────────┘  └────────────┘
                         ";
 
