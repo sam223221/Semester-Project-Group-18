@@ -393,7 +393,7 @@ namespace WorldOfZuul
 
         private int MichealDialogue()
         {
-            Console.WriteLine(TextArtManager.GetTextArt("MrMicheal");
+            Console.WriteLine(TextArtManager.GetTextArt("MrMicheal"));
             Console.ReadKey();
             Console.Clear();
             Printer.PrintLine("Farmer: Good afternoon... I had a little chat with your friend. He told me to visit your office.", 25);
@@ -428,7 +428,7 @@ namespace WorldOfZuul
 
         private int SolarPanels()
         {
-            Console.WriteLine(TextArtManager.GetTextArt("solarPanels");
+            Console.WriteLine(TextArtManager.GetTextArt("solarPanels"));
             Printer.PrintLine("Micheal arrives at your farm with a team of experts to install the solar panels.", 25);
             Printer.PrintLine("The installation process begins and you simply can't wait to see the final effect!", 25);
 
@@ -680,7 +680,7 @@ namespace WorldOfZuul
        
         private int AnimalShelters()
         {
-            Console.WriteLine(TextArtManager.GetTextArt(["dogShelters"));
+            Console.WriteLine(TextArtManager.GetTextArt("dogShelters"));
             Printer.PrintLine("Congratulations again on finding the stray dogs.", 25);
             Printer.PrintLine("Now you need to build homes for the lost animals.", 25);
             Console.ReadKey();
@@ -1067,7 +1067,7 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
             {
                 do
                 {
-                    Console.WriteLine(TextArtManager.GetTextArt("Houses");
+                    Console.WriteLine(TextArtManager.GetTextArt("Houses"));
                     Console.WriteLine();
                     Console.WriteLine("Villager: Hi there! I heard you are a new farming master around here!");
                     Console.WriteLine("People say you are specialized in sustainable farming. Could you tell me something about it?");
