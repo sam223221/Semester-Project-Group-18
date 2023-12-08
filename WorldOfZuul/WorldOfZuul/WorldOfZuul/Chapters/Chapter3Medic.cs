@@ -14,6 +14,7 @@ namespace WorldOfZuul
     {
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests { get; set; }
+        public bool IsCompleted { get; set; }
         private Room? PublicHospital;
         private Room? VillageCenter;
         private Room? GreenForest;

@@ -1,7 +1,0 @@
-namespace WorldOfZuul
-{
-    class Tutorial
-    {
-        
-    }
-}

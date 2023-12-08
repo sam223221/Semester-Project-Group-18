@@ -7,6 +7,7 @@ namespace WorldOfZuul
     {
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests {get; set;}
+        public bool IsCompleted { get; set; }
         private Room? HistoricalArchive;
         private Room? construtionSite;
         private Room? AbandonFactory;
@@ -93,9 +94,9 @@ namespace WorldOfZuul
 
             // Creat quests
             // every quest has to have a sort and a long describtun
-            Quest waterTreatmentQuest       = new Quest("Data"              ,"Locate the missing data in the lab."                                                                 );
-            Quest electricityQuest          = new Quest("Electricity Quest" ,"you need to research and find good solution to new and renewible energy, that is sustanible"         );
-            Quest housingQutest             = new Quest("Housing Quest"     ,"in this quest you need to research and chose what material\n and show how to build new modern homes" );
+            Quest waterTreatmentQuest       = new Quest("Water treatment quest  "   ,"Locate the missing data in the lab."                                                                 );
+            Quest electricityQuest          = new Quest("Electricity Quest      "   ,"you need to research and find good solution to new and renewible energy, that is sustanible"         );
+            Quest housingQutest             = new Quest("Housing Quest          "   ,"in this quest you need to research and chose what material\n and show how to build new modern homes" );
             
             //initialize tasks
 

@@ -5,12 +5,11 @@ namespace WorldOfZuul
         public static int MultichoiceQuestion(string header ,string[] options)
         {
             int selectedIndex = 0;
-
             ConsoleKey keyPressed;
             do
             {
                 Console.Clear();
-                Printer.PrintLine(header);
+                Console.WriteLine(header);
                 Console.WriteLine();
 
                 for (int i = 0; i < options.Length; i++)
