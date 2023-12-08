@@ -984,7 +984,7 @@ C H E E R S !!!      \     .  .     /
                 ▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▓▓
             ";
 
-            textArts["MedicVillageCenter"] = @"Village Center
+            textArts["Village Center"] = @"Village Center
  
                                   
                                                            |>>>
@@ -1225,7 +1225,7 @@ ___|_______|__[ == ==]/.::::::;;;:::::::::::::::;;;:::::::.\[=  == ]___|_____
 
 ";
 
-            textArts["MedicGreenForest"] = @"Green Forest
+            textArts["Green Forest"] = @"Green Forest
 
                                                                                         ,@@@@@@@                 
                                                                                 ,,,.   ,@@@@@@/@@,  .oo8888o.
@@ -1243,7 +1243,7 @@ ___|_______|__[ == ==]/.::::::;;;:::::::::::::::;;;:::::::.\[=  == ]___|_____
 \\/ ._\//_/__/  ,\_//__\\/.  \_//__/_\\/ ._\//_/__/  ,\_//__\\/.  \_//__/ \\/ ._\//_/__/  ,\_//__\\/.  \_//__/_ 
 
 ";
-            textArts["MedicPublicHospital"] = @"Public Hospital
+            textArts["Public Hospital"] = @"Public Hospital
 
     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                  
   ██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██                
@@ -1271,7 +1271,7 @@ ___|_______|__[ == ==]/.::::::;;;:::::::::::::::;;;:::::::.\[=  == ]___|_____
 ▒▒▒▒░░░░░░░░░░▓▓▒▒▒▒▓▓░░░░░░░░░░▓▓▒▒░░░░░░░░░░░░▒▒
 ▓▓▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 ";
-            textArts["MedicHolyChurch"] = @"Holy Church
+            textArts["Holy Church"] = @"Holy Church
 
                   _|_
                    |
@@ -1296,7 +1296,7 @@ ___|_______|__[ == ==]/.::::::;;;:::::::::::::::;;;:::::::.\[=  == ]___|_____
 ";
 
 
-            textArts["MedicTownMarket"] = @"Town Market
+            textArts["Town Market"] = @"Town Market
 
            )
          ( _   _._
@@ -1315,7 +1315,7 @@ ___|_______|__[ == ==]/.::::::;;;:::::::::::::::;;;:::::::.\[=  == ]___|_____
        |                 ===
 
 ";
-            textArts["MedicDeepCave"] = @"Deep Cave
+            textArts["Deep Cave"] = @"Deep Cave
 
                       _
                      /#\
@@ -1337,7 +1337,7 @@ ___|_______|__[ == ==]/.::::::;;;:::::::::::::::;;;:::::::.\[=  == ]___|_____
 
 ";
 
-            textArts["MedicMedicalLaboratory "] = @"Medical Laboratory
+            textArts["Medical Laboratory"] = @"Medical Laboratory
 
        ___
        )_(                                            _
@@ -1353,7 +1353,7 @@ ___|_______|__[ == ==]/.::::::;;;:::::::::::::::;;;:::::::.\[=  == ]___|_____
 
 ";
 
-            textArts["MedicOldRanch"] = @"Old Ranch
+            textArts["Old Ranch"] = @"Old Ranch
 
                            _.-^-._    .--.
                         .-'   _   '-. |__|
