@@ -72,7 +72,7 @@ namespace WorldOfZuul
 
             outside.SetExits(null, pub, hallway1, theatre); // North, East, South, West
 
-            theatre.SetExits(null, null,office,outside);
+            theatre.SetExits(null, outside,office,null);
 
             pub.SetExits(null, null,class1,outside);
 
