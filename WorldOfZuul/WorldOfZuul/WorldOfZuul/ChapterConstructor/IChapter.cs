@@ -11,7 +11,6 @@ namespace WorldOfZuul
         void CreateRoomsAndQuests();
         void ShowIntroduction();
         void showMap(Room currentRoom);
-        string PlayerScore();
         bool IsCompleted { get; set; }
     }
 

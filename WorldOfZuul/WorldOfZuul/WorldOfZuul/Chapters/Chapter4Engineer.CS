@@ -1,5 +1,6 @@
 using System.Diagnostics.Contracts;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 
 namespace WorldOfZuul
 {
@@ -19,8 +20,6 @@ namespace WorldOfZuul
         private Room? Library;
         private Room? River;
         private Room? lab;
-
-        private int engineerScore = 0;
         
         public Chapter4Engineer()
         {
@@ -191,7 +190,7 @@ namespace WorldOfZuul
         }
         public string PlayerScore()
         {
-            return $@"your engineer score is : {engineerScore}";
+            return $@"";
         }
 
 
@@ -540,10 +539,12 @@ namespace WorldOfZuul
             {
                 Printer.PrintLine($"\nTask: {task.Key}");
                 Printer.PrintLine($"Description: {task.Value}");
-                Printer.PrintLine("Allocate workers (1 - Few, 2 - Many): ");
+                Printer.PrintLine("Allocate workers (1 - Few, 2 - Many): \n");
+                Printer.Print("Awnser (Number) : ");
                 string workerAllocation = Console.ReadLine();
 
-                Printer.PrintLine("Choose installation step (1 - Start, 2 - Middle, 3 - Finalize): ");
+                Printer.PrintLine("\nChoose installation step (1 - Start, 2 - Middle, 3 - Finalize): ");
+                Printer.Print("Awnser (Number) : ");
                 string installationStep = Console.ReadLine();
 
                 int taskScore = EvaluateTaskManagement(task.Key, workerAllocation, installationStep);
@@ -898,12 +899,12 @@ namespace WorldOfZuul
             foreach (var question in questions)
             {
 
-                Printer.Print($"\nQuestion: {question.Key}",25);
+                Printer.PrintLine($"\nQuestion: {question.Key}",25);
                     
 
                 for (int i = 0; i < question.Value.Count; i++)
                 {
-                    Printer.Print($"{i + 1}. {question.Value[i]}",35);
+                    Printer.PrintLine($"{i + 1}. {question.Value[i]}",35);
                 }
 
                 Printer.Print("Your answer (number): ",25);
@@ -911,17 +912,17 @@ namespace WorldOfZuul
                 {
                     if (answerIndex - 1 == correctAnswers[questions.Keys.ToList().IndexOf(question.Key)])
                     {
-                        Printer.Print("Correct!");
+                        Printer.PrintLine("Correct!");
                         score++;
                     }
                     else
                     {
-                        Printer.Print("Incorrect.");
+                        Printer.PrintLine("Incorrect.");
                     }
                 }
                 else
                 {
-                    Printer.Print("Invalid answer. Please try again.");
+                    Printer.PrintLine("Invalid answer. please use your brain next time");
                 }
                 Console.WriteLine("Press any key to advance to next question...");
                 Console.ReadKey();
@@ -939,11 +940,11 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("With a clear plan and the community's support, you begin the implementation of the water purification system.");
 
-            string header = "With a clear plan and the community's support, you begin the implementation of the water purification system.\n\nSelect an action:";
+            string header = "With a clear plan and the community's support, you begin the implementation of the water purification system.\nYou can only chose one way of action\n\nSelect an action:";
             string[] options = {
-                "1. Organize a community cleanup",
-                "2. Start construction of the filtration system",
-                "3. Coordinate with local authorities for support"
+                "Organize a community cleanup",
+                "Start construction of the filtration system",
+                "Coordinate with local authorities for support"
             };
 
             bool purificationComplete = false;
@@ -989,49 +990,46 @@ namespace WorldOfZuul
       
         private bool ConstructionPuzzleMiniGame()
         {
-            var components      = new List<string> { "Sand Filter", "Chlorination Tank", "UV Light Disinfection", "Reverse Osmosis Membrane" };
-            var correctOrder    = new List<string> { "Sand Filter", "Reverse Osmosis Membrane", "Chlorination Tank", "UV Light Disinfection" };
-            var playerOrder     = new List<string>();
-
-            Printer.PrintLine("You need to assemble the water filtration system. Place the components in the correct order.");
-
-            int attempts = 0;
-            while (playerOrder.Count < components.Count)
+            while (true)
             {
-                Printer.PrintLine("\nAvailable components:");
-                foreach (var component in components)
+                    
+                var components      = new List<string> { "Sand Filter", "Chlorination Tank", "UV Light Disinfection", "Reverse Osmosis Membrane" };
+                var correctOrder    = new List<string> { "Sand Filter", "Reverse Osmosis Membrane", "Chlorination Tank", "UV Light Disinfection" };
+                var playerOrder     = new List<string>();
+                string[] options ={};
+
+                int attempts = 0;
+                    
+                while (playerOrder.Count < components.Count)
                 {
-                    if (!playerOrder.Contains(component))
-                    {
-                        Printer.PrintLine($"- {component}");
-                    }
+
+                    var availableComponents = components.Where(c => !playerOrder.Contains(c)).ToList();
+
+                    // Convert the available components to an array
+                    options = availableComponents.ToArray();
+            
+                    string header = "You need to assemble the water filtration system. Place the components in the correct order.\nThere is an ideal way to asemble it try until you sucess\nAvailable components:";
+                    int indexNumber = InteractiveMenu.MultichoiceQuestion(header,options);
+
+
+                    Console.Write($"you have added {options[indexNumber]} to the list");
+                    
+
+                    playerOrder.Add(options[indexNumber]);
+
+                    Console.ReadKey();
+                    attempts++;
                 }
 
-                Console.Write("Select the next component to add: ");
-                string selectedComponent = Console.ReadLine();
-
-                if (components.Contains(selectedComponent) && !playerOrder.Contains(selectedComponent))
+                if (playerOrder.SequenceEqual(correctOrder))
                 {
-                    playerOrder.Add(selectedComponent);
-                    Printer.PrintLine($"{selectedComponent} added.");
+                    Printer.PrintLine("\nFiltration system successfully assembled!");
+                    return true;
                 }
                 else
                 {
-                    Printer.PrintLine("Invalid component or already added. Please try again.");
+                    Printer.PrintLine("\nThe components are not in the correct order. Please try again.");
                 }
-
-                attempts++;
-            }
-
-            if (playerOrder.SequenceEqual(correctOrder))
-            {
-                Printer.PrintLine("\nFiltration system successfully assembled!");
-                return true;
-            }
-            else
-            {
-                Printer.PrintLine("\nThe components are not in the correct order. Please try again.");
-                return false;
             }
         }
      
@@ -1092,7 +1090,7 @@ namespace WorldOfZuul
     
         private bool CleanupCoordinationMiniGame()
         {
-            var areas = new List<string> { "North Bank", "South Bank", "East Bank", "West Bank" };
+            var areas = new List<string> { "north bank", "south bank", "east bank", "west bank" };
             var volunteers = new Dictionary<string, string>
             {
                 { "Alice"   , "Collecting"      },
@@ -1106,19 +1104,21 @@ namespace WorldOfZuul
 
             Printer.PrintLine("You need to assign volunteers to clean different areas of the riverbank.");
 
+            
+
             for (int i = 0; i < turns; i++)
             {
-                Printer.PrintLine("\nAreas to clean: " + string.Join(", ", areas));
-                Printer.PrintLine("Available volunteers and their skills:");
+                Console.WriteLine("\nAreas to clean: " + string.Join(", ", areas));
+                Console.WriteLine("Available volunteers and their skills:");
                 foreach (var volunteer in volunteers)
                 {
-                    Printer.PrintLine($"- {volunteer.Key} (Skill: {volunteer.Value})");
+                    Console.WriteLine($"- {volunteer.Key} (Skill: {volunteer.Value})");
                 }
 
                 Console.Write("Choose a volunteer to assign: ");
-                string volunteerName = Console.ReadLine();
+                string? volunteerName = Console.ReadLine();
                 Console.Write("Choose an area to clean: ");
-                string area = Console.ReadLine();
+                string? area = Console.ReadLine();
 
                 // Simple logic to determine if the choice was effective
                 if (volunteers.ContainsKey(volunteerName) && areas.Contains(area))
@@ -1132,6 +1132,8 @@ namespace WorldOfZuul
                     Printer.PrintLine("Invalid choice. Please try again.");
                     i--; // Allow the player to make the choice again
                 }
+                Console.ReadKey();
+                Console.Clear();
             }
 
             Printer.PrintLine($"\nCleanup complete. You successfully cleaned {cleanedAreas} areas of the riverbank.");
@@ -1156,7 +1158,8 @@ namespace WorldOfZuul
                 {
                     case 0:
                         Printer.PrintLine("\nYou learn about traditional methods like sand filtration and boiling. While effective, they are less practical for large-scale purification.");
-                        SocialScore += 3; // Less sustainable, moderate score increase
+                        Printer.PrintLine("On how to build one the ideal way to asemble is Sand Filter, Reverse Osmosis Membrane, Chlorination Tank, UV Light Disinfection");
+                        SocialScore += 5; // Less sustainable, moderate score increase
                         break;
                     case 1:
                         Printer.PrintLine("\nChemical chlorination is highly effective but has environmental drawbacks due to chemical usage.");
@@ -1164,7 +1167,7 @@ namespace WorldOfZuul
                         break;
                     case 2:
                         Printer.PrintLine("\nNatural biofiltration uses plants to remove contaminants. It's highly sustainable and eco-friendly.");
-                        SocialScore += 5; // Most sustainable, highest score increase
+                        SocialScore += 10; // Most sustainable, highest score increase
                         break;
                     default:
                         Printer.PrintLine("Invalid choice. Please select a valid purification method.");
@@ -1233,7 +1236,7 @@ namespace WorldOfZuul
                     case 0:
                         string header1 = "The office is cluttered with old papers and broken furniture. Amidst the chaos, you find a locked filing cabinet.\nDo you want to try to open it?";
                         string[] options1 = {"Yes","No"};
-                        Printer.PrintLine("Do you want to try to open it? (yes/no)");
+
                         int selectedIndex1 = InteractiveMenu.MultichoiceQuestion(header1, options1);
                         if (selectedIndex1 == 0)
                         {
@@ -1362,37 +1365,37 @@ namespace WorldOfZuul
             // Mark the current room
             switch (currentRoom.ShortDescription)
             {
-                case "EngineerHistoricalArchive":
+                case "HistoricalArchive":
                     HistoricalArchive   = "*You*";
                     break;
-                case "EngineerConstructionSite":
+                case "ConstructionSite":
                     construtionSite     = "*You*";
                     break;
-                case "EngineerAbandonFactory":
+                case "AbandonFactory":
                     AbandonFactory      = "*You*";
                     break;
-                case "EngineerVillageCenter":
+                case "VillageCenter":
                     villageCenter       = "*You*";
                     break;
-                case "EngineerModernHome":
+                case "ModernHome":
                     ModernHome          = "*You*";
                     break;
-                case "EngineerTownHall":
+                case "TownHall":
                     TownHall            = "*You*";
                     break;
-                case "EngineerDesignHQ":
+                case "rDesignHQ":
                     DesignHQ            = "*You*";
                     break;
-                case "EngineerSunStone":
+                case "SunStone":
                     SunStone            = "*You*";
                     break;
-                case "EngineerLibrary":
+                case "Library":
                     Library             = "*You*";
                     break;
-                case "EngineerRiver":
+                case "River":
                     River               = "*You*";
                     break;
-                case "EngineerLab":
+                case "Lab":
                     lab                 = "*You*";
                     break;
             }

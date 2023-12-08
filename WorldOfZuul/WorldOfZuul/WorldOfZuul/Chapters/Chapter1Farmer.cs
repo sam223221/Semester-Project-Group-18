@@ -1,122 +1,140 @@
 ﻿using System;
-using System.Reflection.Metadata.Ecma335;
+using System.Reflection;
 
 namespace WorldOfZuul
 {
     public class Chapter1Farmer : IChapter // Ensure it implements IChapter
     {
-        Introduction intro = new Introduction();
+        public bool IsCompleted { get; set; }
         public List<Room> Rooms { get; private set; }
         public List<Quest> Quests { get; set; }
-        public bool IsCompleted { get; set; }
         private Room? village;
         private Room? house;
         private Room? market;
         private Room? farm;
         private Room? lake;
         private Room? watermill;
-        private int farmerScore = 0;
-
         public Chapter1Farmer()
         {
             Rooms = new List<Room>();
             Quests = new List<Quest>();
         }
 
+        // Introduction 
+
         public void ShowIntroduction()
         {
-            //Introduction
-            //intro.PlayIntro();
-            //Console.ReadKey();
+            string[] introSlides = new string[] { "FarmerIntroI", "FarmerIntroII" };
+
+            foreach (var slide in introSlides)
+            {
+                Console.Clear();
+                Console.WriteLine(TextArtManager.GetTextArt(slide));
+                Console.ReadKey();
+            }
         }
+
+        // Start room
 
         public Room GetStartRoom() => village;
 
+        // Creates rooms and quests
+
         public void CreateRoomsAndQuests()
         {
-            // Initialize items
 
-            Item sdgBasics = new Item("SDGCourse");
-            Item sdgCertificate = new Item("SDGCertificate");
+            // Initialize items                          Name:                              Inventory Description:      Where:
 
-            Item sustFarmBasics = new Item("SustainableFarmingCourse", "Head to Water Mill to get it.");
-            Item sustFarmCertificate = new Item("SustainableFarmingCertificate");
+            Item villageDialogueItem = new Item("a talk with the Villager", null, "Village");
+            Item sustFarmCertificate = new Item("SustainableFarmingCertificate", null, "Watermill");
+            Item lostanimalsAnimals = new Item("stray dogs", null, "Lake Area");
+            Item lostanimalsSnack = new Item("meat", null, "Farm");
+            Item organicMaterials = new Item("organic materials", null, "Market");
+            Item lostanimalsInfo = new Item("information about lost animals", null, "Lake");
+            Item sustFarmBasics = new Item("SustainableFarmingCourse", null, "Watermill");
+            Item sdgCertificate = new Item("SDGCertificate", null, "House");
+            Item solarpanelItem = new Item("solar panels", null, "Renewable Energy Initiative Quest");
+            Item fertilizer = new Item("fertilizer", null, "Farming Adventure Quest");
+            Item sdgBasics = new Item("SDGCourse", null, "House");
+            Item investor = new Item("a talk with the Investor", null, "Market");
 
-            Item villageDialogueItem = new Item("a talk with the Villager");
-            Item investor = new Item("a talk with the Investor");
-            Item solarpanelItem = new Item("solar panels");
+            // Initialize rooms            Name:        Description:
 
-            Item lostanimalsInfo = new Item("information about lost animals");
-            Item lostanimalsSnack = new Item("meat");
-            Item lostanimalsAnimals = new Item("lost stray dogs");
-
-            // Initialize rooms
-            village = new Room("Village", "you are at the center of your beautiful village!");
-            house = new Room("House", "house is your knowledge temple... You better use it!");
-            farm = new Room("Farm", "Welcome to the farm... Mr. Farmer!");
-            market = new Room("Market", "You are on the village market... Look around!");
-            lake = new Room("Lake", "What you see is a lovely lake right in front of you!");
             watermill = new Room("Watermill", "A watermill owned by your friend, a good sustainable farmer... \nWhat could be found there?");
+            village = new Room("Village", "You are at the center of your beautiful village!");
+            market = new Room("Market", "You are on the village market... Look around!");
+            house = new Room("House", "House is your knowledge temple... You better use it!");
+            farm = new Room("Farm", "Welcome to the farm... Mr. Farmer!");
+            lake = new Room("Lake", "What you see is a lovely lake right in front of you!");
 
-            // Set exits -> (north, east, south, west) & Set exit -> ("north/east/south/west", "place")
 
-            lake.SetExit("east", house);
-            house.SetExits(null, village, null, lake);
-            village.SetExits(null, farm, market, house);
-            farm.SetExits(null, null, watermill, market);
+            // Set room's exits        North:    East:       South:      West:
+
             market.SetExits(village, watermill, null, null);
             watermill.SetExits(farm, null, null, market);
+            village.SetExits(null, farm, market, house);
+            house.SetExits(null, village, null, lake);
+            farm.SetExits(null, null, watermill, village);
+            lake.SetExits(null, house, null, null);
 
 
-            // Create quests (short desc, long desc)
-
-            Quest villageQuest = new Quest("Renewable Energy Initiative", "Work your way to help yourself and the community!");
-
-            Quest houseQuest = new Quest("SDG Wisdom", "Gather and test your knowledge about SDG's!");
+            // Create quests                            Name:                               Description:
 
             Quest watermillQuest = new Quest("Sustainable Farming Wisdom", "Gather and test your knowledge about sustainable farming!");
-
+            Quest villageQuest = new Quest("Renewable Energy Initiative", "Work your way to help yourself and the community!");
+            Quest houseQuest = new Quest("SDG Wisdom", "Gather and test your knowledge about SDG's!");
             Quest lakeQuest = new Quest("Lost Animals", "Rescue animals that got lost around the lake area!");
+            Quest farmQuest = new Quest("FarmingAdventure", "Sustainable farming practises!");
 
-            // Initialize tasks public Task(string name, string description, Quest relatedQuest , Room room , TaskAction action, Item? requiredItem = null, Item? rewardItem = null)
 
-            Task villagerDialogue = new Task("VillagerTalk", "Seems like someone is courious about your work...", villageQuest, village, VillageDialogue, sustFarmBasics, villageDialogueItem);
-            Task mrInvestorDialogue = new Task("MrMicheal", "Friend of a friend?", villageQuest, village, MichealDialogue, villageDialogueItem, investor);
-            Task solarPanels = new Task("RenewableEnergy", "You need some chats...", villageQuest, village, SolarPanels, investor, solarpanelItem);
-            Task openHouse = new Task("OpenHouseDay", "Open the doors of your farm!", villageQuest, farm, OpenHouseDay, solarpanelItem, null);
-
-            Task houseCourseSDGTask = new Task("SDGCourse", "Might be useful for completing the quiz...", houseQuest, house, SDGCourse, null, sdgBasics);
-            Task houseQuizSDGTask = new Task("SDGQuiz", "Complete a Quiz about Sustainable Development Goals.", houseQuest, house, SDGQuizPlay, sdgBasics, sdgCertificate);
+            // Initialize tasks                                     Name:                     Description:                                                    Quest:          Room:      Method:              Required Item:         Reward Item:
 
             Task watermillCourseSustFarTask = new Task("SustainableFarmCourse", "Look up sustainable farming techniques!", watermillQuest, watermill, SustFarmCourse, null, sustFarmBasics);
             Task watermillQuizSustFarTask = new Task("SustainableFarmQuiz", "Complete a Quiz about Sustainable Farming.", watermillQuest, watermill, SustFarmQuizPlay, sustFarmBasics, sustFarmCertificate);
 
+            Task houseCourseSDGTask = new Task("SDGCourse", "Might be useful for completing the quiz...", houseQuest, house, SDGCourse, null, sdgBasics);
+            Task houseQuizSDGTask = new Task("SDGQuiz", "Complete a Quiz about Sustainable Development Goals.", houseQuest, house, SDGQuizPlay, sdgBasics, sdgCertificate);
+
+            Task solarpanelsVillagerDialogue = new Task("VillagerTalk", "Seems like someone is courious about your work...", villageQuest, village, VillageDialogue, sustFarmBasics, villageDialogueItem);
+            Task solarpanelsMrInvestorDialogue = new Task("MrMicheal", "Friend of a friend?", villageQuest, village, MichealDialogue, villageDialogueItem, investor);
+            Task solarpanelsGet = new Task("RenewableEnergy", "You need some chats...", villageQuest, village, SolarPanels, investor, solarpanelItem);
+            Task solarpanelsOpenHouse = new Task("OpenHouseDay", "Open the doors of your farm!", villageQuest, farm, OpenHouseDay, solarpanelItem, null);
+
             Task lostanimalsInformation = new Task("LostAnimals", "Gather information about lost animals next to the lake area.", lakeQuest, lake, LakeInformation, null, lostanimalsInfo);
             Task lostanimalsMeat = new Task("Meat", "Get a snack to pet the dogs...", lakeQuest, farm, MeatCollect, lostanimalsInfo, lostanimalsSnack);
             Task lostanimalsFind = new Task("LookAround", "Look for the lost animals!", lakeQuest, lake, LookForAnimals, lostanimalsSnack, lostanimalsAnimals);
-            Task lostanimalsShelters = new Task("AnimalShelter", "Build a shelter for the lost animals", lakeQuest, farm, AnimalShelters, /*lostanimalsAnimals*/ null);
+            Task lostanimalsShelters = new Task("AnimalShelter", "Build a shelter for the lost animals", lakeQuest, farm, AnimalShelters, lostanimalsAnimals, null);
 
-            //*************************************************************************************
+            Task fertilizeBuyOrganicMaterials = new Task("Shopping", "Buy organic materials to create organic fertilizers", farmQuest, market, GetOrganicMaterials, null, organicMaterials);
+            Task fertilizeMixer = new Task("Fertilizer", "Create the best fertilizer for your farm!", farmQuest, farm, MixerFertilizer, organicMaterials, fertilizer);
+            Task fertilizeUse = new Task("UseFertilizer", "Use the fertilizer on your farm!", farmQuest, farm, UseFertilizer, fertilizer, null);
+
 
             // Add quests to the chapter's quest list
 
-            Quests.Add(villageQuest);
-            Quests.Add(houseQuest);
             Quests.Add(watermillQuest);
+            Quests.Add(houseQuest);
+            Quests.Add(villageQuest);
             Quests.Add(lakeQuest);
+            Quests.Add(farmQuest);
 
             // Add task to the quest list
 
-            villageQuest.AddTask(villagerDialogue);
-            villageQuest.AddTask(mrInvestorDialogue);
-            villageQuest.AddTask(solarPanels);
-            villageQuest.AddTask(openHouse);
+            watermillQuest.AddTask(watermillCourseSustFarTask);
+            watermillQuest.AddTask(watermillQuizSustFarTask);
 
             houseQuest.AddTask(houseCourseSDGTask);
             houseQuest.AddTask(houseQuizSDGTask);
 
-            watermillQuest.AddTask(watermillCourseSustFarTask);
-            watermillQuest.AddTask(watermillQuizSustFarTask);
+            villageQuest.AddTask(solarpanelsVillagerDialogue);
+            villageQuest.AddTask(solarpanelsMrInvestorDialogue);
+            villageQuest.AddTask(solarpanelsGet);
+            villageQuest.AddTask(solarpanelsOpenHouse);
+
+            farmQuest.AddTask(fertilizeBuyOrganicMaterials);
+            farmQuest.AddTask(fertilizeMixer);
+            farmQuest.AddTask(fertilizeUse);
+
 
             lakeQuest.AddTask(lostanimalsInformation);
             lakeQuest.AddTask(lostanimalsMeat);
@@ -125,45 +143,43 @@ namespace WorldOfZuul
 
             // Add task to the room
 
-            village.AddTask(villagerDialogue);
-            village.AddTask(mrInvestorDialogue);
-            village.AddTask(solarPanels);
+            watermill.AddTask(watermillCourseSustFarTask);
+            watermill.AddTask(watermillQuizSustFarTask);
 
             house.AddTask(houseCourseSDGTask);
             house.AddTask(houseQuizSDGTask);
 
-            watermill.AddTask(watermillCourseSustFarTask);
-            watermill.AddTask(watermillQuizSustFarTask);
+            village.AddTask(solarpanelsVillagerDialogue);
+            village.AddTask(solarpanelsGet);
+
+            farm.AddTask(solarpanelsOpenHouse);
+            farm.AddTask(lostanimalsMeat);
+            farm.AddTask(lostanimalsShelters);
+            farm.AddTask(fertilizeMixer);
+            farm.AddTask(fertilizeUse);
 
             lake.AddTask(lostanimalsInformation);
             lake.AddTask(lostanimalsFind);
 
-            farm.AddTask(openHouse);
-            farm.AddTask(lostanimalsMeat);
-            farm.AddTask(lostanimalsShelters);
+            market.AddTask(solarpanelsMrInvestorDialogue);
+            market.AddTask(fertilizeBuyOrganicMaterials);
 
             // Adding things to rooms
 
-            Rooms.Add(lake);
+            Rooms.Add(watermill);
             Rooms.Add(house);
             Rooms.Add(village);
-            Rooms.Add(farm);
             Rooms.Add(market);
-            Rooms.Add(watermill);
+            Rooms.Add(lake);
+            Rooms.Add(farm);
 
         }
 
-        // Optional: farmerScore
-        public string PlayerScore()
-        {
-            return $@"Your farmer score is : {farmerScore}";
-        }
-
-        /******************task section*********************/
+        //Task section
 
         private int SDGCourse()
         {
-            string header = "Here is a little course on Sustainable Development Goals!\nPick a number to learn more!";
+            string header = $"{TextArtManager.GetTextArt("FarmerBooks")} \nHere is a little course on Sustainable Development Goals!\nPick a number to learn more!";
             string[] option =
                 { "SDG 1: No Poverty", "SDG 2: Zero Hunger London", "SDG 3: Good Health and Well-being", "SDG 4: Quality Education", "SDG 5: Gender Equality",
                   "SDG 6: Clean Water and Sanitation", "SDG 7: Affordable and Clean Energy", "SDG 8: Decent Work and Economic Growth", "SDG 9: Industry, Innovation, and Infrastructure",
@@ -269,7 +285,7 @@ namespace WorldOfZuul
                         return 0;
                 }
             }
-        }
+        } 
 
         private int SDGQuizPlay()
         {
@@ -281,15 +297,14 @@ namespace WorldOfZuul
                 return 5;
             }
             return 0;
-        }
+        } 
 
         private int SustFarmCourse()
         {
-            string header = "Friendly Farmer: Ohh old friend... \nAsk about anything you want! I know everything about sustainable farming!";
+            string header = $"{TextArtManager.GetTextArt("FarmerBooks")} \nFriendly Farmer: Ohh old friend... \nAsk about anything you want! I know everything about sustainable farming!";
             string[] option =
             { "Crop rotation", "Cover crops", "Drip irrigation", "Companion planting", "Composting", "Fallow", "Rotational grazing", "No-till farming",
             "Rainwater harvesting", "Organic farming", "Exit" };
-
 
             while (true)
             {
@@ -355,7 +370,7 @@ namespace WorldOfZuul
 
                 }
             }
-        }
+        } 
 
         private int SustFarmQuizPlay()
         {
@@ -374,16 +389,19 @@ namespace WorldOfZuul
             VillagerTalk villagerTalk = new VillagerTalk();
             villagerTalk.villagerTalk();
             return 5;
-        }
+        } 
 
         private int MichealDialogue()
         {
-            Print("Farmer: Good afternoon... I had a little chat with your friend. He told me to visit your office.", 25);
-            Print("Micheal: Yes! Finally! I have an excellent idea. I am a producent of solar panels and I would be glad to install my new product on your farm.", 25);
-            Print("In exchange I will need in exchange is you hosting a Open House on your farm where I would be able to explain the whole installation to our guest.", 25);
-            Print("What are your thoughts on it?", 25);
-            Print("\n1. Agree to the proposal.", 25);
-            Print("2. Agree to the proposal and offer farm goods to Micheal.", 25);
+            Console.WriteLine(TextArtManager.GetTextArt("MrMicheal"));
+            Console.ReadKey();
+            Console.Clear();
+            Printer.PrintLine("Farmer: Good afternoon... I had a little chat with your friend. He told me to visit your office.", 25);
+            Printer.PrintLine("Micheal: Yes! Finally! I have an excellent idea. I am a producent of solar panels and I would be glad to install my new product on your farm.", 25);
+            Printer.PrintLine("In exchange I will need in exchange is you hosting a Open House on your farm where I would be able to explain the whole installation to our guest.", 25);
+            Printer.PrintLine("What are your thoughts on it?", 25);
+            Printer.PrintLine("\n1. Agree to the proposal.", 25);
+            Printer.PrintLine("2. Agree to the proposal and offer farm goods to Micheal.", 25);
 
             string? userInput = Console.ReadLine();
 
@@ -392,57 +410,59 @@ namespace WorldOfZuul
                 switch (choice)
                 {
                     case 1:
-                        Print("Farmer: Sounds like a great idea! Let's work together for a sustainable future of our community!", 25);
-                        Print("Micheal: Okay, let's get to work then!", 25);
+                        Printer.PrintLine("Farmer: Sounds like a great idea! Let's work together for a sustainable future of our community!", 25);
+                        Printer.PrintLine("Micheal: Okay, let's get to work then!", 25);
                         return 5;
                     case 2:
-                        Print("Farmer: That is a stunning idea! I will also provide you with some goods my farm creates. I hope you'll be happy.", 25);
-                        Print("Micheal: Thank you Farmer! Time to work together.\n", 25);
+                        Printer.PrintLine("Farmer: That is a stunning idea! I will also provide you with some goods my farm creates. I hope you'll be happy.", 25);
+                        Printer.PrintLine("Micheal: Thank you Farmer! Time to work together.\n", 25);
                         return 10;
                     default:
-                        Print("Invalid choice. Please enter 1 or 2.", 25);
+                        Printer.PrintLine("Invalid choice. Please enter 1 or 2.", 25);
                         return MichealDialogue();
                 }
             }
 
             return 0;
-        }
+        }  
 
         private int SolarPanels()
         {
-            Print("Micheal arrives at your farm with a team of experts to install the solar panels.", 25);
-            Print("The installation process begins and you simply can't wait to see the final effect!", 25);
+            Console.WriteLine(TextArtManager.GetTextArt("solarPanels"));
+            Printer.PrintLine("Micheal arrives at your farm with a team of experts to install the solar panels.", 25);
+            Printer.PrintLine("The installation process begins and you simply can't wait to see the final effect!", 25);
 
             for (int i = 0; i <= 100; i += 5)
             {
                 Console.Write($"Installing: {i}% ");
-                System.Threading.Thread.Sleep(200); // Simulate installation time
+                System.Threading.Thread.Sleep(200);
                 Console.SetCursorPosition(0, Console.CursorTop);
             }
 
             Console.WriteLine("\nInstallation complete!\n");
 
-            Print("Now it is time to do the Farm Open House with Micheal.", 25);
+            Printer.PrintLine("Now it is time to do the Farm Open House with Micheal.", 25);
 
             return 5;
 
-        }
+        } 
 
         private int OpenHouseDay()
         {
-            Print("The day of the Open House has arrived, and your farm is buzzing with excitement!", 25);
-            Print("You have a chance to showcase your commitment to sustainability and inspire others.", 25);
+            Console.WriteLine(TextArtManager.GetTextArt("openhouseday"));
+            Printer.PrintLine("The day of the Open House has arrived, and your farm is buzzing with excitement!", 25);
+            Printer.PrintLine("You have a chance to showcase your commitment to sustainability and inspire others.", 25);
             Console.ReadKey();
             Console.Clear();
 
-            Print("Micheal gives tours all around your new solar panel installation gathering new customers,", 25);
-            Print("the whole community is having fun and your job is playing a EcoSort mini-game with villagers.", 25);
+            Printer.PrintLine("Micheal gives tours all around your new solar panel installation gathering new customers,", 25);
+            Printer.PrintLine("the whole community is having fun and your job is playing a EcoSort mini-game with villagers.", 25);
 
             Console.ReadKey();
             Console.Clear();
 
-            Print("*EcoSort mini-game*\n", 25);
-            Print("Use numbers to choose an option for each waste item.", 25);
+            Printer.PrintLine("*EcoSort mini-game*\n", 25);
+            Printer.PrintLine("Use numbers to choose an option for each waste item.", 25);
 
             Console.ReadKey();
             Console.Clear();
@@ -489,12 +509,12 @@ namespace WorldOfZuul
 
                 if (userInput == wasteItem.Value.Substring(0, 1))
                 {
-                    Print("Correct! This item goes in the right place!\n", 25);
+                    Printer.PrintLine("Correct! This item goes in the right place!\n", 25);
                     score++;
                 }
                 else
                 {
-                    Print("Oops! Wrong!", 25);
+                    Printer.PrintLine("Oops! Wrong!", 25);
                 }
 
                 System.Threading.Thread.Sleep(1000);
@@ -505,14 +525,16 @@ namespace WorldOfZuul
                 }
             }
 
-            Print($"Challenge complete!", 25);
+            Printer.PrintLine($"Challenge complete!", 25);
 
             return 15;
-        }
+        } 
 
         private int LakeInformation()
         {
-
+            Console.WriteLine(TextArtManager.GetTextArt("lake"));
+            Console.ReadKey();
+            Console.Clear();
             Console.WriteLine("Seems like they are some stray dogs running around the lake area...");
             Console.WriteLine("Help your community and find them before it's too late!");
             Console.ReadKey();
@@ -529,28 +551,28 @@ namespace WorldOfZuul
                 switch (selectedIndex)
                 {
                     case 0:
-                        Print("You: Hey John, how's it going?", 25);
-                        Print("John: Oh, hey there! Just trying to get these logs ready for the upcoming construction project. What brings you to the lake today?", 25);
-                        Print("You: I'm actually looking for information about some lost animals around here. Have you seen anything unusual lately?", 25);
-                        Print("John: Animals, you say? Well, I did notice a couple of stray dogs near the timber yard a few days ago. Seemed like they were lost or something.", 25);
-                        Print("You: Thanks, John. I'll check that out. Take care with those logs!", 25);
+                        Printer.PrintLine("You: Hey John, how's it going?", 25);
+                        Printer.PrintLine("John: Oh, hey there! Just trying to get these logs ready for the upcoming construction project. What brings you to the lake today?", 25);
+                        Printer.PrintLine("You: I'm actually looking for information about some lost animals around here. Have you seen anything unusual lately?", 25);
+                        Printer.PrintLine("John: Animals, you say? Well, I did notice a couple of stray dogs near the timber yard a few days ago. Seemed like they were lost or something.", 25);
+                        Printer.PrintLine("You: Thanks, John. I'll check that out. Take care with those logs!", 25);
                         Console.ReadKey();
                         break;
 
                     case 1:
-                        Print("You: Alex, how's the fishing today?", 25);
-                        Print("Alex: Could be better, my friend. The fish seem to be playing hard to get. What brings you to the shore?", 25);
-                        Print("You: I'm on a mission to find some lost animals. Have you noticed anything unusual while out on the water?", 25);
-                        Print("Alex: Lost animals, huh? Well, there was a strange noise the other night, kind of like a distressed animal. But I couldn't pinpoint where it was coming from.", 25);
-                        Print("You: Interesting. I'll keep an eye out. If you hear or see anything, let me know.", 25);
+                        Printer.PrintLine("You: Alex, how's the fishing today?", 25);
+                        Printer.PrintLine("Alex: Could be better, my friend. The fish seem to be playing hard to get. What brings you to the shore?", 25);
+                        Printer.PrintLine("You: I'm on a mission to find some lost animals. Have you noticed anything unusual while out on the water?", 25);
+                        Printer.PrintLine("Alex: Lost animals, huh? Well, there was a strange noise the other night, kind of like a distressed animal. I heard it while walking near the lakeside.", 25);
+                        Printer.PrintLine("You: Interesting. I'll keep an eye out. If you hear or see anything, let me know.", 25);
                         Console.ReadKey();
                         break;
                     case 2:
-                        Print("You: Hi Elizabeth, everything looks lovely as usual.", 25);
-                        Print("Elizabeth: Thank you! What can I do for you today?", 25);
-                        Print("You: I'm trying to gather information about lost animals in the area. Have you or your guests noticed anything?", 25);
-                        Print("Elizabeth: Lost animals? Now that you mention it, a couple of our guests mentioned hearing strange sounds at night. Maybe some distressed animals? It could be around a timber yard...", 25);
-                        Print("You: That's helpful. If they notice anything specific, let me know. I'll see if I can find and help those animals.", 25);
+                        Printer.PrintLine("You: Hi Elizabeth, everything looks lovely as usual.", 25);
+                        Printer.PrintLine("Elizabeth: Thank you! What can I do for you today?", 25);
+                        Printer.PrintLine("You: I'm trying to gather information about lost animals in the area. Have you or your guests noticed anything?", 25);
+                        Printer.PrintLine("Elizabeth: Lost animals? Now that you mention it, a couple of our guests mentioned hearing strange sounds at night. Maybe some distressed animals? It could be around the Crystal Lake Resort or the Park...", 25);
+                        Printer.PrintLine("You: That's helpful. If they notice anything specific, let me know. I'll see if I can find and help those animals.", 25);
                         Console.ReadKey();
                         break;
                     case 3:
@@ -563,19 +585,23 @@ namespace WorldOfZuul
                         return 0;
                 }
             }
-        }
+        } 
 
         private int MeatCollect()
         {
-            Print("Getting meat from the fridge...", 25);
+
+            Printer.PrintLine("Getting meat from the fridge...", 25);
             Console.ReadKey();
             Console.Clear();
             return 5;
-        }
+        } 
 
         delegate bool SearchAnimalsDelegate();
+
         private int LookForAnimals()
+
         {
+            Console.WriteLine(TextArtManager.GetTextArt("dogs"));
             string[] locations = { "Timber Yard", "Lakeside", "Crystal Lake Resort", "Park" };
             int score = 0;
             int totalDogs = locations.Length * 3;
@@ -650,11 +676,13 @@ namespace WorldOfZuul
             Console.WriteLine($"\nCongratulations! You've found all the stray dogs and completed the mission with a score of {score}!");
             Console.WriteLine("Now it is time to build some animal shelters for the new citizens!");
             return score;
-        }
+        } 
+       
         private int AnimalShelters()
         {
-            Print("Congratulations again on finding the stray dogs.", 25);
-            Print("Now you need to build homes for the lost animals.", 25);
+            Console.WriteLine(TextArtManager.GetTextArt("dogShelters"));
+            Printer.PrintLine("Congratulations again on finding the stray dogs.", 25);
+            Printer.PrintLine("Now you need to build homes for the lost animals.", 25);
             Console.ReadKey();
 
             string header = "Build some shelters for your guests!";
@@ -683,9 +711,83 @@ namespace WorldOfZuul
                     Console.WriteLine("Invalid selection. Please try again.");
                 }
             }
+        } 
+       
+        private int GetOrganicMaterials()
+        {
+            Console.WriteLine(TextArtManager.GetTextArt("organicmaterials"));
+            Console.ReadKey();
+            Console.Clear();
+            Printer.PrintLine("Farmer: Hello Sara! I need some organic materials to mix into a fertilizer... Here is my list: \n- Compost \n- Manure \n- Alfalfa Meal \n- Fish Emulsion \n- Kelp Meal \n- Green Manure \n- Worm Castings", 25);
+            Printer.PrintLine("Sara: Sure! I got all of it... Here is it!", 25);
+            Console.ReadKey();
+            return 5;
+        } 
+       
+        private int MixerFertilizer()
+        {
+            int result = RunFertilizerMixerGame();
+
+            if (result == 1 || result == 2)
+            {
+                Console.WriteLine($"You scored {result * 10} points!");
+                return result * 10;
+            }
+            else
+            {
+                Console.WriteLine("Exiting the game.");
+                return 0;
+            }
+        } 
+       
+        private int UseFertilizer()
+        {
+            {
+                Console.WriteLine(TextArtManager.GetTextArt("usefertilizer"));
+                string header = "Use the fertilizer on all of your plants!";
+                string[] option =
+                    { "Carrot", "Tomato", "Corn", "Pumpkin", "Sunflower", "Finished"};
+
+                while (true)
+                {
+                    int selectedIndex = InteractiveMenu.MultichoiceQuestion(header, option);
+
+                    switch (selectedIndex)
+                    {
+                        case 0:
+                            Printer.PrintLine($"Fertilizer used on {option[0]}.", 25);
+                            Console.ReadKey();
+                            break;
+
+                        case 1:
+                            Printer.PrintLine($"Fertilizer used on {option[1]}.", 25);
+                            Console.ReadKey();
+                            break;
+                        case 2:
+                            Printer.PrintLine($"Fertilizer used on {option[2]}.", 25);
+                            Console.ReadKey();
+                            break;
+                        case 3:
+                            Printer.PrintLine($"Fertilizer used on {option[3]}.", 25);
+                            Console.ReadKey();
+                            break;
+                        case 4:
+                            Printer.PrintLine($"Fertilizer used on {option[4]}.", 25);
+                            Console.ReadKey();
+                            break;
+                        case 5:
+                            Printer.PrintLine("All of the plants got their fertilizer!", 25);
+                            Printer.PrintLine("Good job!", 25);
+                            return 5;
+                        default:
+                            Console.WriteLine("An error occured...");
+                            return 0;
+                    }
+                }
+            }
         }
 
-        /******************map*********************/
+        //Method for the Map
 
         public void showMap(Room currentRoom)
         {
@@ -696,7 +798,6 @@ namespace WorldOfZuul
             string market = "     ";
             string watermill = "     ";
 
-            // Mark the current room
             switch (currentRoom.ShortDescription)
             {
                 case "Lake":
@@ -741,181 +842,7 @@ namespace WorldOfZuul
             Console.WriteLine(map);
         }
 
-
-
-
-
-        //Different Methods
-        static void Print(string text, int speed)
-        {
-            foreach (char c in text)
-            {
-                Console.Write(c);
-                System.Threading.Thread.Sleep(speed);
-            }
-            Console.WriteLine();
-        }
-
-        //Different Classes
-
-        public class Introduction
-        {
-            public bool introplay = true;
-            public string farmerName = "";
-            public string farmerBackstory = "";
-            private string? FarmerName { get; set; }
-
-            //Encapsulates Introduction to one method
-
-            public void PlayIntro()
-            {
-                while (introplay)
-                {
-                    IntroPart1();
-                    Console.Clear();
-                    IntroPart2();
-                    Console.Clear();
-                    IntroPart3();
-                    Console.Clear();
-                    introplay = false;
-                }
-            }
-
-            //***Methods of different introduction parts
-
-            //Part 1 of Introduction
-            void IntroPart1()
-            {
-                TitleAnimation("The Farmer");
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("TextArt 'farmerText' here");
-                //Console.WriteLine(textArts.farmerText);                   TEXT ART HERE!!!
-                int numberOfLines = 3;
-                for (int i = 0; i < numberOfLines; i++)
-                {
-                    Console.WriteLine();
-                }
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\tYou are about to start your farmer's journey!");
-                Console.WriteLine();
-                GetFarmerName();
-                int numberOfLines2 = 2;
-                for (int i = 0; i < numberOfLines2; i++)
-                {
-                    Console.WriteLine();
-                }
-                Console.WriteLine($"Cool name {FarmerName}... I hope you are ready!");
-                Console.WriteLine();
-                Console.WriteLine("Now press any key to start the game.");
-                Console.ReadKey();
-            }
-
-            //Part 2 of Introduction
-            void IntroPart2()
-            {
-                Console.WriteLine();
-                Console.WriteLine("TextArt 'farmerArtStory' here");
-                //Console.Write(textArts.farmerArtStory);    TEXT ART HERE
-            }
-
-            //Part 3 of Introduction
-            void IntroPart3()
-            {
-                Console.WriteLine("TextArt 'farmerBackstory' here");
-                // Console.Write(textArts.farmerBackstory);     TEXT ART HERE
-                GetFarmerBackStory();
-                Console.ReadKey();
-            }
-
-            //*** Other Methods:
-
-            //Animated Title
-            static void TitleAnimation(string titleText)
-            {
-                Console.Title = "";
-                string Progressbar = "The Farmer";
-                var title = "";
-
-                for (int i = 0; i < Progressbar.Length; i++)
-                {
-                    title += Progressbar[i];
-                    Console.Title = title;
-                    Thread.Sleep(100);
-                }
-            }
-
-            //Collects a Farmer Name
-            public void GetFarmerName()
-            {
-                Console.WriteLine("\t\tLet's start with your character's name:");
-                Console.WriteLine();
-                string? farmerName = Console.ReadLine();
-
-                if (string.IsNullOrWhiteSpace(farmerName))
-                {
-                    Console.WriteLine("Please enter a valid name with letters only.");
-                    GetFarmerName();
-                }
-                else if (farmerName.All(char.IsLetter) && farmerName.Length >= 3 && farmerName.Length <= 10)
-                {
-                    FarmerName = farmerName;
-                }
-                else
-                {
-                    Console.WriteLine("Please enter a valid name with alphabetic characters between 3 and 10 characters.");
-                    GetFarmerName();
-                }
-            }
-
-            //Collects a Farmer's Backstory
-            string GetFarmerBackStory()
-            {
-                static int ReadIntFromConsole(string prompt)
-                {
-                    Console.WriteLine(prompt);
-                    string? userInput = Console.ReadLine();
-
-                    if (int.TryParse(userInput, out int result))
-                    {
-                        return result;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input. Please enter a number between 1, 2, or 3.");
-                        return ReadIntFromConsole(prompt);
-                    }
-                }
-
-                int userChoice;
-
-                do
-                {
-                    userChoice = ReadIntFromConsole("");
-
-                    if (userChoice == 1)
-                    {
-                        farmerBackstory = "Former Environmental Activist";
-                    }
-                    else if (userChoice == 2)
-                    {
-                        farmerBackstory = "Family Tradition Farmer";
-                    }
-                    else if (userChoice == 3)
-                    {
-                        farmerBackstory = "Former Wanderer";
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input. Please enter 1, 2, or 3.");
-                    }
-                } while (userChoice != 1 && userChoice != 2 && userChoice != 3);
-
-                Console.WriteLine();
-                Console.WriteLine($"You've selected: {farmerBackstory}.");
-                return farmerBackstory;
-            }
-
-        }
+        //Different Classes/Methods
 
         public class SDGQuiz
         {
@@ -976,6 +903,7 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
 
             public void PrintQuizTxt()
             {
+                Console.WriteLine(TextArtManager.GetTextArt("sdgquizTextArt"));
                 Console.WriteLine("Let me test your knowledge of Sustainable Development Goals!");
                 Console.WriteLine("Do you know what each of them stands for?");
                 Console.WriteLine();
@@ -1083,6 +1011,7 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
 
             public void PrintQuizTxt()
             {
+                Console.WriteLine(TextArtManager.GetTextArt("sfquizTextArt"));
                 Console.WriteLine("It's time to test your knowledge about Sustainable Farming!");
                 Console.WriteLine();
             }
@@ -1138,6 +1067,7 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
             {
                 do
                 {
+                    Console.WriteLine(TextArtManager.GetTextArt("Houses"));
                     Console.WriteLine();
                     Console.WriteLine("Villager: Hi there! I heard you are a new farming master around here!");
                     Console.WriteLine("People say you are specialized in sustainable farming. Could you tell me something about it?");
@@ -1201,10 +1131,10 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
                 } while (!cropRotationCompleted || !chemicalReductionCompleted || !waterConservationCompleted);
 
                 Console.WriteLine();
-                Print("Villager: Thank you for letting me know all of these things. I can't wait to share this knowledge.", 25);
-                Print("I might know somebody that could help you with sustainable farming.", 25);
-                Print("Talk to Micheal, you can find his office right next to the church.");
-                Print("Farmer: Thank you very much, see you around!", 25);
+                Printer.PrintLine("Villager: Thank you for letting me know all of these things. I can't wait to share this knowledge.", 25);
+                Printer.PrintLine("I might know somebody that could help you with sustainable farming.", 25);
+                Printer.PrintLine("Talk to Micheal, you can find his office right next to the church.");
+                Printer.PrintLine("Farmer: Thank you very much, see you around!", 25);
                 Console.WriteLine();
             }
 
@@ -1213,61 +1143,152 @@ new SDGQuizQuestion("SDG 17 (*artn*rs**ps for the *oals):", "partnerships for th
             {
 
                 Console.WriteLine();
-                Print("Farmer: Crop rotation is like a dance for my fields. Instead of planting the same crop in", 25);
-                Print("the same spot every year, I mix it up!", 25);
-                Print("So, one year, it's corn taking center stage, then the next sunflower steal the show.", 25);
-                Print("It helps to keep my soil nutrient-rich and prevents pests", 25);
-                Print("from getting too comfortable. Imagine it as a natural way of giving the land a breather!", 25);
+                Printer.PrintLine("Farmer: Crop rotation is like a dance for my fields. Instead of planting the same crop in", 25);
+                Printer.PrintLine("the same spot every year, I mix it up!", 25);
+                Printer.PrintLine("So, one year, it's corn taking center stage, then the next sunflower steal the show.", 25);
+                Printer.PrintLine("It helps to keep my soil nutrient-rich and prevents pests", 25);
+                Printer.PrintLine("from getting too comfortable. Imagine it as a natural way of giving the land a breather!", 25);
                 Console.WriteLine();
-                Print("Villager: Oh, that is fascinating! So it is like a land dance choreography?", 25);
+                Printer.PrintLine("Villager: Oh, that is fascinating! So it is like a land dance choreography?", 25);
                 Console.WriteLine();
-                Print("Farmer: Exactly! Each crop has it's own moves and by switching them around, I ensure my field stays healthy!", 25);
+                Printer.PrintLine("Farmer: Exactly! Each crop has it's own moves and by switching them around, I ensure my field stays healthy!", 25);
             }
 
             private void ExplainChemicalReduction()
             {
                 Console.WriteLine();
-                Print("Farmer: Sustainability is all about the green harmony on the farm.", 25);
-                Print("Reducing chemical usage is like creating a peaceful garden where", 25);
-                Print("plants and animals coexist. I minimize the impact on the environment", 25);
-                Print("by opting for greener alternatives, ensuring my fields are in harmony with nature.", 25);
+                Printer.PrintLine("Farmer: Sustainability is all about the green harmony on the farm.", 25);
+                Printer.PrintLine("Reducing chemical usage is like creating a peaceful garden where", 25);
+                Printer.PrintLine("plants and animals coexist. I minimize the impact on the environment", 25);
+                Printer.PrintLine("by opting for greener alternatives, ensuring my fields are in harmony with nature.", 25);
                 Console.WriteLine();
-                Print("Villager: Green harmony, that sounds stunning! How do you achieve it?", 25);
+                Printer.PrintLine("Villager: Green harmony, that sounds stunning! How do you achieve it?", 25);
                 Console.WriteLine();
-                Print("Farmer: I focus on soil health, embrace organic farming practices", 25);
-                Print("and utilize natural fertilizers to keep a healthy land.", 25);
+                Printer.PrintLine("Farmer: I focus on soil health, embrace organic farming practices", 25);
+                Printer.PrintLine("and utilize natural fertilizers to keep a healthy land.", 25);
             }
 
             private void ExplainWaterConservation()
             {
                 Console.WriteLine();
-                Print("Farmer: Ever solved a puzzle where every piece matters?", 25);
-                Print("Water conservation is like putting together an aqua puzzle for the farm.", 25);
-                Print("I need to use each drop efficiently, fitting them into the puzzle", 25);
-                Print("to create a picture of water-smart landscape.", 25);
+                Printer.PrintLine("Farmer: Ever solved a puzzle where every piece matters?", 25);
+                Printer.PrintLine("Water conservation is like putting together an aqua puzzle for the farm.", 25);
+                Printer.PrintLine("I need to use each drop efficiently, fitting them into the puzzle", 25);
+                Printer.PrintLine("to create a picture of water-smart landscape.", 25);
                 Console.WriteLine();
-                Print("Villager: An aqua puzzle! How interesting! How do you do it?", 25);
+                Printer.PrintLine("Villager: An aqua puzzle! How interesting! How do you do it?", 25);
                 Console.WriteLine();
-                Print("Farmer: I'm glad you've asked! I recycle water and adopt technologies that optimize water use.", 25);
-                Print("That is the secret to find the perfect fit for every drop to sustain my crops.", 25);
+                Printer.PrintLine("Farmer: I'm glad you've asked! I recycle water and adopt technologies that optimize water use.", 25);
+                Printer.PrintLine("That is the secret to find the perfect fit for every drop to sustain my crops.", 25);
             }
+        } 
 
-            public void Print(string text, int speed = 40)
+        public int RunFertilizerMixerGame()
+        {
+            Console.Clear();
+            Console.WriteLine(TextArtManager.GetTextArt("fertilizerMixer"));
+            Console.WriteLine("Mix different organic materials to create fertilizer.");
+            Console.WriteLine();
+
+            Dictionary<string, string> organicMaterials = new Dictionary<string, string>
+        {
+            { "1", "Compost" },
+            { "2", "Manure" },
+            { "3", "Alfalfa Meal" },
+            { "4", "Fish Emulsion" },
+            { "5", "Kelp Meal" },
+            { "6", "Green Manure" },
+            { "7", "Worm Castings" }
+        };
+
+            List<string> bestCombination = new List<string> { "2", "4", "7" };
+            List<string> midCombination1 = new List<string> { "1", "3", "5" };
+            List<string> midCombination2 = new List<string> { "1", "2", "6" };
+            List<string> midCombination3 = new List<string> { "2", "5", "1" };
+
+            while (true)
             {
-                foreach (char c in text)
+                Console.Clear();
+
+                Console.WriteLine("Choose three organic materials to mix:");
+                foreach (var material in organicMaterials)
                 {
-                    Console.Write(c);
-                    System.Threading.Thread.Sleep(speed);
+                    Console.WriteLine($"{material.Key}. {material.Value}");
                 }
-                Console.WriteLine();
+                Console.WriteLine("8. Back to the menu");
+
+                List<string> playerMix = new List<string>();
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Write($"Enter choice {i + 1}: ");
+                    string? choice = Console.ReadLine();
+
+                    if (choice == "8")
+                    {
+                        return 0;
+                    }
+
+                    if (organicMaterials.ContainsKey(choice))
+                    {
+                        playerMix.Add(choice);
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Ooops! Your mix didn't work well... Try again!");
+                        Console.WriteLine();
+                        Console.WriteLine("Organic Fertilizer Mixing Game!");
+                        Console.WriteLine("Mix different organic materials to create fertilizer.");
+                        Console.WriteLine("Choose three organic materials to mix:");
+                        Console.WriteLine("1. Compost");
+                        Console.WriteLine("2. Manure");
+                        Console.WriteLine("3. Alfalfa Meal");
+                        Console.WriteLine("4. Fish Emulsion");
+                        Console.WriteLine("5. Kelp Meal");
+                        Console.WriteLine("6. Green Manure");
+                        Console.WriteLine("7. Worm Castings");
+                        Console.WriteLine("8. Back to the menu");
+                        i = -1;
+                        Console.WriteLine("Press Enter to continue...");
+                        Console.ReadLine();
+                        continue;
+                    }
+                }
+
+                if (IsCorrectCombination(playerMix, bestCombination))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Congratulations! You created the best fertilizer. Your crops will grow healthier!");
+                    Console.WriteLine();
+                    Console.WriteLine("Press Enter to continue...");
+                    Console.ReadLine();
+                    return 2;
+                }
+                else if (IsCorrectCombination(playerMix, midCombination1) || IsCorrectCombination(playerMix, midCombination2) || IsCorrectCombination(playerMix, midCombination3))
+                {
+                    Console.Clear();
+                    Console.WriteLine("Good job! You created a decent fertilizer. Crops will grow, but not as well as the best one.");
+                    Console.WriteLine();
+                    Console.WriteLine("Press Enter to continue...");
+                    Console.ReadLine();
+                    return 1;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Ooops! Your mix didn't work well... Try again!");
+                    Console.WriteLine();
+                    Console.WriteLine("Press Enter to continue...");
+                    Console.ReadLine();
+                }
+            }
+            bool IsCorrectCombination(List<string> playerMix, List<string> correctCombination)
+            {
+                playerMix.Sort();
+                correctCombination.Sort();
+
+                return playerMix.SequenceEqual(correctCombination);
             }
         }
-
-
-
-
-
-
-
     }
 }
