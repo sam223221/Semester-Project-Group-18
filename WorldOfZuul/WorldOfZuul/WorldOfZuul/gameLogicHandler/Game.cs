@@ -491,13 +491,37 @@ command list for see:
             string[] facts =  
             {
              "Sheep make a bleating sound. A baby lamb can identify its mother by her bleat.",
-             "The goat is among the cleanest of animals, and is a much more selective feeder than cows, sheep, pigs, chickens and even dogs.\nGoats do eat many different species of plants, but do not want to eat food that has been contaminated or that has been on the floor or the ground.",
              "Cows have a memory of about three years.",
              "Cows are social animals who form bonds with each other. In a herd of cows, many will form cliques together.",
              "Female sheep are called ewes, male sheep are called rams, and baby sheep are called lambs.",
              "Ducklings are born ready to leave the nest within hours of hatching their eyes are open and they are able to find some of their own food.",
              "Sheep have two toes on each foot.",
-             "Some breeds of chickens can lay colored eggs. The Ameraucana and Araucana can lay eggs of green or blue."
+             "Some breeds of chickens can lay colored eggs. The Ameraucana and Araucana can lay eggs of green or blue.",
+             "The longest lecture on record lasted for over 139 hours! It was delivered by Dr. Kavan Ratnatunga in Sri Lanka in 2012, covering topics in astronomy.",
+             "The University of Bologna in Italy, founded in 1088, is recognized as the world's oldest university still in operation.",
+             "The average pencil can draw a line 35 miles long or write approximately 45,000 words.",
+             "Smallpox is the only human disease to have been eradicated globally. In 1980, the World Health Assembly declared the world free of smallpox.",
+             "The human body has the incredible ability to repair itself. For example, the liver can regenerate lost tissue, and broken bones can knit back together.",
+             "The first successful human organ transplant was a kidney transplant performed in 1954 by Dr. Joseph Murray and his team.",
+             "The Great Pyramid of Giza, built around 2560 BCE, is an engineering marvel that aligns with incredible precision to the cardinal points of the compass.",
+             "In hot weather, the Eiffel Tower expands, causing the metal structure to grow taller. Conversely, in cold weather, it contracts.",
+             "The Antikythera mechanism, an ancient Greek analog computer dating back to around 100 BCE, is considered the world's first known mechanical computer.",
+             "The Apollo 11 mission that landed humans on the moon in 1969 relied on a computer with less processing power than a modern smartphone.",
+             "Wind turbines have been used for centuries to pump water and grind grain. In modern times, they are harnessed for generating electricity from wind energy.",
+             "The design of the eggshell is an engineering marvel. Despite being fragile, an egg can withstand a surprising amount of pressure due to its arched shape",
+             "The Kuranui Primary School in New Zealand, established in 1867, is recognized as the world's oldest operating school.",
+             "The Library of Congress in the United States has the world's largest catalog of books and other media, with over 168 million items.",
+             "The best movie ever from an objective point of view was Shrek created in 2001!",
+             "There are over 7,500 known varieties of apples, each with its own unique taste and characteristics.",
+             "Bees are crucial for pollinating crops. About one-third of the world's food production depends on pollinators, primarily bees.",
+             "Pumpkins are believed to have originated in North America over 7,000 years ago.",
+             "Rice is a staple food for over half of the world's population.",
+             "Howard Berg holds the Guinness World Record for the fastest reader, reading over 25,000 words per minute.",
+             "The scent of old books is due to the breakdown of compounds in the paper, releasing a mix of pleasant odors known as bibliosmia",
+             "Aspirin, one of the most widely used medications, was originally derived from willow bark and has been used for centuries to relieve pain.",
+             "The human body contains about 60,000 miles (96,560 km) of blood vessels.",
+             "The human body generates enough heat in 30 minutes to boil half a gallon (about 2 liters) of water.",
+
             };
 
             Printer.PrintLine($"Fun fact :\n\n{facts[random.Next(facts.Length)]}\n");
