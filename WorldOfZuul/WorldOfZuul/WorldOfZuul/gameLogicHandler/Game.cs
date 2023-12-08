@@ -23,7 +23,7 @@ namespace WorldOfZuul
             if (gameRunning)
             {
             unlockedChapters = new List<IChapter>();
-            UnlockChapter(new Chapter2Teacher()); // Assuming Chapter 4 is the starting chapter
+            UnlockChapter(new Chapter3Medic()); // Assuming Chapter 4 is the starting chapter
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
@@ -175,13 +175,13 @@ namespace WorldOfZuul
                             
                             Console.WriteLine(@"
                             
-command list for see:
+Command list for see:
 
-~ task
-~ quest
-~ socialscore
-~ inventory
-~ map
+~ Task
+~ Quest
+~ Socialscore
+~ Inventory
+~ Map
                             ");
                             break;
 
@@ -240,7 +240,7 @@ command list for see:
                 currentChapter.IsCompleted = true;
             }
             
-
+            inventory.Clear();
             if (currentChapter is Chapter1Farmer)
             {
                 UnlockChapter(new Chapter2Teacher());
