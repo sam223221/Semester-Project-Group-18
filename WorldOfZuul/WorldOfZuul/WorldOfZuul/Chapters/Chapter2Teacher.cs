@@ -193,7 +193,7 @@ namespace WorldOfZuul
                 awnser = Console.ReadLine().ToLower();
                 if(awnser =="1")
                     {
-                         Printer.PrintLine("The colleague is dissapointed,and he's thinking about quiting he's job.");
+                         Printer.PrintLine("The colleague is dissapointed,and he's thinking about quiting the job.");
                         return -20;
                     }
                 else
@@ -270,7 +270,7 @@ namespace WorldOfZuul
             }
             else if(awnser=="2")
             {
-                Printer.PrintLine("You didn't do your duty");
+                Printer.PrintLine("You didn't do your duty...");
                 return -10;
             }
             else 
@@ -366,7 +366,7 @@ namespace WorldOfZuul
         
         private int lostpen()
         {
-            Printer.PrintLine("A kid lost hes pen and it's looking for it,He needs a pen to fill in some papers.Do you let him borrow your pen?");
+            Printer.PrintLine("A kid lost his pen and it's looking for it,He needs a pen to fill in some papers.Do you let him borrow your pen?");
              Printer.PrintLine($@"
         1.Yes
         2.No");
@@ -456,7 +456,8 @@ namespace WorldOfZuul
         private int parents()
         {
             Printer.PrintLine("A student's parent recognizes you in the pub.");
-             Printer.PrintLine(@$"Approach the parent or avoid interaction?
+             Printer.PrintLine(@$"
+        Approach the parent or avoid interaction?
         1.Approach
         2.Avoid
              ");
@@ -468,7 +469,7 @@ namespace WorldOfZuul
                     Printer.PrintLine("Approach the parent, exchange pleasantries, and potentially enhance your relationship with parents.");
                     Printer.PrintLine("The parents ask you how is their child doing in school");
                     Printer.PrintLine(@$"
-                    Tell them that:
+        Tell them that:
         1.The child is doing great
         2.The child is doing bad");
                 while(true)
@@ -482,7 +483,7 @@ namespace WorldOfZuul
                     else
                     if(awnser=="2")
                     {
-                        Printer.PrintLine("The chddild is very sad and you lose respect in front of he's eyes");
+                        Printer.PrintLine("The child is very sad and you lose respect in front of he's eyes");
                         return -10;
                     }
                     else
@@ -526,7 +527,8 @@ namespace WorldOfZuul
         private int GiveOrNot()
         {
             Printer.PrintLine("A kid comes to you,and says that the phone that you found in the office is he's phone");
-            Printer.PrintLine(@$"What will you do
+            Printer.PrintLine(@$"
+        What will you do?
         1.Give he's phone back
         2.Ask where he lost he's phone
             "); 
@@ -535,12 +537,12 @@ namespace WorldOfZuul
          string awnser = Console.ReadLine().ToLower();
          if(awnser=="1")
          {
-            Printer.PrintLine("Immediately after you gave him the phone a kid comes to you and tells you that he lost he's phone in the office.You made the wrong decision");
+            Printer.PrintLine("Immediately after you gave him the phone a kid comes to you and tells you that he lost his phone in the office.You made the wrong decision...");
             return -10;
          }
          if(awnser=="2")
          {
-            Printer.PrintLine("He said the he lost he's phone in the workshop");
+            Printer.PrintLine("He said the he lost his phone in the workshop");
             Printer.PrintLine(@$"
         What will you do?
         1.Give him the phone
@@ -551,7 +553,7 @@ namespace WorldOfZuul
          awnser = Console.ReadLine().ToLower();
          if(awnser=="1")
          {
-            Printer.PrintLine("It wasn't he's phone, you should have paid more attention...");
+            Printer.PrintLine("It wasn't his phone, you should have paid more attention...");
             return -10;
          }
          else
