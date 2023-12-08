@@ -74,21 +74,21 @@ namespace WorldOfZuul
 
             // Initialize rooms
             
-            VillageCenter = new Room("MedicVillageCenter", "\nYou stand in the heart of a charming village. Cobblestone paths lead in different directions. To the east is a bustling market, to the south is a quaint church, and to the west is a peaceful forest.");
+            VillageCenter = new Room("Village Center", "\nYou stand in the heart of a charming village. Cobblestone paths lead in different directions. To the east is a bustling market, to the south is a quaint church, and to the west is a peaceful forest.");
 
-            PublicHospital = new Room("MedicPublicHospital", "\nYou find yourself in a sterile environment filled with the scent of antiseptic. White walls surround you, and the sound of distant footsteps echoes through the corridors.");
+            PublicHospital = new Room("Hospital", "\nYou find yourself in a sterile environment filled with the scent of antiseptic. White walls surround you, and the sound of distant footsteps echoes through the corridors.");
 
-            GreenForest = new Room("MedicGreenForest", "\nYou step into a dense and enchanting forest. Tall trees tower above, creating a canopy of leaves that filters sunlight. Birds chirp in the distance, and the air is filled with the scent of pine.");
+            GreenForest = new Room("Forest", "\nYou step into a dense and enchanting forest. Tall trees tower above, creating a canopy of leaves that filters sunlight. Birds chirp in the distance, and the air is filled with the scent of pine.");
 
-            HolyChurch = new Room("MedicHolyChurch", "\nAs you enter, the atmosphere becomes serene. Stained glass windows filter colorful light into the church. Wooden pews line the aisles, and silence is broken only by the occasional creaking of old wooden floorboards.");
+            HolyChurch = new Room("Holy Church", "\nAs you enter, the atmosphere becomes serene. Stained glass windows filter colorful light into the church. Wooden pews line the aisles, and silence is broken only by the occasional creaking of old wooden floorboards.");
 
-            TownMarket = new Room("MedicTownMarket", "\nThe hustle and bustle of a vibrant market surround you. Stalls are filled with colorful fruits, vegetables, and various goods. Merchants call out their prices, creating a lively and dynamic atmosphere.");
+            TownMarket = new Room("Market", "\nThe hustle and bustle of a vibrant market surround you. Stalls are filled with colorful fruits, vegetables, and various goods. Merchants call out their prices, creating a lively and dynamic atmosphere.");
             
-            DeepCave = new Room("MedicDeepCave", "\nYou find yourself standing at the entrance of a mysterious and foreboding cave. The air is cool, and the only sound is the distant dripping of water echoing through the cavern. The darkness within is absolute, and you can barely make out the rough walls covered in ancient rock formations.");
+            DeepCave = new Room("Deep Cave", "\nYou find yourself standing at the entrance of a mysterious and foreboding cave. The air is cool, and the only sound is the distant dripping of water echoing through the cavern. The darkness within is absolute, and you can barely make out the rough walls covered in ancient rock formations.");
 
-            MedicalLab = new Room("MedicMedicalLaboratory", "\nYou walk into a makeshift medical lab. The air smells a bit old, and the lights are not very bright. The lab tables look worn, and there's not much fancy equipment. Some old tools and containers are scattered around. It's not high-tech, but you sense a kind of determined effort in this humble space");
+            MedicalLab = new Room("Medical Lab", "\nYou walk into a makeshift medical lab. The air smells a bit old, and the lights are not very bright. The lab tables look worn, and there's not much fancy equipment. Some old tools and containers are scattered around. It's not high-tech, but you sense a kind of determined effort in this humble space");
 
-            OldRanch = new Room("MedicOldRanch", "\nYou stand in the Old Ranch, surrounded by the scent of aged wood and leather. Weathered barns and vast fields paint a nostalgic scene, accompanied by the gentle sounds of cattle and horses.");
+            OldRanch = new Room("Old Ranch", "\nYou stand in the Old Ranch, surrounded by the scent of aged wood and leather. Weathered barns and vast fields paint a nostalgic scene, accompanied by the gentle sounds of cattle and horses.");
 
             // Set exits
 
@@ -139,17 +139,17 @@ namespace WorldOfZuul
 
             Task GatherHerbs = new Task("Herbs", "In forest you can find useful herbs, they will come in handy to discover new medicines!", ExploreTheForest, GreenForest, HerbsGathering, BookOfHerbGathering, Herbs);
 
-            Task InformMayor = new Task("Inform", "You defeated the virus that made the lives of the locals miserable, you have to go and tell the Mayor Campbell about it", TalkingWithLocals, VillageCenter, VillageCenterInformMayor, Herbs, CardAccessingToLab);
+            Task InformMayor = new Task("Inform", "You defeated the virus that made the lives of the locals miserable, you have to go and tell the Mayor Campbell about it", ExploreTheForest, VillageCenter, VillageCenterInformMayor, Herbs, CardAccessingToLab);
 
             Task DiscoveringNewMedicines = new Task("Medicines", "Inventing new medicines is necessary to help injured miners. Go on fast!", DeepCaveRescue, MedicalLab, DiscoverMedicines, CardAccessingToLab, Medicines);
 
             Task RescueMiners = new Task("Mission", "You are in front of cave entrance, you need to find miners and help them!", DeepCaveRescue, DeepCave, MinerRescue, Medicines, GoldBar);
 
-            Task InformMayor2 = new Task("Inform", "You did a great job of rescuing the injured miners, don't wait and tell the Mayor Campbell about it!", TalkingWithLocals, VillageCenter, VillageCenterInformMayor2, GoldBar, RanchKey);
+            Task InformMayor2 = new Task("Inform", "You did a great job of rescuing the injured miners, don't wait and tell the Mayor Campbell about it!", DeepCaveRescue, VillageCenter, VillageCenterInformMayor2, GoldBar, RanchKey);
 
             Task HealAnimals = new Task("Animals", "You need to help animals as soon as possible, no one knows what's wrong with them...", OldRanchSickness, OldRanch, RescueAnimals, RanchKey, null);
 
-            Task InformFarmer = new Task("Inform", "Farmer would be very happy that you've helped his animals, go inform him!", TalkingWithLocals, VillageCenter, VillageCenterInformFarmer, RanchKey, TownMarketTicket);
+            Task InformFarmer = new Task("Inform", "Farmer would be very happy that you've helped his animals, go inform him!", OldRanchSickness, VillageCenter, VillageCenterInformFarmer, RanchKey, TownMarketTicket);
 
             Task TradeInTownMarket = new Task("Trade", "This Travelling Merchant seems quite shady, but you need to trade with him", TownMarketTrade, TownMarket, TradeWithTravellingMerchant, TownMarketTicket, SDG3Book);
 
@@ -159,48 +159,48 @@ namespace WorldOfZuul
 
             Task GuessTheCode = new Task("Guessing", "You've spent so much time in hospital, that now you can't exit...", HospitalHealing, PublicHospital, DoorNumberGuessingGame, Reputation, HospitalDoorCode);
 
-            Task FinalTalkWithMayor = new Task("Mayor", "This is final talk, your adventure is coming to an end, you have already done your part...", TalkingWithLocals, VillageCenter, FinalTalk, HospitalDoorCode, null);
+            Task FinalTalkWithMayor = new Task("Talk", "This is final talk, your adventure is coming to an end, you have already done your part...", TalkingWithLocals, VillageCenter, FinalTalk, HospitalDoorCode, null);
 
             //Add quests to the chapters quests lists
+
+            Quests.Add(TalkingWithLocals);
 
             Quests.Add(ExploreTheForest);
             
             Quests.Add(DeepCaveRescue);
 
-            Quests.Add(TalkingWithLocals);
-
-            Quests.Add(ChurchQuizzes);
-
             Quests.Add(OldRanchSickness);
 
             Quests.Add(TownMarketTrade);
 
+            Quests.Add(ChurchQuizzes);
+
             Quests.Add(HospitalHealing);
 
             // Add task to the quest list
+            
+            TalkingWithLocals.AddTask(GatheringBasicInformations);
 
             ExploreTheForest.AddTask(DefeatingSickness);
             ExploreTheForest.AddTask(GatherHerbs);
+            ExploreTheForest.AddTask(InformMayor);
+
+            DeepCaveRescue.AddTask(DiscoveringNewMedicines);
+            DeepCaveRescue.AddTask(RescueMiners);
+            DeepCaveRescue.AddTask(InformMayor2);
+
+            OldRanchSickness.AddTask(HealAnimals);
+            OldRanchSickness.AddTask(InformFarmer);
+
+            TownMarketTrade.AddTask(TradeInTownMarket);
 
             ChurchQuizzes.AddTask(MedicalQuizInHolyChurch);
             ChurchQuizzes.AddTask(SDGQuizInHolyChurch);
 
-
-            TalkingWithLocals.AddTask(GatheringBasicInformations);
-            TalkingWithLocals.AddTask(InformMayor);
-            TalkingWithLocals.AddTask(InformMayor2);
-            TalkingWithLocals.AddTask(InformFarmer);
-            TalkingWithLocals.AddTask(FinalTalkWithMayor);
-
-            DeepCaveRescue.AddTask(DiscoveringNewMedicines);
-            DeepCaveRescue.AddTask(RescueMiners);
-
-            OldRanchSickness.AddTask(HealAnimals);
-
-            TownMarketTrade.AddTask(TradeInTownMarket);
-
             HospitalHealing.AddTask(TreatingPatients);
             HospitalHealing.AddTask(GuessTheCode);
+
+            TalkingWithLocals.AddTask(FinalTalkWithMayor);
 
             //Add task to the room
 
@@ -257,7 +257,7 @@ namespace WorldOfZuul
             int number;
             int guesses;
 
-            PrintText("\n You worked so hard that I lost track of time. It's late and there's no one with the keys. " +
+            PrintText("\n You worked so hard that You lost track of time. It's late and there's no one with the keys. " +
                       "\n You have to guess the hospital door code to get out...");
 
             PrintText("Press any key...");
@@ -265,11 +265,13 @@ namespace WorldOfZuul
             PressKey();
 
 
-            Console.WriteLine(" > Guess a code number of between " + min + " - " + max + " : ");
+            Console.WriteLine(" > Guess a code number of between " + min + " - " + max + " : \n");
             guess = Convert.ToInt32(Console.ReadLine());
 
             number = random.Next(min, max + 1);
             guesses = 1;
+
+            Console.WriteLine(TextArtManager.GetTextArt("CodeMedic"));
 
             if (guess == number)
             {
@@ -281,7 +283,6 @@ namespace WorldOfZuul
 
             while (guess != number)
             {
-                Console.WriteLine(TextArtManager.GetTextArt("CodeMedic"));
                 
                 Console.WriteLine(" > Guess: " + guess);
 
@@ -307,9 +308,9 @@ namespace WorldOfZuul
                 guesses++;
             }
 
-            Console.WriteLine("Number: " + number);
-            Console.WriteLine("Guesses: " + guesses);
-            Console.WriteLine("Okay, you guessed ");
+            Console.WriteLine(" > Number: " + number);
+            Console.WriteLine(" > Guesses: " + guesses);
+            Console.WriteLine(" > Nice, now you can exit...");
 
             Console.ReadKey();
             return 0; 
@@ -321,10 +322,12 @@ namespace WorldOfZuul
         private int HospitalPatients()
         {
             Console.Clear();
-            
-            Console.WriteLine("\nPatients are waiting for you to cure them!");
-            Console.WriteLine("You are the medic in charge. " +
-                              "\nYour goal is to hit 50 reputation score.");
+
+
+            Console.WriteLine(TextArtManager.GetTextArt("MedicalSyringe"));
+            Console.WriteLine("\n Patients are waiting for you to cure them!");
+            Console.WriteLine("\n You are the medic in charge. " +
+                              "\n Your goal is to hit 50 reputation score.");
 
             while (true)
             {
@@ -1414,6 +1417,7 @@ namespace WorldOfZuul
                     Console.WriteLine("You need to find 5 different kinds!");
 
                     Console.WriteLine("\n > Explore forest and gather mystical healing herbs");
+                    Console.WriteLine("\n > Be patient, you won't find everything right after start");
                     Console.WriteLine("\n > 1. Explore forest further");
                     Console.WriteLine("\n > 2. Show gathered herbs");
                     Console.Write("\n > ");
@@ -1492,7 +1496,7 @@ namespace WorldOfZuul
             // Mark the current room
             switch (currentRoom.ShortDescription)
             {
-                case "Village Center":
+                case "Villlage Center":
                     VillageCenter = "*You*";
                     break;
                 case "Church":
@@ -1523,7 +1527,7 @@ namespace WorldOfZuul
 
             +--------+--------+            +----------------+          +-----------------+
             |                 |            |                |          |                 |
-            |      Cave        +------------+     Church     +----------+   Medical Lab   |
+            |      Cave       +------------+     Church     +----------+   Medical Lab   |
             |    {DeepCave}        |            |     {church}      |    {MedicalLab} |                 |
             +--------+--------+            +--------+-------+          +--------+--------+ 
                      |                              |                           |
@@ -1600,12 +1604,12 @@ namespace WorldOfZuul
 
             void Intro2()
             {
-                Console.WriteLine("There will be Text Art");
+               
             }
 
             void Intro3()
             {
-                Console.WriteLine("There will be Text Art");
+                
             }
         }
 
