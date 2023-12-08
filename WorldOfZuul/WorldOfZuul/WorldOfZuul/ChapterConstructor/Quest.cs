@@ -34,12 +34,6 @@ namespace WorldOfZuul
             return Tasks.All(task => task.IsCompleted);
         }
 
-        public string GetProgress()
-        {
-            int completedTasks = Tasks.Count(task => task.IsCompleted);
-            return $"{Name} has {completedTasks} / {Tasks.Count} tasks done";
-        }
-
     }
 
     
