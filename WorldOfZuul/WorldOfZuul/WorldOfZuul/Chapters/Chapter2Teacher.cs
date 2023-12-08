@@ -151,8 +151,8 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("You encounter a student crying in the hallway.What will you do?");
              Printer.PrintLine($@"
-            1.help
-            2.ignore?");
+1.Help
+2.Ignore");
             while(true)
             {
             string awnser = Console.ReadLine().ToLower();
@@ -176,8 +176,8 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("A colleague asks for your help with a task.Will you help him?");
             Printer.PrintLine($@"
-            1.assist
-            2.ignore?");
+1.Assist
+2.Ignore");
             while(true)
             {
             string awnser = Console.ReadLine().ToLower();
@@ -186,10 +186,10 @@ namespace WorldOfZuul
                 Printer.PrintLine("The colleague is a new teacher and he needs advice on how to deal with the students");
                 Printer.PrintLine("What will you tell him?");
                 Printer.PrintLine( $@"
-            1.That he is a bad teacher
-            2.That every teacher has to deal with this problem and that he will get better as the time goes on
-            3.That he should yell at the kids who don't listen to him
-            4.That he he should show respect to the kids in order to be respected");
+1.That he is a bad teacher
+2.That every teacher has to deal with this problem and that he will get better as the time goes on
+3.That he should yell at the kids who don't listen to him
+4.That he he should show respect to the kids in order to be respected");
                 awnser = Console.ReadLine().ToLower();
                 if(awnser =="1")
                     {
@@ -235,8 +235,8 @@ namespace WorldOfZuul
         {
             Printer.PrintLine(" Students are organizing a peaceful protest for a cause they believe in. What will you do?");
             Printer.PrintLine($@"
-            1.Observe
-            2.Ignore");
+1.Observe
+2.Ignore");
             while(true)
             {
             string awnser = Console.ReadLine().ToLower();
@@ -244,8 +244,8 @@ namespace WorldOfZuul
             {
                 Printer.PrintLine(" A fight broke out. What will you do?");
                 Printer.PrintLine($@"
-            1.Stop the fight
-            2.Ignore");
+1.Stop the fight
+2.Ignore");
                 while(true)
                 {
                 awnser = Console.ReadLine().ToLower();
@@ -284,8 +284,8 @@ namespace WorldOfZuul
         {
              Printer.PrintLine("Your collegue request your help,he won't be able to attend he's lecture,will you attend the lecture in he's place?");
              Printer.PrintLine($@"
-            1.Yes
-            2.No");
+1.Yes
+2.No");
             while (true)
             {
             string awnser = Console.ReadLine().ToLower();
@@ -293,39 +293,39 @@ namespace WorldOfZuul
             {
                 Printer.PrintLine("You have to teach the students geography!");
                 Printer.PrintLine($@"What is the capital of Germany?
-            1.Berlin
-            2.Paris
-            3.Moscow
-            4.London");
+1.Berlin
+2.Paris
+3.Moscow
+4.London");
                 awnser = Console.ReadLine().ToLower();
                 if(awnser == "1")
                 {
                      Printer.PrintLine("Correct!");
                      Printer.PrintLine($@"What is the biggest country on earth?
-            1.China
-            2.Russia
-            3.USA
-            4.UK
+1.China
+2.Russia
+3.USA
+4.UK
                 ");
                  awnser = Console.ReadLine().ToLower();
                  if(awnser == "2")
                  {
                      Printer.PrintLine("Correct!");
                      Printer.PrintLine($@"How many continents are there?
-            1.7
-            2.8
-            3.6
-            4.4");
+1.7
+2.8
+3.6
+4.4");
                      awnser = Console.ReadLine().ToLower();
                      if(awnser == "1")
                      {
                          Printer.PrintLine("Correct");   
                          Printer.PrintLine("In which continent is USA located?");
                          Printer.PrintLine($@"
-            1.North America
-            2.South America
-            3.Asia
-            4.Africa");
+1.North America
+2.South America
+3.Asia
+4.Africa");
                     awnser = Console.ReadLine().ToLower();
                     if(awnser=="1")
                     {
@@ -368,8 +368,8 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("A kid lost his pen and it's looking for it,He needs a pen to fill in some papers.Do you let him borrow your pen?");
              Printer.PrintLine($@"
-        1.Yes
-        2.No");
+1.Yes
+2.No");
             while(true)
             {
             string awnser = Console.ReadLine().ToLower();
@@ -395,8 +395,8 @@ namespace WorldOfZuul
         {
              Printer.PrintLine("A worker needs a screwdriver for 5 minutes.Do you give him your screwdriver?");
              Printer.PrintLine(@$"
-        1.Yes
-        2.No
+1.Yes
+2.No
             ");
             string awnser = Console.ReadLine().ToLower();
             while(true)
@@ -418,7 +418,7 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("You see a screwdriver");
              Printer.PrintLine(@$"
-        1.Take it
+1.Take it
             ");
             while(true)
             {
@@ -433,8 +433,8 @@ namespace WorldOfZuul
         {
              Printer.PrintLine("The canteen needs repairs,a table is broken, and there is no one that knows how to fix it.You have worked as a construction worker before becomind a teacher,will you help?");
              Printer.PrintLine(@$"
-        1.Yes
-        2.No
+1.Yes
+2.No
              ");
             while(true)
             {
@@ -457,9 +457,9 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("A student's parent recognizes you in the pub.");
              Printer.PrintLine(@$"
-        Approach the parent or avoid interaction?
-        1.Approach
-        2.Avoid
+Approach the parent or avoid interaction?
+1.Approach
+2.Avoid
              ");
              while(true)
              {
@@ -469,9 +469,9 @@ namespace WorldOfZuul
                     Printer.PrintLine("Approach the parent, exchange pleasantries, and potentially enhance your relationship with parents.");
                     Printer.PrintLine("The parents ask you how is their child doing in school");
                     Printer.PrintLine(@$"
-        Tell them that:
-        1.The child is doing great
-        2.The child is doing bad");
+Tell them that:
+1.The child is doing great
+2.The child is doing bad");
                 while(true)
                 {
                     awnser = Console.ReadLine().ToLower();
@@ -509,7 +509,7 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("You found a smartphone some kid might have lost it.You should take it and find the kid that lost it");
             Printer.PrintLine(@$"
-        1.Take it
+1.Take it
             ");
             while(true)
             {
@@ -528,9 +528,9 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("A kid comes to you,and says that the phone that you found in the office is he's phone");
             Printer.PrintLine(@$"
-        What will you do?
-        1.Give he's phone back
-        2.Ask where he lost he's phone
+What will you do?
+1.Give he's phone back
+2.Ask where he lost he's phone
             "); 
         while(true)
         {
@@ -544,9 +544,9 @@ namespace WorldOfZuul
          {
             Printer.PrintLine("He said the he lost his phone in the workshop");
             Printer.PrintLine(@$"
-        What will you do?
-        1.Give him the phone
-        2.Tell him that thats not he's phone and that you won't give it to him
+What will you do?
+1.Give him the phone
+2.Tell him that thats not he's phone and that you won't give it to him
             ");
         while(true)
         {
