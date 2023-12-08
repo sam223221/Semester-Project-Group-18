@@ -8,8 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WorldOfZuul
-<<<<<<< HEAD
-build_property.ProjectDir = C:\Users\User\Documents\GitHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\
-=======
 build_property.ProjectDir = C:\Users\samgl\Documents\GitHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\
->>>>>>> 738f74e6aa52716c1a02d1429d37b4a771700002

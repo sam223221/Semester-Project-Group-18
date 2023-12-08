@@ -420,7 +420,6 @@ command list for see:
                 private void ShowSocialScore()
         {
             Console.WriteLine($"Your current social score is: {SocialScore}");
-            Console.WriteLine(currentChapter.PlayerScore());
         }
 
         private void ShowRoomTasks()
