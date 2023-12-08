@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
+=======
+    "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+        "projectName": "WorldOfZuul",
+        "projectPath": "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
+        "packagesPath": "C:\\Users\\samgl\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
+>>>>>>> 738f74e6aa52716c1a02d1429d37b4a771700002
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -50,12 +64,37 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+<<<<<<< HEAD
+=======
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            }
+          ],
+>>>>>>> 738f74e6aa52716c1a02d1429d37b4a771700002
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+>>>>>>> 738f74e6aa52716c1a02d1429d37b4a771700002
         }
       }
     }
