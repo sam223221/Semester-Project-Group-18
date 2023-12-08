@@ -409,7 +409,7 @@ namespace WorldOfZuul
                 }
                 else
                 {
-                    Console.WriteLine( > "Not enough medical supplies. Restock before treating more patients.");
+                    Console.WriteLine(" > Not enough medical supplies. Restock before treating more patients.");
                 }
             }
 
