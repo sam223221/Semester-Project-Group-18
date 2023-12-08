@@ -87,9 +87,9 @@ namespace WorldOfZuul
             workshop.SetExits(class1,null,null,hallway2);
         
 
-            Item pen = new Item("pen" , "A beatiful pen given to you by your collegue","Help your collegue");
+            Item pen = new Item("pen" , "A beatiful pen given to you by your collegue","Help your collegue to by teaching he's students");
             Item screwdriver = new Item("screwdriver","A simple screwdriver","Workshop");
-            Item hammer = new Item("hammer","A hammer","Theatre");
+            Item hammer = new Item("hammer","A hammer nothing too speacial about it","Theatre");
 
             // Create Quests
             Quest Repairschool = new Quest("RepairTheSchool.","Repair the school");
@@ -133,7 +133,7 @@ namespace WorldOfZuul
             Repairschool.AddTask(canteenrepair);
             
         }
-                                                //Choice quests
+                                                //Tasks
         private int kidCrying()
         {
             Printer.PrintLine("You encounter a student crying in the hallway.What will you do?");
@@ -349,7 +349,7 @@ namespace WorldOfZuul
         
         private int lostpen()
         {
-            Printer.PrintLine("A kid lost hes pen and it's looking for it.Do you you give him a pen?");
+            Printer.PrintLine("A kid lost hes pen and it's looking for it,He needs a pen to fill in some papers.Do you let him borrow your pen?");
              Printer.PrintLine($@"
             1.Yes
             2.No");
@@ -359,13 +359,13 @@ namespace WorldOfZuul
 
                 if(awnser == "1")
                     {
-                         Printer.PrintLine("The kid thanks you");
+                         Printer.PrintLine("The kid thanks you.You gain the respect of the child , and teach him that you should always help the ones in need");
                         return 10;
                     }
                 else if (awnser == "2")
                 {
-                     Printer.PrintLine("The kid stars crying");
-                    return -5;
+                     Printer.PrintLine("The kid stars crying.You could have helped him...");
+                    return -10;
                 }
                 else
                  Printer.PrintLine("Unknown Command");
@@ -376,7 +376,7 @@ namespace WorldOfZuul
 
         private int hammerfound()
         {
-             Printer.PrintLine("A worker needs a screwdriver.Do you give him your screwdriver?");
+             Printer.PrintLine("A worker needs a screwdriver for 5 minutes.Do you give him your screwdriver?");
              Printer.PrintLine(@$"
             1.Yes
             2.No

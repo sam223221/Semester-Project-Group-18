@@ -503,37 +503,55 @@ namespace WorldOfZuul
                 ";
 
               textArts["TeacheraCharacter"] = @"
-██▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██
-██                                                                                              ██
+ ____     __                        __                          ___                
+/\  _`\  /\ \                      /\ \__                     /'___`\              
+\ \ \/\_\\ \ \___      __     _____\ \ ,_\    __   _ __      /\_\ /\ \             
+ \ \ \/_/_\ \  _ `\  /'__`\  /\ '__`\ \ \/  /'__`\/\`'__\    \/_/// /__            
+  \ \ \L\ \\ \ \ \ \/\ \L\.\_\ \ \L\ \ \ \_/\  __/\ \ \/        // /_\ \           
+   \ \____/ \ \_\ \_\ \__/.\_\\ \ ,__/\ \__\ \____\\ \_\       /\______/           
+    \/___/   \/_/\/_/\/__/\/_/ \ \ \/  \/__/\/____/ \/_/       \/_____/            
+                                \ \_\                                              
+                                 \/_/                                              
+ ______  __                  ______                        __                      
+/\__  _\/\ \                /\__  _\                      /\ \                     
+\/_/\ \/\ \ \___      __    \/_/\ \/    __     __      ___\ \ \___      __   _ __  
+   \ \ \ \ \  _ `\  /'__`\     \ \ \  /'__`\ /'__`\   /'___\ \  _ `\  /'__`\/\`'__\
+    \ \ \ \ \ \ \ \/\  __/      \ \ \/\  __//\ \L\.\_/\ \__/\ \ \ \ \/\  __/\ \ \/ 
+     \ \_\ \ \_\ \_\ \____\      \ \_\ \____\ \__/.\_\ \____\\ \_\ \_\ \____\\ \_\ 
+      \/_/  \/_/\/_/\/____/       \/_/\/____/\/__/\/_/\/____/ \/_/\/_/\/____/ \/_/ 
+ 
+
+██▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██  
+██                                                                                              ██          
 ██                                                                                              ██
 ██                                                                                              ██
 ██                                                                                              ██
 ██                                                                                              ██
 ██                                        ▒▒              ▒▒                ░░▒▒░░              ██
-██                                        ▒▒      ▒▒      ▒▒    ▒▒▒▒▒▒          ▒▒              ██
+██                                        ▒▒      ▒▒      ▒▒    ▒▒▒▒▒▒          ▒▒              ██                                      The Teacher
 ██                                        ▒▒    ▒▒▒▒▒▒    ▒▒                ▒▒▒▒▒▒              ██
-██                                        ▒▒    ▒▒▒▒▒▒    ▒▒    ▒▒▒▒▒▒      ▒▒░░░░              ██
-██                                        ▒▒              ▒▒                ▒▒▒▒▒▒              ██
-██                                        ░░              ░░                ░░░░▒▒              ██
-██                                                                                              ██
-██                                                                                              ██
-██                                                                                              ██
-██                                                  ██                                          ██
-██              ████████████                        ██                                          ██
-██            ██░░░░░░░░░░░░██                    ██                                            ██
-██          ██░░░░████░░░░████                    ██                                            ██
-██        ▒▒██░░██░░░░████░░░░▓▓                ██░░                                            ██
-██        ██░░██              ██                ██                                              ██
-██        ██░░██              ░░██            ██                                                ██
-██        ██░░██  ██████    ██████            ██                                                ██
-██      ██████░░██░░░░████████░░██          ██░░                                                ██
-██      ██  ░░  ██    ██  ░░██  ██          ██                                                  ██
-██      ██████  ░░░░████    ██████        ██████                                                ██
-██          ██    ░░░░░░    ░░██        ██░░░░██                                                ██
-██████████████                ████████████    ████████████░░██████████▓▓██████████████████████████
-            ▓▓                ██    ██  ██  ██                                                    
+██                                        ▒▒    ▒▒▒▒▒▒    ▒▒    ▒▒▒▒▒▒      ▒▒░░░░              ██                                                
+██                                        ▒▒              ▒▒                ▒▒▒▒▒▒              ██   Meet Emil, a passionate and dedicated high school teacher from USA
+██                                        ░░              ░░                ░░░░▒▒              ██   Emil believed in the power of education and wants to make a change
+██                                                                                              ██   One day, he found an opportunity that would change he's life.
+██                                                                                              ██   Emil learned about an educational exchange program 
+██                                                                                              ██   that partnered with schools in Africa to bring 
+██                                                  ██                                          ██   experienced teachers to share their knowledge and skills 
+██              ████████████                        ██                                          ██   with students in underserved communities. Inspired by the idea 
+██            ██░░░░░░░░░░░░██                    ██                                            ██   of making a difference on a global  scale, Emil applied and was 
+██          ██░░░░████░░░░████                    ██                                            ██   selected for a teaching assignment in a village in Africa.
+██        ▒▒██░░██░░░░████░░░░▓▓                ██░░                                            ██   Arriving in Africa,Emil was greeted by a vibrant and diverse community.
+██        ██░░██              ██                ██                                              ██   The school he was assigned to faced numerous challenges, including limited 
+██        ██░░██              ░░██            ██                                                ██   resources,overcrowded classrooms,and a curriculum that failed to meet 
+██        ██░░██  ██████    ██████            ██                                                ██   the needs of all students. the needs of all students.However,Emil saw      
+██      ██████░░██░░░░████████░░██          ██░░                                                ██   these challenges as opportunities to ignite change and make an impact.
+██      ██  ░░  ██    ██  ░░██  ██          ██                                                  ██   
+██      ██████  ░░░░████    ██████        ██████                                                ██   
+██          ██    ░░░░░░    ░░██        ██░░░░██                                                ██   The rest of the story is in your hands...
+██████████████                ████████████    ████████████░░██████████▓▓██████████████████████████   Will you be able to make an impact for the better or for the worst?                                        
+            ▓▓                ██    ██  ██  ██                                                       Your decision have consequences and will change the school forever.
             ██        ████████▒▒  ▓▓▒▒  ░░██          ▓▓████████              ▒▒▒▒████████        
-          ██░░██      ░░░░░░░░▓▓▓▓░░    ██          ██▒▒▒▒▒▒▒▒▒▒▓▓██        ▓▓            ████    
+          ██░░██      ░░░░░░░░▓▓▓▓░░    ██          ██▒▒▒▒▒▒▒▒▒▒▓▓██        ▓▓            ████                                  Press any key to continue...
         ████  ██            ████▒▒    ██          ████████████▒▒▒▒▒▒██    ████████████    ░░░░██  
       ██    ██  ██        ▓▓  ██    ██          ▓▓          ██▒▒▒▒▒▒██    ██          ██      ██  
       ██      ██  ████████  ██    ██            ████    ██  ████▒▒▒▒██    ████    ██  ██      ██  
@@ -557,8 +575,7 @@ namespace WorldOfZuul
     ░░                                                                  ░░                        
   ░░░░  ░░░░░░░░░░░░                                                    ░░                        
               
-              
-              ";
+  ";
             textArts["Outside"]=@"
                                                                         ▒▒                                                          
                                                             ▒▒▒▒                                                        
