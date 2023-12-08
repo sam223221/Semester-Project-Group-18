@@ -23,11 +23,7 @@ namespace WorldOfZuul
             if (gameRunning)
             {
             unlockedChapters = new List<IChapter>();
-<<<<<<< HEAD
-            UnlockChapter(new Chapter2Teacher()); // Assuming Chapter 4 is the starting chapter
-=======
             UnlockChapter(new Chapter1Farmer()); // Assuming Chapter 4 is the starting chapter
->>>>>>> a7ff4faece9cee7edd745365f74f5e9712a6be90
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
@@ -96,7 +92,7 @@ namespace WorldOfZuul
 
             }
 
-            Console.WriteLine("Thank you for playing World of Zuul!");
+            Console.WriteLine("Thank you for playing Hope Rising, a new begining!");
         }
 
 
@@ -409,7 +405,7 @@ command list for see:
                         Console.WriteLine($"{task.RequiredItem.WhereTofindItem}");
                     }
                    }
-                    Thread.Sleep(8000);
+                    Thread.Sleep(5000);
                     Console.Clear();
                     Console.WriteLine(TextArtManager.GetTextArt(currentRoom?.ShortDescription));
                     return;
