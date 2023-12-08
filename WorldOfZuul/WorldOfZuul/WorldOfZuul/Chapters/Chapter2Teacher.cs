@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Formats.Asn1;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks.Dataflow;
 
 namespace WorldOfZuul
@@ -74,7 +76,7 @@ namespace WorldOfZuul
 
             office.SetExits(theatre,hallway1,canteen,null);
 
-            class1.SetExits(pub,null,workshop,hallway1);
+            class1.SetExits(pub,hallway1,workshop,null);
              
             hallway1.SetExits(outside, office,hallway2,class1);
 
@@ -86,47 +88,43 @@ namespace WorldOfZuul
         
 
             Item pen = new Item("pen" , "A beatiful pen given to you by your collegue","Help your collegue");
+            Item screwdriver = new Item("screwdriver","A simple screwdriver","Workshop");
+            Item hammer = new Item("hammer","A hammer","Theatre");
+
             // Create Quests
-            Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
+            Quest Repairschool = new Quest("ReapirTheSchoos.","Repair the school");
             Quest Helpkids = new Quest("Helpkids ","Help the kids around the university");
             Quest Helpcolleagues = new Quest("Helpcolleagues","Help your colleagues");
-    
-           // Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
-            
+
+
             // Create Tasks and associate them with quests
-            //Task findDataTask = new Task("Find Data Task", "Find the hidden data in the room.", findDataQuest,startRoom, FindDataTaskAction);
-            //Task solvePuzzleTask = new Task("Solve Puzzle Task", "Solve the tricky puzzle.", solvePuzzleQuest, anotherRoom ,SolvePuzzleTaskAction);
             Task hallway1task = new Task("Kid","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
             Task hallway2task = new Task("Colleguehelp","A collegue needs help",Helpcolleagues,hallway2,colleaguehelp,null,null);
             Task outsidetask = new Task("Protest","There is a protest!",Helpkids,outside,protest,null,null);
             Task classtask = new Task("Geography","You have to help ypur gegraphy collegue",Helpcolleagues,class1,geography,null,pen);
             Task hallway2task2 = new Task("Lost","A kid is looking for something",Helpkids,hallway2,lostpen,pen,null);
-
+            Task Hammer = new Task("Hammer","A hammer",Repairschool,theatre,hammerfound,screwdriver,hammer);
+            Task screwdriver1 = new Task("Scrwdriver","A screwdriver",Repairschool,workshop,screwdriverfound,null,screwdriver);
             // Add quest to Chapter list
-            //Quests.Add(findDataQuest);
-            //Quests.Add(solvePuzzleQuest);
             Quests.Add(Helpkids);
             Quests.Add(Helpcolleagues);
-
+            Quests.Add(Repairschool);
             // Add tasks to rooms
-            //startRoom.AddTask(findDataTask);
             hallway1.AddTask(hallway1task);
             hallway2.AddTask(hallway2task);
             hallway2.AddTask(hallway2task2);
             outside.AddTask(outsidetask);
             class1.AddTask(classtask);
-            //anotherRoom.AddTask(solvePuzzleTask);
-
+            theatre.AddTask(Hammer);
+            workshop.AddTask(screwdriver1);
             // Add task to quest
-            //findDataQuest.AddTask(findDataTask);
             Helpkids.AddTask(hallway1task);
             Helpkids.AddTask(hallway2task);
             Helpcolleagues.AddTask(outsidetask);
             Helpcolleagues.AddTask(classtask);
             Helpkids.AddTask(hallway2task2);
-
-            //solvePuzzleQuest.AddTask(solvePuzzleTask);
-
+            Repairschool.AddTask(Hammer);
+            Repairschool.AddTask(screwdriver1);
         }
                                                 //Choice quests
         private int kidCrying()
@@ -365,6 +363,46 @@ namespace WorldOfZuul
 
 
         }
+
+        private int hammerfound()
+        {
+            Console.WriteLine("A worker needs a screwdriver.Do you give him your screwdriver?");
+            Console.WriteLine(@$"
+            1.Yes
+            2.No
+            ");
+            string awnser = Console.ReadLine().ToLower();
+            while(true)
+            {
+                if(awnser=="1")
+                {
+                    Console.WriteLine("He thanks you and rewards you with a hammer");
+                    return 10;
+                }
+                else
+                if(awnser=="2")
+                return -10;
+                else
+                Console.WriteLine("Unknown Command");
+            }
+
+        }
+        private int screwdriverfound()
+        {
+            Console.WriteLine("You see a screwdriver");
+            Console.WriteLine(@$"
+            1.Take it
+            ");
+            while(true)
+            {
+                string awnser = Console.ReadLine().ToLower();
+                if(awnser=="1")
+                return 0;
+                else
+                Console.WriteLine("Unknown Command");
+            }
+        }
+
         // 
        public void showMap(Room currentRoom)
         {
