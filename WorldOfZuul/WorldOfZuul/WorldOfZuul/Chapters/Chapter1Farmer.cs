@@ -43,7 +43,7 @@ namespace WorldOfZuul
         public void CreateRoomsAndQuests()
         {
 
-            // Initialize items                          Name:                              Inventory Description:      Where:
+            // Initialize items                          
 
             Item villageDialogueItem = new Item("a talk with the Villager", null, "Village");
             Item sustFarmCertificate = new Item("SustainableFarmingCertificate", null, "Watermill");
@@ -58,7 +58,7 @@ namespace WorldOfZuul
             Item sdgBasics = new Item("SDGCourse", null, "House");
             Item investor = new Item("a talk with the Investor", null, "Market");
 
-            // Initialize rooms            Name:        Description:
+            // Initialize rooms          
 
             watermill = new Room("Watermill", "A watermill owned by your friend, a good sustainable farmer... \nWhat could be found there?");
             village = new Room("Village", "You are at the center of your beautiful village!");
@@ -68,7 +68,7 @@ namespace WorldOfZuul
             lake = new Room("Lake", "What you see is a lovely lake right in front of you!");
 
 
-            // Set room's exits        North:    East:       South:      West:
+            // Set room's exits       
 
             market.SetExits(village, watermill, null, null);
             watermill.SetExits(farm, null, null, market);
@@ -78,7 +78,7 @@ namespace WorldOfZuul
             lake.SetExits(null, house, null, null);
 
 
-            // Create quests                            Name:                               Description:
+            // Create quests                        
 
             Quest watermillQuest = new Quest("Sustainable Farming Wisdom", "Gather and test your knowledge about sustainable farming!");
             Quest villageQuest = new Quest("Renewable Energy Initiative", "Work your way to help yourself and the community!");
@@ -87,7 +87,7 @@ namespace WorldOfZuul
             Quest farmQuest = new Quest("FarmingAdventure", "Sustainable farming practises!");
 
 
-            // Initialize tasks                                     Name:                     Description:                                                    Quest:          Room:      Method:              Required Item:         Reward Item:
+            // Initialize tasks                                                                               
 
             Task watermillCourseSustFarTask = new Task("SustainableFarmCourse", "Look up sustainable farming techniques!", watermillQuest, watermill, SustFarmCourse, null, sustFarmBasics);
             Task watermillQuizSustFarTask = new Task("SustainableFarmQuiz", "Complete a Quiz about Sustainable Farming.", watermillQuest, watermill, SustFarmQuizPlay, sustFarmBasics, sustFarmCertificate);
@@ -97,7 +97,7 @@ namespace WorldOfZuul
 
             Task solarpanelsVillagerDialogue = new Task("VillagerTalk", "Seems like someone is courious about your work...", villageQuest, village, VillageDialogue, sustFarmBasics, villageDialogueItem);
             Task solarpanelsMrInvestorDialogue = new Task("MrMicheal", "Friend of a friend?", villageQuest, village, MichealDialogue, villageDialogueItem, investor);
-            Task solarpanelsGet = new Task("RenewableEnergy", "You need some chats...", villageQuest, village, SolarPanels, investor, solarpanelItem);
+            Task solarpanelsGet = new Task("RenewableEnergy", "You need some chats...", villageQuest, farm, SolarPanels, investor, solarpanelItem);
             Task solarpanelsOpenHouse = new Task("OpenHouseDay", "Open the doors of your farm!", villageQuest, farm, OpenHouseDay, solarpanelItem, null);
 
             Task lostanimalsInformation = new Task("LostAnimals", "Gather information about lost animals next to the lake area.", lakeQuest, lake, LakeInformation, null, lostanimalsInfo);
@@ -150,19 +150,18 @@ namespace WorldOfZuul
             house.AddTask(houseQuizSDGTask);
 
             village.AddTask(solarpanelsVillagerDialogue);
-            village.AddTask(solarpanelsGet);
-
+            market.AddTask(solarpanelsMrInvestorDialogue);
+            farm.AddTask(solarpanelsGet);
             farm.AddTask(solarpanelsOpenHouse);
+
             farm.AddTask(lostanimalsMeat);
             farm.AddTask(lostanimalsShelters);
-            farm.AddTask(fertilizeMixer);
-            farm.AddTask(fertilizeUse);
-
             lake.AddTask(lostanimalsInformation);
             lake.AddTask(lostanimalsFind);
 
-            market.AddTask(solarpanelsMrInvestorDialogue);
             market.AddTask(fertilizeBuyOrganicMaterials);
+            farm.AddTask(fertilizeMixer);
+            farm.AddTask(fertilizeUse);
 
             // Adding things to rooms
 
