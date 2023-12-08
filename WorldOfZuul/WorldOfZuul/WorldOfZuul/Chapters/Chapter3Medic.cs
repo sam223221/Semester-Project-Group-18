@@ -1523,17 +1523,17 @@ namespace WorldOfZuul
 
             +--------+--------+            +----------------+          +-----------------+
             |                 |            |                |          |                 |
-            |       Cave      +------------+      Church    +----------+   Medical Lab   |
+            |      Cave        +------------+     Church     +----------+   Medical Lab   |
             |    {DeepCave}        |            |     {church}      |    {MedicalLab} |                 |
             +--------+--------+            +--------+-------+          +--------+--------+ 
-                    |                              |                           |
-                    |                              |                           |
-                    |                              |                           |
-                    |                              |                           |
+                     |                              |                           |
+                     |                              |                           |
+                     |                              |                           |
+                     |                              |                           |
             +--------+--------+            +--------+-------+          +--------+--------+
             |                 |            |                |          |                 |
-            |   Green Forest  +------------+ Village Center +----------+     Hospital    |
-            |      {forest}      |            |     {VillageCenter}     |           |   {hospital}         |
+            |   Green Forest  +------------+ Village Center +----------+    Hospital     |
+            |      {forest}      |            |     {VillageCenter}      |          |   {hospital}         |
             +--------+--------+            +--------+-------+          +--------+--------+
                                                     |                           |
                                                     |                           |
