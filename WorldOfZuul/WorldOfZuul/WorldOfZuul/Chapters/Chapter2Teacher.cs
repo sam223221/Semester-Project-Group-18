@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Formats.Asn1;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks.Dataflow;
+using System.Xml;
 
 namespace WorldOfZuul
 {
@@ -72,13 +74,13 @@ namespace WorldOfZuul
 
             theatre.SetExits(null, null,office,outside);
 
-            pub.SetExits(null, outside,class1,null);
+            pub.SetExits(null, null,class1,outside);
 
             office.SetExits(theatre,hallway1,canteen,null);
 
-            class1.SetExits(pub,hallway1,workshop,null);
+            class1.SetExits(pub,null,workshop,hallway1);
              
-            hallway1.SetExits(outside, office,hallway2,class1);
+            hallway1.SetExits(outside, class1,hallway2,office);
 
             hallway2.SetExits(hallway1,workshop,null,canteen);
 
@@ -90,12 +92,13 @@ namespace WorldOfZuul
             Item pen = new Item("pen" , "A beatiful pen given to you by your collegue","Help your collegue to by teaching he's students");
             Item screwdriver = new Item("screwdriver","A simple screwdriver","Workshop");
             Item hammer = new Item("hammer","A hammer nothing too speacial about it","Theatre");
+            Item smartphone= new Item("smartphone","A smartphone that you found","Office");
 
             // Create Quests
             Quest Repairschool = new Quest("RepairTheSchool.","Repair the school");
             Quest Helpkids = new Quest("Helpkids ","Help the kids around the university");
             Quest Helpcolleagues = new Quest("Helpcolleagues","Help your colleagues");
-
+            Quest LostSomething= new Quest("LostPhone","Someone lost something valuable");
 
             // Create Tasks and associate them with quests
             Task hallway1task = new Task("Kid","A kid is crying",Helpkids,hallway1,kidCrying,null,null);
@@ -107,33 +110,43 @@ namespace WorldOfZuul
             Task screwdriver1 = new Task("Screwdriver","A screwdriver",Repairschool,workshop,screwdriverfound,null,screwdriver);
             Task Hammer = new Task("Hammer","A hammer",Repairschool,theatre,hammerfound,screwdriver,hammer);
             Task canteenrepair = new Task("Canteenrepair","The canteen needs repairs",Repairschool,canteen,repairs,hammer,null);
+            Task foundphone = new Task("Phone","You found a phone",LostSomething,office,lostphone,null,smartphone);
+            Task givephone = new Task("GiveOrNot","Will you make the right choice?",LostSomething,pub,GiveOrNot,smartphone,null);
             // Add quest to Chapter list
             Quests.Add(Helpkids);
             Quests.Add(Helpcolleagues);
             Quests.Add(Repairschool);
+            Quests.Add(LostSomething);
+
             // Add tasks to rooms
             hallway1.AddTask(hallway1task);
             hallway2.AddTask(hallway2task);
             hallway2.AddTask(hallway2task2);
             outside.AddTask(outsidetask);
             class1.AddTask(classtask);
-            theatre.AddTask(Hammer);
             workshop.AddTask(screwdriver1);
+            theatre.AddTask(Hammer);
             canteen.AddTask(canteenrepair);
-            pub.AddTask(canteenrepair);
+            office.AddTask(foundphone);
+            pub.AddTask(givephone);
+            pub.AddTask(pubtask);
+
             // Add task to quest
             Helpkids.AddTask(hallway1task);
             Helpkids.AddTask(hallway2task);
             Helpkids.AddTask(pubtask);
             Helpkids.AddTask(hallway2task2);
+            Helpkids.AddTask(foundphone);
             Helpcolleagues.AddTask(outsidetask);
             Helpcolleagues.AddTask(classtask);
             Repairschool.AddTask(Hammer);
             Repairschool.AddTask(screwdriver1);
             Repairschool.AddTask(canteenrepair);
+            LostSomething.AddTask(foundphone);
+            LostSomething.AddTask(givephone);
             
         }
-                                                //Tasks
+            //Tasks
         private int kidCrying()
         {
             Printer.PrintLine("You encounter a student crying in the hallway.What will you do?");
@@ -170,12 +183,13 @@ namespace WorldOfZuul
             string awnser = Console.ReadLine().ToLower();
             if (awnser == "1")
             {
-                 Printer.PrintLine("The colleague is a new teacher and he needs advice on how to deal with the students");
-                 Printer.PrintLine("What will you tell him?");
-                Printer.PrintLine( $@"1.That he is a bad teacher
-                                      2.That every teacher has to deal with this problem and that he will get better as the time goes on
-                                      3.That he should yell at the kids who don't listen to him
-                                      4.That he he should show respect to the kids in order to be respected");
+                Printer.PrintLine("The colleague is a new teacher and he needs advice on how to deal with the students");
+                Printer.PrintLine("What will you tell him?");
+                Printer.PrintLine( $@"
+            1.That he is a bad teacher
+            2.That every teacher has to deal with this problem and that he will get better as the time goes on
+            3.That he should yell at the kids who don't listen to him
+            4.That he he should show respect to the kids in order to be respected");
                 awnser = Console.ReadLine().ToLower();
                 if(awnser =="1")
                     {
@@ -219,8 +233,8 @@ namespace WorldOfZuul
 
         private int protest()
         {
-            Console.WriteLine(" Students are organizing a peaceful protest for a cause they believe in. What will you do?");
-            Console.WriteLine($@"
+            Printer.PrintLine(" Students are organizing a peaceful protest for a cause they believe in. What will you do?");
+            Printer.PrintLine($@"
             1.Observe
             2.Ignore");
             while(true)
@@ -228,38 +242,40 @@ namespace WorldOfZuul
             string awnser = Console.ReadLine().ToLower();
             if(awnser == "1")
             {
-                Console.WriteLine(" A fight broke out. What will you do?");
-                Console.WriteLine($@"
-                                    1.Stop the fight
-                                    2.Ignore");
+                Printer.PrintLine(" A fight broke out. What will you do?");
+                Printer.PrintLine($@"
+            1.Stop the fight
+            2.Ignore");
+                while(true)
+                {
                 awnser = Console.ReadLine().ToLower();
                 if(awnser == "1") 
                 {
-                    Console.WriteLine("You stop the fight!");
+                    Printer.PrintLine("You stop the fight!");
                     return 10;
                 }
                 else
                 if(awnser == "2")
                 {
-                    Console.WriteLine("The fight was stopped by other teacher,you lose repect in front of the people!");
+                    Printer.PrintLine("The fight was stopped by other teacher,you lose repect in front of the people!");
                     return -10;
                 }
                 else
                 {
-                    Console.WriteLine("Unknown Command");
+                    Printer.PrintLine("Unknown Command");
                     
                 }
-
+                }
 
             }
             else if(awnser=="2")
             {
-                Console.WriteLine("You didn't do your duty");
+                Printer.PrintLine("You didn't do your duty");
                 return -10;
             }
             else 
             {
-                Console.WriteLine("Unknown Command");
+                Printer.PrintLine("Unknown Command");
             
             }
             }
@@ -267,8 +283,9 @@ namespace WorldOfZuul
         private int geography()
         {
              Printer.PrintLine("Your collegue request your help,he won't be able to attend he's lecture,will you attend the lecture in he's place?");
-             Printer.PrintLine($@"1.Yes
-                                 2.No");
+             Printer.PrintLine($@"
+            1.Yes
+            2.No");
             while (true)
             {
             string awnser = Console.ReadLine().ToLower();
@@ -276,39 +293,39 @@ namespace WorldOfZuul
             {
                 Printer.PrintLine("You have to teach the students geography!");
                 Printer.PrintLine($@"What is the capital of Germany?
-                                     1.Berlin
-                                     2.Paris
-                                     3.Moscow
-                                     4.London");
+            1.Berlin
+            2.Paris
+            3.Moscow
+            4.London");
                 awnser = Console.ReadLine().ToLower();
                 if(awnser == "1")
                 {
                      Printer.PrintLine("Correct!");
                      Printer.PrintLine($@"What is the biggest country on earth?
-                1.China
-                2.Russia
-                3.USA
-                4.UK
+            1.China
+            2.Russia
+            3.USA
+            4.UK
                 ");
                  awnser = Console.ReadLine().ToLower();
                  if(awnser == "2")
                  {
                      Printer.PrintLine("Correct!");
                      Printer.PrintLine($@"How many continents are there?
-                    1.7
-                    2.8
-                    3.6
-                    4.4");
+            1.7
+            2.8
+            3.6
+            4.4");
                      awnser = Console.ReadLine().ToLower();
                      if(awnser == "1")
                      {
                          Printer.PrintLine("Correct");   
                          Printer.PrintLine("In which continent is USA located?");
                          Printer.PrintLine($@"
-                    1.North America
-                    2.South America
-                    3.Asia
-                    4.Africa");
+            1.North America
+            2.South America
+            3.Asia
+            4.Africa");
                     awnser = Console.ReadLine().ToLower();
                     if(awnser=="1")
                     {
@@ -351,8 +368,8 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("A kid lost hes pen and it's looking for it,He needs a pen to fill in some papers.Do you let him borrow your pen?");
              Printer.PrintLine($@"
-            1.Yes
-            2.No");
+        1.Yes
+        2.No");
             while(true)
             {
             string awnser = Console.ReadLine().ToLower();
@@ -378,8 +395,8 @@ namespace WorldOfZuul
         {
              Printer.PrintLine("A worker needs a screwdriver for 5 minutes.Do you give him your screwdriver?");
              Printer.PrintLine(@$"
-            1.Yes
-            2.No
+        1.Yes
+        2.No
             ");
             string awnser = Console.ReadLine().ToLower();
             while(true)
@@ -401,7 +418,7 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("You see a screwdriver");
              Printer.PrintLine(@$"
-            1.Take it
+        1.Take it
             ");
             while(true)
             {
@@ -416,8 +433,8 @@ namespace WorldOfZuul
         {
              Printer.PrintLine("The canteen needs repairs,a table is broken, and there is no one that knows how to fix it.You have worked as a construction worker before becomind a teacher,will you help?");
              Printer.PrintLine(@$"
-             1.Yes
-             2.No
+        1.Yes
+        2.No
              ");
             while(true)
             {
@@ -440,8 +457,8 @@ namespace WorldOfZuul
         {
             Printer.PrintLine("A student's parent recognizes you in the pub.");
              Printer.PrintLine(@$"Approach the parent or avoid interaction?
-             1.Approach
-             2.Avoid
+        1.Approach
+        2.Avoid
              ");
              while(true)
              {
@@ -452,8 +469,8 @@ namespace WorldOfZuul
                     Printer.PrintLine("The parents ask you how is their child doing in school");
                     Printer.PrintLine(@$"
                     Tell them that:
-                    1.The child is doing great
-                    2.The child is doing bad");
+        1.The child is doing great
+        2.The child is doing bad");
                 while(true)
                 {
                     awnser = Console.ReadLine().ToLower();
@@ -480,9 +497,81 @@ namespace WorldOfZuul
                     Printer.PrintLine("Avoid interaction to maintain privacy. Preserve personal space but potentially miss an opportunity to strengthen parent-teacher relations.");
                     return 0;
                 }
+                else
+                {
+                    Printer.PrintLine("Unknown command");
+                }
 
              }
         }
+        private int lostphone()
+        {
+            Printer.PrintLine("You found a smartphone some kid might have lost it.You should take it and find the kid that lost it");
+            Printer.PrintLine(@$"
+        1.Take it
+            ");
+            while(true)
+            {
+            string awnser = Console.ReadLine().ToLower();
+            if(awnser=="1")
+            {
+                Printer.PrintLine("You took the phone");
+                return 0;
+            }
+            else 
+                Printer.PrintLine("Unknown command");
+            }
+
+        }
+        private int GiveOrNot()
+        {
+            Printer.PrintLine("A kid comes to you,and says that the phone that you found in the office is he's phone");
+            Printer.PrintLine(@$"What will you do
+        1.Give he's phone back
+        2.Ask where he lost he's phone
+            "); 
+        while(true)
+        {
+         string awnser = Console.ReadLine().ToLower();
+         if(awnser=="1")
+         {
+            Printer.PrintLine("Immediately after you gave him the phone a kid comes to you and tells you that he lost he's phone in the office.You made the wrong decision");
+            return -10;
+         }
+         if(awnser=="2")
+         {
+            Printer.PrintLine("He said the he lost he's phone in the workshop");
+            Printer.PrintLine(@$"
+        What will you do?
+        1.Give him the phone
+        2.Tell him that thats not he's phone and that you won't give it to him
+            ");
+        while(true)
+        {
+         awnser = Console.ReadLine().ToLower();
+         if(awnser=="1")
+         {
+            Printer.PrintLine("It wasn't he's phone, you should have paid more attention...");
+            return -10;
+         }
+         else
+         if(awnser=="2")
+         {
+            Printer.PrintLine("You did the right choice the phone is in good hands until the kid that lost it will ask for back for it");
+            return 10;
+         }
+         else
+        Printer.PrintLine("Unknown command");
+
+        }
+
+         }
+         else
+         Printer.PrintLine("Unknown command");
+        }
+
+        }
+
 
         // 
        public void showMap(Room currentRoom)
@@ -495,7 +584,7 @@ namespace WorldOfZuul
             string canteen      = "     ";
             string theatre      = "     ";
             string office       = "     ";
-            string workshop      = "     ";
+            string workshop     = "     ";
 
             // Mark the current room
             switch (currentRoom.ShortDescription)
@@ -533,19 +622,19 @@ namespace WorldOfZuul
           ┌───────────┐   ┌───────────┐  ┌────────────┐
           │           │   │           │  │            │
           │  Theatre  │───│  Outside  ├──┤    Pub     │
-          │ {theatre}     │   │{outside}      │  │   {pub}    │
+          │   {theatre}   │   │  {outside}    │  │     {pub}  │
           └───┬───────┘   └───┬───────┘  └───┬────────┘
               │               │              │
           ┌───┴───────┐   ┌───┴────────┐  ┌──┴─────────┐
           │           │   │            │  │            │    
           │  Office   │───┤  Hallway1  ├──┤   Class    │  
-          │  {office}    │   │ {hallway1}      │  │  {class1}     │
+          │    {office}  │   │   {hallway1}    │  │      {class1} │
           └───┬───────┘   └───┬────────┘  └──┬─────────┘
               │               │              │
           ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
           │           │   │           │  │            │        
           │  Canteen  ├───┤  Hallway2 ├──┤  Workshop  │
-          │  {canteen}    │   │ {hallway2}     │  │ {workshop}      │
+          │    {canteen}  │   │   {hallway2}   │  │    {workshop}   │
           └───────────┘   └───────────┘  └────────────┘
                         ";
 
