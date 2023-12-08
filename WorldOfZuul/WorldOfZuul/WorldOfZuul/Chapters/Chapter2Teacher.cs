@@ -19,7 +19,7 @@ namespace WorldOfZuul
         private Room? office;
         private Room? canteen;
         private Room? hallway2;
-        private Room? library;
+        private Room? workshop;
 
         public Chapter2Teacher()
         {
@@ -60,11 +60,11 @@ namespace WorldOfZuul
 
             hallway2    = new("Hallway2"         ,"You find yourself in a bustling university hallway, a thoroughfare of academic energy.The scent of freshly printed paper and the distant hum of discussions fill the air.Students rush past, notebooks in hand, absorbed in their own worlds of knowledge.");
 
-            library     = new("Library"         ,"You enter the library, a sanctuary of knowledge and quiet contemplation. The air is hushed, and the scent of aged paper mingles with the subtle aroma of leather-bound books. The vast room is lined with towering shelves, each holding the accumulated wisdom of countless authors and scholars.");
+            workshop     = new("Workshop"         ,"You enter the engineering workshop, a realm of creativity and innovation. The air is filled with the scent of metal, the faint whir of machinery, and the occasional sizzling sound of welding. The workshop is a symphony of activity, with engineers and students huddled over workbenches, sketching designs, and fine-tuning intricate machinery.");
             
             // Add rooms to the chapter's room list
 
-            Rooms.AddRange(new List<Room>() {outside,class1,library,canteen,hallway2,hallway1,office,pub,theatre});
+            Rooms.AddRange(new List<Room>() {outside,class1,workshop,canteen,hallway2,hallway1,office,pub,theatre});
 
             outside.SetExits(null, pub, hallway1, theatre); // North, East, South, West
 
@@ -72,20 +72,20 @@ namespace WorldOfZuul
 
             pub.SetExits(null, outside,class1,null);
 
-            office.SetExits(theatre,null,office,null);
+            office.SetExits(theatre,hallway1,canteen,null);
 
-            class1.SetExits(pub,null,library,hallway1);
+            class1.SetExits(pub,null,workshop,hallway1);
              
             hallway1.SetExits(outside, office,hallway2,class1);
 
-            hallway2.SetExits(hallway1,library,null,null);
+            hallway2.SetExits(hallway1,workshop,null,canteen);
 
-            canteen.SetExits(office,null,null,null);
+            canteen.SetExits(office,hallway2,null,null);
 
-            library.SetExits(class1,null,null,hallway2);
+            workshop.SetExits(class1,null,null,hallway2);
         
 
-            Item pen = new Item("pen" , "A beatiful pen given to you by your collegue");
+            Item pen = new Item("pen" , "A beatiful pen given to you by your collegue","Help your collegue");
             // Create Quests
             Quest solvePuzzleQuest = new Quest("Solve Puzzle", "Solve the puzzle in the lab.");
             Quest Helpkids = new Quest("Helpkids ","Help the kids around the university");
@@ -168,6 +168,7 @@ namespace WorldOfZuul
                                       2.That every teacher has to deal with this problem and that he will get better as the time goes on
                                       3.That he should yell at the kids who don't listen to him
                                       4.That he he should show respect to the kids in order to be respected");
+                awnser = Console.ReadLine().ToLower();
                 if(awnser =="1")
                     {
                         Console.WriteLine("The colleague is dissapointed,and he's thinking about quiting he's job.");
@@ -195,6 +196,7 @@ namespace WorldOfZuul
                 {
                     Console.WriteLine("Unknown Command");
                 }
+
             }
             else
             if(awnser== "2")
@@ -264,7 +266,7 @@ namespace WorldOfZuul
             string awnser = Console.ReadLine().ToLower();
             if(awnser=="1")
             {
-                Console.WriteLine("You have to teach the students geography and history!");
+                Console.WriteLine("You have to teach the students geography!");
                 Console.WriteLine($@"What is the capital of Germany?
                                      1.Berlin
                                      2.Paris
@@ -274,14 +276,60 @@ namespace WorldOfZuul
                 if(awnser == "1")
                 {
                     Console.WriteLine("Correct!");
-                    return 10;
+                    Console.WriteLine($@"What is the biggest country on earth?
+                1.China
+                2.Russia
+                3.USA
+                4.UK
+                ");
+                 awnser = Console.ReadLine().ToLower();
+                 if(awnser == "2")
+                 {
+                    Console.WriteLine("Correct!");
+                    Console.WriteLine($@"How many continents are there?
+                    1.7
+                    2.8
+                    3.6
+                    4.4");
+                     awnser = Console.ReadLine().ToLower();
+                     if(awnser == "1")
+                     {
+                        Console.WriteLine("Correct");   
+                        Console.WriteLine("In which continent is USA located?");
+                        Console.WriteLine($@"
+                    1.North America
+                    2.South America
+                    3.Asia
+                    4.Africa");
+                    awnser = Console.ReadLine().ToLower();
+                    if(awnser=="1")
+                    {
+                        Console.WriteLine("Good job.You were able to help your collegue.In a show of gratitude your collegue rewards you with he's pen");
+                        return 30;
+                    }
+                    else
+                    return -2;
+
+                    }
+                     else
+                     {
+                        Console.WriteLine("Wrong");
+                        return -3;
+                     }
+
+                 }
+                 else
+                 {
+                    Console.WriteLine("Wrong");
+                    return -5;
+                 }
 
                 }
                 else
                 {
                     Console.WriteLine("Wrong!");
                     return -10;
-                }
+                }            
             }
             else
             {
@@ -328,7 +376,7 @@ namespace WorldOfZuul
             string canteen      = "     ";
             string theatre      = "     ";
             string office       = "     ";
-            string library      = "     ";
+            string workshop      = "     ";
 
             // Mark the current room
             switch (currentRoom.ShortDescription)
@@ -357,8 +405,8 @@ namespace WorldOfZuul
                 case "Canteen":
                     canteen = "*You*";
                     break;
-                case "Library":
-                    library = "*You*";
+                case "Workshop":
+                    workshop = "*You*";
                     break;
             }
             // The map
@@ -377,8 +425,8 @@ namespace WorldOfZuul
               │               │              │
           ┌───┴───────┐   ┌───┴───────┐  ┌───┴────────┐
           │           │   │           │  │            │        
-          │  Canteen  ├───┤  Hallway2 ├──┤  Library   │
-          │  {canteen}    │   │ {hallway2}     │  │ {library}      │
+          │  Canteen  ├───┤  Hallway2 ├──┤  Workshop  │
+          │  {canteen}    │   │ {hallway2}     │  │ {workshop}      │
           └───────────┘   └───────────┘  └────────────┘
                         ";
 
