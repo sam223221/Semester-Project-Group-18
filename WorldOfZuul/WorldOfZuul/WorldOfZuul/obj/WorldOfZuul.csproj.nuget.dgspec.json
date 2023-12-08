@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
   },
   "projects": {
@@ -13,19 +12,6 @@
         "projectPath": "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
         "packagesPath": "C:\\Users\\samgl\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\samgl\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
-=======
-    "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
-        "projectName": "WorldOfZuul",
-        "projectPath": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Documents\\GitHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\obj\\",
->>>>>>> ee03cc576b023ae7a766c9726b8212466a15c404
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -69,7 +55,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-<<<<<<< HEAD
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
@@ -88,18 +73,12 @@
               "version": "[6.0.25, 6.0.25]"
             }
           ],
-=======
->>>>>>> ee03cc576b023ae7a766c9726b8212466a15c404
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
-=======
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
->>>>>>> ee03cc576b023ae7a766c9726b8212466a15c404
         }
       }
     }
