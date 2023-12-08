@@ -23,7 +23,11 @@ namespace WorldOfZuul
             if (gameRunning)
             {
             unlockedChapters = new List<IChapter>();
+<<<<<<< HEAD
             UnlockChapter(new Chapter2Teacher()); // Assuming Chapter 4 is the starting chapter
+=======
+            UnlockChapter(new Chapter4Engineer()); // Assuming Chapter 4 is the starting chapter
+>>>>>>> 93b25acbb2135f369366225f453e0ae25767750d
             currentChapter = unlockedChapters.First(); // Ensure currentChapter is initialized
             StartChapter(currentChapter);
             inventory = new List<Item>();
