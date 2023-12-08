@@ -65,17 +65,17 @@ namespace WorldOfZuul
             Item BluePrint              = new Item("BluePrint"              ,"this is the BLuePrint for the new homes"                      ,"you need togo to DesignHQ and desing the new homes");
             Item TrainingCir            = new Item("Training Certify"       ,"you have qualifyed the workers to start bulding homes"        ,"you need togo to ConstructionSite and do Training");
             // Initialize rooms
-            HistoricalArchive       = new Room("HistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies.");
-            construtionSite         = new Room("ConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of the engineers designs coming to life in the Housing Quest");
-            AbandonFactory          = new Room("AbandonFactory"     , "A dilapidated structure with rusted machinery and broken windows, overtaken by nature. \nIt holds clues to the village's industrial past and is key to solving the Water Treatment Quest.");
-            villageCenter           = new Room("VillageCenter"      , "The bustling heart of the village, with cobblestone streets, quaint shops, and a lively marketplace.\nIt's a central meeting point for villagers, buzzing with gossip and activity.");
-            ModernHome              = new Room("ModernHome"         , "A newly built eco-friendly house, showcasing innovative design and sustainable living. \nIt serves as a model home, demonstrating the success of your effort in the Housing Quest.");
-            TownHall                = new Room("TownHall"           , "A grand, old building with a clock tower, symbolizing the village's heritage and governance. Inside, it's adorned with historical artifacts and portraits of past leaders.\nThis is where you discusses the Electricity Quest with village officials.");
-            DesignHQ                = new Room("DesignHQ"           , "A creative studio with architectural models, blueprints, and a large drafting table. It's a hub of innovation where you'll design sustainable homes for the Housing Quest.");
-            SunStone                = new Room("SunStone"           , "An ancient, mystical site located in a clearing outside the village. \nIt features a large, engraved stone rumored to harness solar energy, inspiring Sam's solutions in the Electricity Quest.");
-            Library                 = new Room("Library"            , "A quiet, cozy building filled with rows of books, old manuscripts, and a large, detailed map of the village and surrounding areas. \nIt's a treasure trove of information for researching both the Water Treatment and Electricity Quests.");
-            River                   = new Room("River"              , "A serene spot by the river, with willow trees, benches, and a small dock. \nThe river's condition, however, shows signs of pollution, setting the stage for the Water Treatment Quest.");
-            lab                     = new Room("Lab"                , "A modern contrast to the village's rustic charm, the lab is equipped with various scientific instruments, a workbench, and a chalkboard filled with equations and diagrams.\nIt's your haven for experimenting and problem-solving.");
+            HistoricalArchive       = new Room("EngineerHistoricalArchive"  , "A section of the Village Library or a separate room filled with ancient records, blueprints, and artifacts. \nIt's a key resource for uncovering historical technologies.");
+            construtionSite         = new Room("EngineerConstructionSite"   , "An active building site with scaffolding, construction equipment, and a buzz of activity.\nIt's the physical manifestation of the engineers designs coming to life in the Housing Quest");
+            AbandonFactory          = new Room("EngineerAbandonFactory"     , "A dilapidated structure with rusted machinery and broken windows, overtaken by nature. \nIt holds clues to the village's industrial past and is key to solving the Water Treatment Quest.");
+            villageCenter           = new Room("EngineerVillageCenter"      , "The bustling heart of the village, with cobblestone streets, quaint shops, and a lively marketplace.\nIt's a central meeting point for villagers, buzzing with gossip and activity.");
+            ModernHome              = new Room("EngineerModernHome"         , "A newly built eco-friendly house, showcasing innovative design and sustainable living. \nIt serves as a model home, demonstrating the success of your effort in the Housing Quest.");
+            TownHall                = new Room("EngineerTownHall"           , "A grand, old building with a clock tower, symbolizing the village's heritage and governance. Inside, it's adorned with historical artifacts and portraits of past leaders.\nThis is where you discusses the Electricity Quest with village officials.");
+            DesignHQ                = new Room("EngineerDesignHQ"           , "A creative studio with architectural models, blueprints, and a large drafting table. It's a hub of innovation where you'll design sustainable homes for the Housing Quest.");
+            SunStone                = new Room("EngineerSunStone"           , "An ancient, mystical site located in a clearing outside the village. \nIt features a large, engraved stone rumored to harness solar energy, inspiring Sam's solutions in the Electricity Quest.");
+            Library                 = new Room("EngineerLibrary"            , "A quiet, cozy building filled with rows of books, old manuscripts, and a large, detailed map of the village and surrounding areas. \nIt's a treasure trove of information for researching both the Water Treatment and Electricity Quests.");
+            River                   = new Room("EngineerRiver"              , "A serene spot by the river, with willow trees, benches, and a small dock. \nThe river's condition, however, shows signs of pollution, setting the stage for the Water Treatment Quest.");
+            lab                     = new Room("EngineerLab"                , "A modern contrast to the village's rustic charm, the lab is equipped with various scientific instruments, a workbench, and a chalkboard filled with equations and diagrams.\nIt's your haven for experimenting and problem-solving.");
 
             // Set exits
             HistoricalArchive.SetExit("north",Library);
@@ -1361,37 +1361,37 @@ namespace WorldOfZuul
             // Mark the current room
             switch (currentRoom.ShortDescription)
             {
-                case "HistoricalArchive":
+                case "EngineerHistoricalArchive":
                     HistoricalArchive   = "*You*";
                     break;
-                case "ConstructionSite":
+                case "EngineerConstructionSite":
                     construtionSite     = "*You*";
                     break;
-                case "AbandonFactory":
+                case "EngineerAbandonFactory":
                     AbandonFactory      = "*You*";
                     break;
-                case "VillageCenter":
+                case "EngineerVillageCenter":
                     villageCenter       = "*You*";
                     break;
-                case "ModernHome":
+                case "EngineerModernHome":
                     ModernHome          = "*You*";
                     break;
-                case "TownHall":
+                case "EngineerTownHall":
                     TownHall            = "*You*";
                     break;
-                case "DesignHQ":
+                case "EngineerDesignHQ":
                     DesignHQ            = "*You*";
                     break;
-                case "SunStone":
+                case "EngineerSunStone":
                     SunStone            = "*You*";
                     break;
-                case "Library":
+                case "EngineerLibrary":
                     Library             = "*You*";
                     break;
-                case "River":
+                case "EngineerRiver":
                     River               = "*You*";
                     break;
-                case "Lab":
+                case "EngineerLab":
                     lab                 = "*You*";
                     break;
             }

@@ -151,7 +151,7 @@ namespace WorldOfZuul
     ";
 
 
-            textArts["Lab"] = @"Lab / Workshop
+            textArts["EngineerLab"] = @"Lab / Workshop
 +-----------------------------------------------------------------------+
 |                                                                       |
 |            ------------------------------------------------------     |
@@ -184,7 +184,7 @@ namespace WorldOfZuul
 
 ";
 
-            textArts["River"] = @"Village Riverside
+            textArts["EngineerRiver"] = @"Village Riverside
 +--------------------------------------------------------------------+
 |                                                                    |
 |                        +-----+                                     |
@@ -212,7 +212,7 @@ namespace WorldOfZuul
 +--------------------------------------------------------------------+
 
 ";
-            textArts["HistoricalArchive"]=$@"Historical Archive
+            textArts["EngineerHistoricalArchive"]=$@"Historical Archive
 
 +---------------------------------------------------------+
 |                                                         |
@@ -236,7 +236,7 @@ namespace WorldOfZuul
             
 
             ";
-            textArts["Library"]=$@"Library
+            textArts["EngineerLibrary"]=$@"Library
 +--------------------------------------------------------------------------------------------+
 |                       -------           -------           -------                          |
 |       +------+       /     /|          /     /|          /     /|              +------+    |
@@ -275,7 +275,7 @@ namespace WorldOfZuul
             
             ";
 
-                        textArts["ConstructionSite"]=$@"Construction Site
+              textArts["EngineerConstructionSite"]=$@"Construction Site
 
 +--------------------------------------------------------------------+
 |                                                                    |
@@ -308,7 +308,7 @@ namespace WorldOfZuul
             
             ";
 
-                                    textArts["AbandonFactory"]=$@"
+              textArts["EngineerAbandonFactory"]=$@"
 +-----------------------------------------------------------------------------------+
 |                                 /-                                                |
 |                               /-   -                                              |
@@ -347,7 +347,7 @@ namespace WorldOfZuul
             
             ";
 
-                                                textArts["ModernHome"]=$@"Modern Home
+              textArts["EngineerModernHome"]=$@"Modern Home
 +-------------------------------------------------------------------------------------+
 |                            -----------------------                                  |
 |                           /                     /|                                  |
@@ -379,7 +379,7 @@ namespace WorldOfZuul
 |         |  |                                                                        |
 +-------------------------------------------------------------------------------------+            
             ";
-              textArts["TownHall"]=$@"Town Hall
+              textArts["EngineerTownHall"]=$@"Town Hall
 
 +----------------------------------------------------------------+
 |                                                                |
@@ -407,7 +407,7 @@ namespace WorldOfZuul
 
 
 
-            textArts["DesignHQ"]=$@"Design HQ
+            textArts["EngineerDesignHQ"]=$@"Design HQ
 +----------------------------------------------------------------------------------+
 |                   +---------------------------------------------------+          |
 |                   |                                    +---- +        |          |
@@ -447,7 +447,7 @@ namespace WorldOfZuul
 |  |   |                                                  |   |                    |
 +----------------------------------------------------------------------------------+
             ";
-            textArts["SunStone"]=$@"Sun Stone
+            textArts["EngineerSunStone"]=$@"Sun Stone
 +---------------------------------------------------------------------------+
 |                +---------+                                                |
 |                |         |                               +---------+      |
@@ -474,7 +474,7 @@ namespace WorldOfZuul
 |                          /             \                                  |
 +---------------------------------------------------------------------------+
             ";            
-            textArts["VillageCenter"] = @"Village Center
+            textArts["EngineerVillageCenter"] = @"Village Center
  
 +---------------------------------------------------------------------------------+                                  
 |                                                            |>>>                 |
