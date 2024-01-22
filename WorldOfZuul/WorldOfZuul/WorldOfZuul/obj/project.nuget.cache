@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yA9LIarfK5ZqFGBUNSZ3jN/2jaupa9qhE29DpyONl0WADTqGoKnDft4Ru9P5Q3U4c1Zd6LKQ+tyql8bUFgwc6g==",
+  "dgSpecHash": "XeBHmwxFSpiwWVejLxi0Mpd7zaX1Q5NYbEsIP22lUuW0JJzRprAJv9fHro2ILqFHJ+gy06qbt6zz/N4tDWkQfw==",
   "success": true,
   "projectFilePath": "C:\\Users\\samgl\\OneDrive\\Documents\\GitarinHub\\Semester-Project-Group-18\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul\\WorldOfZuul.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.1\\microsoft.netcore.app.runtime.win-x64.8.0.1.nupkg.sha512",
-    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.1\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.1.nupkg.sha512",
-    "C:\\Users\\samgl\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.1\\microsoft.aspnetcore.app.runtime.win-x64.8.0.1.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }
