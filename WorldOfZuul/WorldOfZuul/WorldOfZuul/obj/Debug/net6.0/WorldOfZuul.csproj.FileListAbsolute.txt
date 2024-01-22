@@ -113,3 +113,4 @@ C:\Users\ksuch\OneDrive\Pulpit\Project (Final)\WorldOfZuul\WorldOfZuul\WorldOfZu
 C:\Users\ksuch\OneDrive\Pulpit\Project (Final)\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.pdb
 C:\Users\ksuch\OneDrive\Pulpit\Project (Final)\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.genruntimeconfig.cache
 C:\Users\ksuch\OneDrive\Pulpit\Project (Final)\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\ref\WorldOfZuul.dll
+C:\Users\samgl\OneDrive\Documents\GitarinHub\Semester-Project-Group-18\WorldOfZuul\WorldOfZuul\WorldOfZuul\obj\Debug\net6.0\WorldOfZuul.sourcelink.json
