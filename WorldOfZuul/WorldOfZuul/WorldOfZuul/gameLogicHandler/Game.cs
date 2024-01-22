@@ -386,15 +386,15 @@ Command list for see:
                    if (task.CanExecute(inventory))
                    {
                     
-                    int scoreChange = task.Execute(this);
-                    SocialScore += scoreChange;
-                    Console.WriteLine($"\nTask '{task.Name}' executed.\n\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n\n");
+                        int scoreChange = task.Execute(this);
+                        SocialScore += scoreChange;
+                        Console.WriteLine($"\nTask '{task.Name}' executed.\n\nSocial score changed by {scoreChange}. Current social score: {SocialScore}\n\n");
 
-                    if (task.RelatedQuest.AreAllTasksCompleted())
-                    {
-                        task.RelatedQuest.IsCompleted = true;
-                        Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.\n");
-                    }
+                        if (task.RelatedQuest.AreAllTasksCompleted())
+                        {
+                            task.RelatedQuest.IsCompleted = true;
+                            Console.WriteLine($"Quest '{task.RelatedQuest.Name}' completed.\n");
+                        }
                    
                    }else
                    {
