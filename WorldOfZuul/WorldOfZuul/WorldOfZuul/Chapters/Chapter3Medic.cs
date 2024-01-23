@@ -1496,7 +1496,7 @@ namespace WorldOfZuul
             // Mark the current room
             switch (currentRoom.ShortDescription)
             {
-                case "Villlage Center":
+                case "Village Center":
                     VillageCenter = "*You*";
                     break;
                 case "Church":
